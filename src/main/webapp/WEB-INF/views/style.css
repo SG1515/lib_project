@@ -1,0 +1,94 @@
+@import url("reset.css");
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+}
+
+.header-container {
+  top: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.navbar-container {
+  width: 250px;
+  transition: width 0.3s;
+  overflow: hidden;
+  position: relative;
+  margin-top: 52.22px;
+}
+
+.nav-item {
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #f0f0f0; /* 약간 회색으로 변경 */
+}
+
+.navbar-container.collapsed {
+  width: 100px;
+}
+
+.navbar-container.collapsed .navbar-brand,
+.navbar-container.collapsed .nav-text {
+  display: none;
+}
+
+.navbar-container.collapsed .nav-item {
+  display: flex;
+  justify-content: center;
+}
+
+.navbar-container.collapsed #toggle-nav-btn {
+  margin: auto;
+}
+
+.content {
+  flex: 1 0 auto;
+  margin-left: 250px;
+  margin-top: 50px;
+  transition: margin-left 0.3s;
+  background-color: #f5f5f5;
+}
+
+.navbar-container.collapsed ~ .content {
+  margin-left: 100px;
+}
+
+#toggle-nav-btn {
+  transition: transform 0.3s;
+}
+
+#toggle-nav-btn {
+  top: 20px;
+  right: 35px;
+  border-radius: 5%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-icon {
+  font-size: 1.5rem;
+  margin-right: 5px;
+}
+
+.nav-text {
+  font-size: 1.2rem;
+}
+
+.navbar-container {
+  position: relative;
+  z-index: 1000;
+  overflow: visible; /* 수정: overflow 속성을 visible로 설정 */
+}
+
+.dropdown-menu {
+  z-index: 1050;
+}
