@@ -9,8 +9,8 @@ DROP TABLE loan;
 DROP TABLE own_book;
 DROP TABLE book;
 DROP TABLE users;
--- --
--- -- -- DROP SEQUENCE
+-- -- --
+-- -- -- -- DROP SEQUENCE
 DROP SEQUENCE users_seq;
 DROP SEQUENCE failure_seq;
 DROP SEQUENCE loan_seq;
@@ -56,14 +56,14 @@ INSERT INTO users (user_id, id, password, name, email, created_at, birth, addres
 
 CREATE TABLE book (
                       isbn NUMBER PRIMARY KEY,
-                      title VARCHAR2(100),
-                      author VARCHAR2(30),
-                      publisher VARCHAR2(30),
+                      title VARCHAR2(200),
+                      author VARCHAR2(3000),
+                      publisher VARCHAR2(100),
                       publication_year DATE,
                       page_size NUMBER,
-                      category_number NUMBER,
+                      category_number VARCHAR2(100),
                       contents CLOB,
-                      book_index VARCHAR2(200),
+                      book_index CLOB,
                       image_url VARCHAR2(400)
 );
 
@@ -72,15 +72,15 @@ INSERT INTO book (isbn, title, author, publisher, publication_year, page_size, c
 INSERT INTO book (isbn, title, author, publisher, publication_year, page_size, category_number, contents, book_index, image_url) VALUES (3456789012, 'Yet Another Book', 'Mark Twain', 'Harper', TO_DATE('2015-01-01', 'YYYY-MM-DD'), 280, 3, 'Yet another large CLOB...', 'Index of third book', 'http://example.com/image3.jpg');
 
 CREATE TABLE own_book (
-                          call_number NUMBER PRIMARY KEY,
-                          field DATE,
+                          call_number VARCHAR2(50) PRIMARY KEY,
+                          receipt_at DATE,
                           status VARCHAR2(20),
                           isbn NUMBER REFERENCES book(isbn) ON DELETE CASCADE
 );
 
-INSERT INTO own_book (call_number, field, status, isbn) VALUES (1001, SYSDATE, 'Available', 1234567890);
-INSERT INTO own_book (call_number, field, status, isbn) VALUES (1002, SYSDATE, 'Loaned', 2345678901);
-INSERT INTO own_book (call_number, field, status, isbn) VALUES (1003, SYSDATE, 'In repair', 3456789012);
+INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES ('1001', SYSDATE, 'Available', 1234567890);
+INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES ('1002', SYSDATE, 'Loaned', 2345678901);
+INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES ('1003', SYSDATE, 'In repair', 3456789012);
 
 
 CREATE TABLE failure (
@@ -90,12 +90,12 @@ CREATE TABLE failure (
                          compensation_amount NUMBER,
                          status VARCHAR2(20),
                          user_id NUMBER REFERENCES users(user_id) ON DELETE CASCADE,
-                         call_number NUMBER REFERENCES own_book(call_number) ON DELETE CASCADE
+                         call_number VARCHAR2(50) REFERENCES own_book(call_number) ON DELETE CASCADE
 );
 
-INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Missing pages', SYSDATE, 1500, 'Reported', 1, 1001);
-INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Damaged cover', SYSDATE, 500, 'Pending', 2, 1002);
-INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Loose binding', SYSDATE, 800, 'Resolved', 3, 1003);
+INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Missing pages', SYSDATE, 1500, 'Reported', 1, '1001');
+INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Damaged cover', SYSDATE, 500, 'Pending', 2, '1002');
+INSERT INTO failure (failure_id, details, failure_at, compensation_amount, status, user_id, call_number) VALUES (failure_seq.nextval, 'Loose binding', SYSDATE, 800, 'Resolved', 3, '1003');
 
 CREATE TABLE loan (
                       loan_id NUMBER PRIMARY KEY,
@@ -104,12 +104,12 @@ CREATE TABLE loan (
                       is_returned NUMBER(1),
                       extention_count NUMBER,
                       user_id NUMBER REFERENCES users(user_id) ON DELETE CASCADE,
-                      call_number NUMBER REFERENCES own_book(call_number) ON DELETE CASCADE
+                      call_number VARCHAR2(50) REFERENCES own_book(call_number) ON DELETE CASCADE
 );
 
-INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 0, 1, 1001);
-INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 1, 2, 1002);
-INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 2, 3, 1003);
+INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 0, 1, '1001');
+INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 1, 2, '1002');
+INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number) VALUES (loan_seq.nextval, SYSDATE, SYSDATE + 14, 0, 2, 3, '1003');
 
 CREATE TABLE overdue (
                          loan_id NUMBER,
@@ -142,25 +142,25 @@ INSERT INTO wishbook (wishbook_id, title, author, publisher, publication_year, r
 CREATE TABLE reserve (
                          reserve_id NUMBER PRIMARY KEY,
                          reserve_at DATE,
-                         call_number NUMBER REFERENCES own_book(call_number) ON DELETE CASCADE,
+                         call_number VARCHAR2(50) REFERENCES own_book(call_number) ON DELETE CASCADE,
                          user_id NUMBER REFERENCES users(user_id) ON DELETE CASCADE
 );
 
-INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, 1001, 1);
-INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, 1002, 2);
-INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, 1003, 3);
+INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, '1001', 1);
+INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, '1002', 2);
+INSERT INTO reserve (reserve_id, reserve_at, call_number, user_id) VALUES (reserve_seq.nextval, SYSDATE, '1003', 3);
 
 
 create table notification (
                               notification_id NUMBER PRIMARY KEY,
                               notification_at DATE,
                               user_id NUMBER REFERENCES users(user_id),
-                              call_number NUMBER REFERENCES own_book(call_number)
+                              call_number VARCHAR2(50) REFERENCES own_book(call_number)
 );
 
-INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 1, 1001);
-INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 2, 1002);
-INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 3, 1003);
+INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 1, '1001');
+INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 2, '1002');
+INSERT INTO notification (notification_id, notification_at, user_id, call_number) VALUES (notification_seq.nextval, SYSDATE, 3, '1003');
 
 CREATE TABLE user_penalty (
                               loan_id NUMBER PRIMARY KEY,
