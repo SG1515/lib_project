@@ -183,6 +183,7 @@
         left: 0;
         right: 0;
         background-color: white;
+        z-index: 1000;
       }
 
       /* 컨텐츠 나중에 지울 것임*/
@@ -233,15 +234,6 @@
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
       crossorigin="anonymous"
     ></script>
-
-    <script>
-      // js
-      document.addEventListener("DOMContentLoaded", function () {
-        const paragraph = document.querySelector("p");
-        paragraph.textContent = "JavaScript가 내장되어 있습니다.";
-        paragraph.style.color = "green";
-      });
-    </script>
   </head>
   <body>
     <div class="top-bar">
@@ -332,6 +324,5 @@
         </div>
       </div>
     </div>
-    <div class="contents">111</div>
   </body>
 </html>
