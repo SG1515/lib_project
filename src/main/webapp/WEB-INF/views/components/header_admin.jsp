@@ -183,6 +183,7 @@
         left: 0;
         right: 0;
         background-color: white;
+        z-index: 1000;
       }
 
       /* 컨텐츠 나중에 지울 것임*/
