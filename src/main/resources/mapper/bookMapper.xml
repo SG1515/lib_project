@@ -5,9 +5,10 @@
 
 <mapper namespace="com.kcc.lib_project.domain.book.mapper.BookMapper">
 
-    <insert id="insertBook" parameterType="BookVo">
-        insert into book(isbn, title, author, publisher, publishPredate, page, kdc, contents, bookIndex, imageUrl)
-        values(#{isbn}, #{title}, #{author}, #{publisher}, #{publishPredate}, #{page}, #{kdc}, #{contents}, #{bookIndex}, #{imageUrl})
+    <insert id="createBook" parameterType="BookVo">
+        insert into book(isbn, title, author, publisher, publication_year, page_size, category_number, contents, book_index, image_url)
+        values(#{isbn}, #{title}, #{author}, #{publisher}, #{publicationYear, jdbcType=DATE, typeHandler=org.apache.ibatis.type.LocalDateTypeHandler}
+              , #{pageSize}, #{categoryNumber}, #{contents}, #{bookIndex}, #{imageUrl})
     </insert>
 
 </mapper>
