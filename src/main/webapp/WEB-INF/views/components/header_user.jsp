@@ -11,7 +11,7 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>KCC정보통신 도서관</title>
-        
+
     <link href="../style.css" rel="stylesheet" type="text/css" />
     <style>
       @font-face {
@@ -89,15 +89,15 @@
       }
 
       .nav-menu-all {
-        margin-left: 280px;
+        margin-left: 150px;
         display: flex;
         justify-content: center;
       }
 
-      .nav-menu-all li {
-        margin-left: 50px;
+      .nav-menu-all > li {
+        margin-left: 100px;
       }
-      .nav-menu-all a {
+      .nav-menu-all > li > a {
         display: block;
         width: 100%;
         font-weight: bold;
@@ -106,27 +106,25 @@
         font-size: 1.1rem;
         text-decoration: none;
         transition: all 0.3s ease;
-        /* padding: 10px; */
         position: relative;
         text-align: center;
       }
 
-      .nav-menu-all a:hover {
+      .nav-menu-all > li > a:hover {
         color: #000;
       }
 
-      .nav-menu-all a:after {
+      .nav-menu-all > li > a:after {
         content: "";
         position: absolute;
         border-bottom: 3px solid #000;
         width: 0;
-        left: 0;
         left: 50%;
         top: 25px; /*밑줄 위치 */
         transition: all 0.3s;
       }
 
-      .nav-menu-all a:hover:after {
+      .nav-menu-all > li > a:hover:after {
         color: #000;
         width: 100%;
         left: 0;
@@ -141,20 +139,20 @@
         height: 40px;
       }
 
-      .search ul {
+      /* .search ul {
         display: none;
       }
 
       .search:hover ul {
         display: block;
-      }
+      } */
 
-      .search ul {
+      .search > ul {
         list-style-type: none;
         padding-left: 0;
       }
 
-      .search li {
+      .search > ul > li {
         list-style-type: none;
         margin-left: 0;
       }
@@ -163,17 +161,18 @@
         width: 100%;
       }
 
-      .search-back ul {
-        background-color: white;
-      }
-
       .search-back ul li {
         margin-top: 5px;
         margin-bottom: 5px;
         font-size: 0.8rem;
+        list-style-type: none;
       }
 
       .search-back ul li:hover {
+        color: #4bb8b3;
+      }
+
+      .search-back ul li a:hover {
         color: #4bb8b3;
       }
 
@@ -188,9 +187,38 @@
 
       /* 컨텐츠 나중에 지울 것임*/
       .contents {
-        margin-top: 155px;
+        margin-top: 180px;
         background-color: gray;
         height: 2000px;
+      }
+
+      .search-back ul {
+        background-color: white;
+        list-style-type: none;
+        width: 100%;
+        margin-bottom: 10px;
+        padding-left: 0;
+      }
+
+      .search-back {
+        display: none;
+      }
+
+      .nav-menu-all > li:hover .search-back {
+        display: block;
+      }
+
+      .search-back > ul > li {
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+
+      .search-back > ul > li > a {
+        color: #000;
+        font-weight: bold;
+        text-decoration: none;
       }
     </style>
 
@@ -246,16 +274,49 @@
                   >자료 찾기
                   <div class="search-back">
                     <ul>
-                      <li>1번자료</li>
-                      <li>1번자료</li>
-                      <li>1번자료</li>
+                      <li><a href="#">도서 조회</a></li>
+                      <li><a href="#">신규 도서</a></li>
+                      <li><a href="#">인기 도서</a></li>
                     </ul>
                   </div>
                 </a>
               </li>
-              <li><a href="">참여마당</a></li>
-              <li><a href="">도서관소개</a></li>
-              <li><a href="">My Library</a></li>
+              <li>
+                <a href=""
+                  >참여마당
+                  <div class="search-back">
+                    <ul>
+                      <li><a href="#">공지사항</a></li>
+                      <li><a href="#">행사일정</a></li>
+                    </ul>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href=""
+                  >도서관소개
+                  <div class="search-back">
+                    <ul>
+                      <li><a href="#">인사말</a></li>
+                      <li><a href="#">휴관일</a></li>
+                    </ul>
+                  </div>
+                </a>
+              </li>
+              <li>
+                <a href=""
+                  >My Library
+                  <div class="search-back">
+                    <ul>
+                      <li><a href="#">대여한 책 조회</a></li>
+                      <li><a href="#">반납 이력 조회</a></li>
+                      <li><a href="#">연체 이력 조회</a></li>
+                      <li><a href="#">분실 파손 조회</a></li>
+                      <li><a href="#">연체 이력 조회</a></li>
+                    </ul>
+                  </div>
+                </a>
+              </li>
             </ul>
             <div class="nav-menu-button">
               <a href="">
