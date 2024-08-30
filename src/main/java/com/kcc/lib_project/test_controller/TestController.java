@@ -8,7 +8,13 @@ public class TestController {
 
 	@GetMapping("/")
 	public String testView() {
-		return "/main";
+		return "/components/header_user";
 	}
 	
+
+	
+	@GetMapping("/admin")
+	public String testView_admin() {
+		return "/components/header_admin";
+	}
 }
