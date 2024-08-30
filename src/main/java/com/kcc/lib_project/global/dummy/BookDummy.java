@@ -37,6 +37,10 @@ public class BookDummy {
     }
 
     private void createBookDummy() {
+        if (true) {
+            return;
+        }
+
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 

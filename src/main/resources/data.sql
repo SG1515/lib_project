@@ -9,8 +9,8 @@ DROP TABLE loan;
 DROP TABLE own_book;
 DROP TABLE book;
 DROP TABLE users;
--- -- --
--- -- -- -- DROP SEQUENCE
+-- -- -- --
+-- -- -- -- -- DROP SEQUENCE
 DROP SEQUENCE users_seq;
 DROP SEQUENCE failure_seq;
 DROP SEQUENCE loan_seq;

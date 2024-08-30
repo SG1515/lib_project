@@ -8,9 +8,7 @@ import lombok.Getter;
 public enum Status {
 
     AVAILABLE("대출가능"),
-    UNAVAILABLE("대출중"),
-    RESERVED("예약중"),
-    LOST("분실");
+    UNAVAILABLE("대출중");
 
     private final String status;
 }
