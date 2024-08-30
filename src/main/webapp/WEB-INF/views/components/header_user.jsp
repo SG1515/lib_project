@@ -11,7 +11,8 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>KCC정보통신 도서관</title>
-
+        
+    <link href="../style.css" rel="stylesheet" type="text/css" />
     <style>
       @font-face {
         font-family: "TMON";
@@ -21,6 +22,12 @@
       .nav {
         width: 100%;
         height: 181px;
+      }
+
+      .logo-title a {
+        text-decoration: none;
+        text-decoration-line: none;
+        color: #0a4494;
       }
 
       .nav-inner {
@@ -57,7 +64,6 @@
         font-size: 24px;
         margin-left: 10px;
         margin-top: 10px;
-        color: #0a4494;
       }
 
       .login-signup {
@@ -88,18 +94,21 @@
         justify-content: center;
       }
 
+      .nav-menu-all li {
+        margin-left: 50px;
+      }
       .nav-menu-all a {
         display: block;
         width: 100%;
         font-weight: bold;
         color: #543333;
         margin-top: 5px;
-        font-size: 1.3rem;
+        font-size: 1.1rem;
         text-decoration: none;
         transition: all 0.3s ease;
         /* padding: 10px; */
-        margin-left: 40px;
         position: relative;
+        text-align: center;
       }
 
       .nav-menu-all a:hover {
@@ -109,18 +118,17 @@
       .nav-menu-all a:after {
         content: "";
         position: absolute;
-
         border-bottom: 3px solid #000;
         width: 0;
         left: 0;
         left: 50%;
-        top: 30px;
+        top: 25px; /*밑줄 위치 */
         transition: all 0.3s;
       }
 
       .nav-menu-all a:hover:after {
         color: #000;
-        width: 70%;
+        width: 100%;
         left: 0;
       }
 
@@ -131,6 +139,58 @@
       .nav-menu-button img {
         width: 40px;
         height: 40px;
+      }
+
+      .search ul {
+        display: none;
+      }
+
+      .search:hover ul {
+        display: block;
+      }
+
+      .search ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+
+      .search li {
+        list-style-type: none;
+        margin-left: 0;
+      }
+
+      .search-back {
+        width: 100%;
+      }
+
+      .search-back ul {
+        background-color: white;
+      }
+
+      .search-back ul li {
+        margin-top: 5px;
+        margin-bottom: 5px;
+        font-size: 0.8rem;
+      }
+
+      .search-back ul li:hover {
+        color: #4bb8b3;
+      }
+
+      /*상단바 고정*/
+      .top-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background-color: white;
+      }
+
+      /* 컨텐츠 나중에 지울 것임*/
+      .contents {
+        margin-top: 155px;
+        background-color: gray;
+        height: 2000px;
       }
     </style>
 
@@ -156,42 +216,60 @@
     </script>
   </head>
   <body>
-    <div class="nav">
-      <div class="nav-inner">
-        <div class="nav-title">
-          <div class="logo">
-            <div class="logo-image">
-              <img
-                src="../../../resources/assets/kcc_library_logo.png"
-                style="width: 60px"
-              />
+    <div class="top-bar">
+      <div class="nav">
+        <div class="nav-inner">
+          <div class="nav-title">
+            <div class="logo">
+              <div class="logo-image">
+                <a href="/">
+                  <img
+                    src="../../../resources/assets/kcc_library_logo.png"
+                    style="width: 60px"
+                  />
+                </a>
+              </div>
+              <div class="logo-title">
+                <a href="/">KCC정보통신 작은도서관</a>
+              </div>
             </div>
-            <div class="logo-title">KCC정보통신 작은도서관</div>
+            <div class="login-signup">
+              <a href="/signup">회원가입</a>
+              <a href="/login">로그인</a>
+            </div>
           </div>
-          <div class="login-signup">
-            <a href="/signup">회원가입</a>
-            <a href="/login">로그인</a>
-          </div>
-        </div>
 
-        <div class="nav-menu">
-          <ul class="nav-menu-all">
-            <li><a href="">자료 찾기</a></li>
-            <li><a href="">참여마당</a></li>
-            <li><a href="">도서관소개</a></li>
-            <li><a href="">My Library</a></li>
-          </ul>
-          <div class="nav-menu-button">
-            <a href="">
-              <img
-                class="button-m"
-                src="../../../resources/assets/menu-button.JPG"
-                alt=""
-              />
-            </a>
+          <div class="nav-menu">
+            <ul class="nav-menu-all">
+              <li>
+                <a class="search" href=""
+                  >자료 찾기
+                  <div class="search-back">
+                    <ul>
+                      <li>1번자료</li>
+                      <li>1번자료</li>
+                      <li>1번자료</li>
+                    </ul>
+                  </div>
+                </a>
+              </li>
+              <li><a href="">참여마당</a></li>
+              <li><a href="">도서관소개</a></li>
+              <li><a href="">My Library</a></li>
+            </ul>
+            <div class="nav-menu-button">
+              <a href="">
+                <img
+                  class="button-m"
+                  src="../../../resources/assets/menu-button.JPG"
+                  alt=""
+                />
+              </a>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <div class="contents">111</div>
   </body>
 </html>
