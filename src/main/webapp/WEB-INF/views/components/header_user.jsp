@@ -19,7 +19,6 @@
       }
 
       .nav {
-        border: 1px solid black;
         width: 100%;
         height: 181px;
       }
@@ -32,7 +31,6 @@
       }
 
       .nav-title {
-        border: 1px solid black;
         width: 1220px;
         height: 60px;
         display: flex;
@@ -40,7 +38,6 @@
       }
 
       .nav-menu {
-        border: 1px solid black;
         margin-top: 35px;
         width: 1240px;
         height: 45px;
@@ -70,11 +67,70 @@
         color: #959795;
         text-decoration: none;
         transition: color 0.3s ease; /* 색깔 변화를 부드럽게 하기 위한 트랜지션 */
+        font-size: 0.8rem;
       }
 
       .login-signup a:hover {
         color: #000;
         text-decoration: underline;
+      }
+
+      .nav-menu {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: space-between;
+      }
+
+      .nav-menu-all {
+        margin-left: 280px;
+        display: flex;
+        justify-content: center;
+      }
+
+      .nav-menu-all a {
+        display: block;
+        width: 100%;
+        font-weight: bold;
+        color: #543333;
+        margin-top: 5px;
+        font-size: 1.3rem;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        /* padding: 10px; */
+        margin-left: 40px;
+        position: relative;
+      }
+
+      .nav-menu-all a:hover {
+        color: #000;
+      }
+
+      .nav-menu-all a:after {
+        content: "";
+        position: absolute;
+
+        border-bottom: 3px solid #000;
+        width: 0;
+        left: 0;
+        left: 50%;
+        top: 30px;
+        transition: all 0.3s;
+      }
+
+      .nav-menu-all a:hover:after {
+        color: #000;
+        width: 70%;
+        left: 0;
+      }
+
+      .nav-menu-all li {
+        list-style-type: none;
+      }
+
+      .nav-menu-button img {
+        width: 40px;
+        height: 40px;
       }
     </style>
 
@@ -119,7 +175,21 @@
         </div>
 
         <div class="nav-menu">
-          <div></div>
+          <ul class="nav-menu-all">
+            <li><a href="">자료 찾기</a></li>
+            <li><a href="">참여마당</a></li>
+            <li><a href="">도서관소개</a></li>
+            <li><a href="">My Library</a></li>
+          </ul>
+          <div class="nav-menu-button">
+            <a href="">
+              <img
+                class="button-m"
+                src="../../../resources/assets/menu-button.JPG"
+                alt=""
+              />
+            </a>
+          </div>
         </div>
       </div>
     </div>
