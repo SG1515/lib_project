@@ -2,7 +2,6 @@ package com.kcc.lib_project.test_controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
@@ -16,6 +15,11 @@ public class TestController {
 	@GetMapping("/")
 	public String getMethodName() {
 		return "main";
+	}
+
+	@GetMapping("/bookList")
+	public String getBookList() {
+		return "book/bookList";
 	}
 	
 }
