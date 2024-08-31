@@ -32,6 +32,11 @@
       rel="stylesheet"
     />
 
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
     <style>
       html,
       body {
@@ -235,6 +240,18 @@
         align-items: center; /* 수직 중앙 정렬 */
         display: flex;
       }
+
+      .book-swiper img {
+        width: 200px !important ; /* 원하는 너비 */
+        height: 300px !important ; /* 원하는 높이 */
+        overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
+      }
+
+      .book-swiper img {
+        width: 100%; /* 컨테이너 너비에 맞춤 */
+        height: 100%; /* 컨테이너 높이에 맞춤 */
+        object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 완전히 채움 */
+      }
     </style>
     <title>Document</title>
   </head>
@@ -270,6 +287,25 @@
         </div>
       </div>
       <div class="containerBody">
+        <div class="searchBox">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <div class="input-group">
+                <button class="custom-button" disabled>통합검색</button>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="검색어를 입력하세요"
+                />
+              </div>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-outline-secondary" type="button">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="bookCarousel">
           <div class="row d-flex justify-content-between carouselGroup">
             <div class="col-5 carouselBox">
@@ -288,10 +324,10 @@
               </div>
               <div class="row carousel">
                 <div class="swiper mySwiper">
-                  <div class="swiper-wrapper">
+                  <div class="swiper-wrapper book-swiper">
                     <div class="swiper-slide">
                       <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                        src="https://image.aladin.co.kr/product/1581/37/cover/896142744x_1.jpg"
                         alt=""
                       />
                     </div>
@@ -377,7 +413,7 @@
               </div>
               <div class="row carousel">
                 <div class="swiper mySwiper">
-                  <div class="swiper-wrapper">
+                  <div class="swiper-wrapper book-swiper">
                     <div class="swiper-slide">
                       <img
                         src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
@@ -452,21 +488,7 @@
             </div>
           </div>
         </div>
-        <div class="searchBox">
-          <div class="row">
-            <div class="col-md-8 offset-md-2">
-              <div class="input-group">
-                <button class="custom-button" disabled>통합검색</button>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="검색어를 입력하세요"
-                />
-                <i class="bi bi-search"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+
         <div class="subBox">
           <div class="row d-flex justify-content-between subBoxGroup">
             <div class="col-5 announcementBox">
