@@ -37,6 +37,7 @@ public class BookDummy {
     }
 
     private void createBookDummy() {
+
         if (true) {
             return;
         }
@@ -44,7 +45,7 @@ public class BookDummy {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        for (int page = 1; page < 10; page++) {
+        for (int page = 20; page < 29; page++) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://www.nl.go.kr/seoji/SearchApi.do")
                     .queryParam("cert_key", secretKey)
                     .queryParam("result_style", "json")
