@@ -422,11 +422,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                   </div>
                 </div>
               </div>
-              <div class="row bookTitle">
-                <div class="col-12 d-flex justify-content-center">
-                  <p>책 제목</p>
-                </div>
-              </div>
             </div>
           </div>
         </div>
