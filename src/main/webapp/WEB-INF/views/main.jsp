@@ -356,7 +356,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                     >
                       <div class="swiper-slide">
                         <div class="slide-image">
-                          <a href="/book/${book.callNumber}">
+                          <a href="/search/${book.callNumber}">
                             <img src="${book.imageUrl}" alt="${book.title}" />
                           </a>
                         </div>
@@ -401,7 +401,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                     >
                       <div class="swiper-slide">
                         <div class="slide-image">
-                          <a href="/book/${book.callNumber}">
+                          <a href="/search/${book.callNumber}">
                             <img src="${book.imageUrl}" alt="${book.title}" />
                           </a>
                         </div>
