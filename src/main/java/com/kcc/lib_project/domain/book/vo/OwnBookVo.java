@@ -14,10 +14,10 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class OwnBookVo {
 
-    String callNumber;
-    LocalDate receiptAt;
-    String status;
-    Long isbn;
+    private String callNumber;
+    private LocalDate receiptAt;
+    private String status;
+    private Long isbn;
 
     public static OwnBookVo from(BookVo bookVo) {
 

@@ -1,4 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %> <%@taglib
+prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="/WEB-INF/views/components/header_user.jsp" />
 <!DOCTYPE html>
 <html lang="en">
@@ -252,6 +253,30 @@
         height: 100%; /* 컨테이너 높이에 맞춤 */
         object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 완전히 채움 */
       }
+
+      .swiper-slide {
+        display: flex;
+        flex-direction: column; /* 요소를 세로 방향으로 정렬 */
+        align-items: center; /* 중앙 정렬 */
+        text-align: center;
+      }
+
+      .swiper-slide .slide-image img {
+        width: 100%; /* 이미지 너비를 슬라이드에 맞춤 */
+        height: auto; /* 이미지 높이를 자동으로 설정 */
+      }
+
+      .swiper-slide .slide-title p {
+        margin-top: 15px; /* 이미지와 제목 사이의 간격 증가 */
+        font-size: 18px; /* 필요한 경우 제목의 글꼴 크기 조정 */
+        font-weight: bold; /* 제목의 글꼴 굵기 */
+        color: #333; /* 제목의 글꼴 색상 */
+      }
+
+      .swiper-slide .slide-details {
+        margin-top: 10px; /* 제목과 상세 목록 사이의 간격 증가 */
+        font-size: 14px; /* 상세 목록의 글꼴 크기 조정 */
+      }
     </style>
     <title>Document</title>
   </head>
@@ -325,60 +350,21 @@
               <div class="row carousel">
                 <div class="swiper mySwiper">
                   <div class="swiper-wrapper book-swiper">
-                    <div class="swiper-slide">
-                      <img
-                        src="https://image.aladin.co.kr/product/1581/37/cover/896142744x_1.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
+                    <c:forEach
+                      items="${topTenBooks.bookRecentlyTopTenDtos}"
+                      var="book"
+                    >
+                      <div class="swiper-slide">
+                        <div class="slide-image">
+                          <a href="/book/${book.callNumber}">
+                            <img src="${book.imageUrl}" alt="${book.title}" />
+                          </a>
+                        </div>
+                        <div class="slide-title">
+                          <p>${book.title}</p>
+                        </div>
+                      </div>
+                    </c:forEach>
                   </div>
                   <div class="swiper-button-next"></div>
                   <div class="swiper-button-prev"></div>
@@ -389,11 +375,6 @@
                     </svg>
                     <span hidden></span>
                   </div>
-                </div>
-              </div>
-              <div class="row bookTitle">
-                <div class="col-12 d-flex justify-content-center">
-                  <p>책 제목</p>
                 </div>
               </div>
             </div>
@@ -404,7 +385,7 @@
                 </div>
                 <div class="col-8 d-flex justify-content-between">
                   <div class="d-flex align-items-end">
-                    <p class="carouselBoxWord">책 소개</p>
+                    <p class="carouselBoxWord">단행본</p>
                   </div>
                   <div class="d-flex align-items-end">
                     <a href="/book/1" class="details carouselBoxWord">더보기</a>
@@ -414,60 +395,21 @@
               <div class="row carousel">
                 <div class="swiper mySwiper">
                   <div class="swiper-wrapper book-swiper">
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
-                    <div class="swiper-slide">
-                      <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
-                        alt=""
-                      />
-                    </div>
+                    <c:forEach
+                            items="${topTenBooks.bookPopularTopTenDtos}"
+                            var="book"
+                    >
+                      <div class="swiper-slide">
+                        <div class="slide-image">
+                          <a href="/book/${book.callNumber}">
+                            <img src="${book.imageUrl}" alt="${book.title}" />
+                          </a>
+                        </div>
+                        <div class="slide-title">
+                          <p>${book.title}</p>
+                        </div>
+                      </div>
+                    </c:forEach>
                   </div>
                   <div class="swiper-button-next"></div>
                   <div class="swiper-button-prev"></div>
@@ -478,11 +420,6 @@
                     </svg>
                     <span hidden></span>
                   </div>
-                </div>
-              </div>
-              <div class="row bookTitle">
-                <div class="col-12 d-flex justify-content-center">
-                  <p>책 제목</p>
                 </div>
               </div>
             </div>
