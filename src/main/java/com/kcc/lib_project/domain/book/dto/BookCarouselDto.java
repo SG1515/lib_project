@@ -1,8 +1,7 @@
 package com.kcc.lib_project.domain.book.dto;
 
-import com.kcc.lib_project.domain.book.vo.EntireBookVo;
+import com.kcc.lib_project.domain.book.vo.OwnBookVo;
 import lombok.Data;
-import lombok.Getter;
 
 @Data
 public class BookCarouselDto {
@@ -10,11 +9,11 @@ public class BookCarouselDto {
     private final String imageUrl;
     private final String callNumber;
 
-    public static BookCarouselDto from(EntireBookVo entireBookVo) {
+    public static BookCarouselDto from(OwnBookVo ownBookVo) {
         return new BookCarouselDto(
-                entireBookVo.getTitle(),
-                entireBookVo.getImageUrl(),
-                entireBookVo.getCallNumber()
+                ownBookVo.getBookVo().getTitle(),
+                ownBookVo.getBookVo().getImageUrl(),
+                ownBookVo.getCallNumber()
         );
     }
 }

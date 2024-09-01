@@ -10,33 +10,6 @@
         values(#{isbn}, #{title}, #{author}, #{publisher}, #{publicationYear, jdbcType=DATE, typeHandler=org.apache.ibatis.type.LocalDateTypeHandler}
               , #{pageSize}, #{categoryNumber}, #{contents}, #{bookIndex}, #{imageUrl})
     </insert>
-
-    <select id="selectRecentlyTopTenBooks" resultType="EntireBookVo">
-        <![CDATA[
-        SELECT * FROM (
-                          SELECT o.call_number AS callNumber, b.title, b.image_url AS imageUrl
-                          FROM own_book o
-                                   LEFT JOIN book b ON o.isbn = b.isbn
-                          order by b.publication_year desc
-                      )
-        WHERE ROWNUM <= 10
-        ]]>
-    </select>
-
-    <select id="selectPopularTopTenBooks" resultType="EntireBookVo">
-        <![CDATA[
-        SELECT * FROM (
-                          SELECT o.call_number AS callNumber, b.title, b.image_url AS imageUrl, count(l.call_number) AS cnt
-                          FROM loan l
-                                   LEFT JOIN own_book o ON l.call_number = o.call_number
-                                      LEFT JOIN book b ON o.isbn = b.isbn
-                          group by o.call_number, b.title, b.image_url
-                          order by cnt desc
-                      )
-        WHERE ROWNUM <= 10
-        ]]>
-    </select>
-
 </mapper>
 
 
