@@ -17,9 +17,14 @@ public class TestController {
 		return "main";
 	}
 
-	@GetMapping("/bookList")
+	@GetMapping("/search")
 	public String getBookList() {
 		return "book/bookList";
+	}
+
+	@GetMapping("/search/{callNumber}")
+	public String getBookDetail() {
+		return "book/bookDetail";
 	}
 	
 }

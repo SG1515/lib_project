@@ -143,7 +143,7 @@
     <div class="container">
       <div class="location">
         <div class="row d-flex justify-content-end">
-          <div class="col-4 location">
+          <div class="col-2 location">
             <span>* Home > 자료 찾기 > </span>
             <span class="nowPageFont">통합검색</span>
           </div>
@@ -217,7 +217,7 @@
                   <div class="col-6 ms-5">
                     <div class="row">
                       <div class="col-12 bookTitleArea">
-                        <a href="">[레이크펜레디움 작은도서관] 강산</a>
+                        <a href="/search/1">[레이크펜레디움 작은도서관] 강산</a>
                       </div>
                       <div class="col-12">재미난책보</div>
                       <div class="col-12">어린이아현</div>
@@ -293,7 +293,7 @@
                   <div class="col-6 ms-5">
                     <div class="row">
                       <div class="col-12 bookTitleArea">
-                        <a href="">[레이크펜레디움 작은도서관] 강산</a>
+                        <a href="search/1">[레이크펜레디움 작은도서관] 강산</a>
                       </div>
                       <div class="col-12">재미난책보</div>
                       <div class="col-12">어린이아현</div>
