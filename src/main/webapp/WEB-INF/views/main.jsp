@@ -24,6 +24,19 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"
     />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+
     <style>
       html,
       body {
@@ -38,6 +51,7 @@
         color: #000;
         margin: 0;
         padding: 0;
+        font-family: "Noto Sans KR";
       }
 
       .swiper {
@@ -91,9 +105,14 @@
         transform: rotate(-90deg);
       }
       .containerBody {
-        margin: 20px;
+        /* margin: 20px; */
         background-color: #f5f7ff;
       }
+
+      .containerBanner {
+        margin-top: 200px;
+      }
+
       .details {
         color: gray;
       }
@@ -112,7 +131,6 @@
       }
 
       .bookCarousel {
-        background-color: white;
         padding: 20px;
         border-radius: 10px;
       }
@@ -124,10 +142,6 @@
 
       .bookTitle {
         margin-top: 10px;
-      }
-
-      .containerBody {
-        margin-top: 200px;
       }
 
       .custom-button {
@@ -172,14 +186,128 @@
         background-color: gray;
         height: 2000px;
       }
+
+      .subBox {
+        margin: 60px 30px 0px 30px;
+      }
+
+      .announceTitle p {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .subBoxGroup > div {
+        background-color: white;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
+      .carouselGroup > div {
+        background-color: white;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .boxTitle {
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        font-size: 24px;
+        font-weight: 700;
+        color: #333;
+        border-bottom: 2px solid #000;
+      }
+
+      .noticeGroup {
+        border: 1px solid #e8e8e8;
+      }
+
+      @font-face {
+        font-family: "SDSamliphopangche_Outline";
+        src: url("https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts-20-12@1.0/SDSamliphopangche_Outline.woff")
+          format("woff");
+        font-weight: normal;
+        font-style: normal;
+      }
+
+      .tag {
+        background-color: #f5f7ff;
+        color: #56c8d8;
+        border-radius: 10px;
+        padding: 5px 10px;
+        font-size: 15px;
+        font-weight: bold;
+        justify-content: center; /* 수평 중앙 정렬 */
+        align-items: center; /* 수직 중앙 정렬 */
+        display: flex;
+      }
+
+      .book-swiper img {
+        width: 200px !important ; /* 원하는 너비 */
+        height: 300px !important ; /* 원하는 높이 */
+        overflow: hidden; /* 이미지가 컨테이너를 넘어가지 않도록 */
+      }
+
+      .book-swiper img {
+        width: 100%; /* 컨테이너 너비에 맞춤 */
+        height: 100%; /* 컨테이너 높이에 맞춤 */
+        object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 완전히 채움 */
+      }
     </style>
     <title>Document</title>
   </head>
   <body>
     <div class="container">
+      <div class="containerBanner">
+        <div class="row carousel">
+          <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+              <div class="swiper-slide">
+                <img
+                  src="https://hwaseong.egentouch.com/media/banner_pool/1037/1037007/4d1b2f9d-62ae-4501-8903-da2bae0b30d1.png"
+                  alt=""
+                />
+              </div>
+              <div class="swiper-slide">
+                <img
+                  src="https://hwaseong.egentouch.com/media/banner_pool/1037/1037007/a3ef9f7c-3787-4645-bbd4-3647dd05f66c.jpg"
+                  alt=""
+                />
+              </div>
+            </div>
+            <div class="swiper-button-next"></div>
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-pagination"></div>
+            <div class="autoplay-progress">
+              <svg viewBox="0 0 48 48" hidden>
+                <circle cx="24" cy="24" r="20" hidden></circle>
+              </svg>
+              <span hidden></span>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="containerBody">
+        <div class="searchBox">
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <div class="input-group">
+                <button class="custom-button" disabled>통합검색</button>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="검색어를 입력하세요"
+                />
+              </div>
+            </div>
+            <div class="col-2">
+              <button class="btn btn-outline-secondary" type="button">
+                <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
         <div class="bookCarousel">
-          <div class="row d-flex justify-content-between">
+          <div class="row d-flex justify-content-between carouselGroup">
             <div class="col-5 carouselBox">
               <div class="row carouselTitle">
                 <div class="col-4">
@@ -190,18 +318,16 @@
                     <p class="carouselBoxWord">단행본</p>
                   </div>
                   <div class="d-flex align-items-end">
-                    <a href="/book/1" class="details carouselBoxWord"
-                      >상세보기</a
-                    >
+                    <a href="/book/1" class="details carouselBoxWord">더보기</a>
                   </div>
                 </div>
               </div>
               <div class="row carousel">
                 <div class="swiper mySwiper">
-                  <div class="swiper-wrapper">
+                  <div class="swiper-wrapper book-swiper">
                     <div class="swiper-slide">
                       <img
-                        src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
+                        src="https://image.aladin.co.kr/product/1581/37/cover/896142744x_1.jpg"
                         alt=""
                       />
                     </div>
@@ -281,15 +407,13 @@
                     <p class="carouselBoxWord">책 소개</p>
                   </div>
                   <div class="d-flex align-items-end">
-                    <a href="/book/1" class="details carouselBoxWord"
-                      >상세보기</a
-                    >
+                    <a href="/book/1" class="details carouselBoxWord">더보기</a>
                   </div>
                 </div>
               </div>
               <div class="row carousel">
                 <div class="swiper mySwiper">
-                  <div class="swiper-wrapper">
+                  <div class="swiper-wrapper book-swiper">
                     <div class="swiper-slide">
                       <img
                         src="https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
@@ -364,23 +488,101 @@
             </div>
           </div>
         </div>
-        <div class="searchBox">
-          <div class="row">
-            <div class="col-md-8 offset-md-2">
-              <div class="input-group">
-                <button class="custom-button" disabled>통합검색</button>
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="검색어를 입력하세요"
-                />
-                <i class="bi bi-search"></i>
-                <!-- Bootstrap Icons 사용 -->
+
+        <div class="subBox">
+          <div class="row d-flex justify-content-between subBoxGroup">
+            <div class="col-5 announcementBox">
+              <div class="announceTitle">
+                <p class="boxTitle">공지사항</p>
+              </div>
+              <div class="row justify-content-between">
+                <div class="col-6 noticeGroup">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="date">
+                        <p>2024-08-27</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="author">
+                        <p>관리자</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="announceContent">
+                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 noticeGroup">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="date">
+                        <p>2024-08-24</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="author">
+                        <p>관리자</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="announceContent">
+                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5 announcementBox">
+              <div class="announceTitle">
+                <p class="boxTitle">KCC정보통신 작은도서관</p>
+              </div>
+              <div class="row justify-content-between">
+                <div class="col-6 noticeGroup">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="date">
+                        <p>2024-08-27</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="author">
+                        <p>관리자</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="announceContent">
+                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6 noticeGroup">
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="date">
+                        <p>2024-08-24</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="author">
+                        <p>관리자</p>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="announceContent">
+                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        <div class="contents">111</div>
       </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
