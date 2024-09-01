@@ -50,7 +50,7 @@
         border: 1px solid black;
       }
 
-      #login-form > input {
+      #signup-form > input {
         margin-top: 10px;
       }
     </style>
@@ -58,10 +58,10 @@
   <body>
     <div class="location">
       <div class="login-box">
-        <form method="post" action="/signup" id="login-form">
+        <form method="post" action="/signup" id="signup-form">
           <h2>회원가입</h2>
-          <input type="text" name="userName" placeholder="Email" />
-          <input type="password" name="userPassword" placeholder="Password" />
+          <input type="text" name="username" placeholder="id" />
+          <input type="password" name="password" placeholder="password" />
           <label for="remember-check">
             <input type="checkbox" id="remember-check" />아이디 저장하기
           </label>

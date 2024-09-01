@@ -13,17 +13,24 @@ public class SecurityConfig{
   private static final String[] WHITE_LIST = {
     "/common/**",
     "WEB-INF/views/**",
-    ""
-  }
+    "/**",
+    "/login"
+  };
 
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
     http
       .authorizeHttpRequests(authorizeHttpRequests ->
-        authorizeHttpRequests.anyRequest().permitAll()
-        )
-        .csrf(csrf -> csrf.disable());
+        authorizeHttpRequests.anyRequest().permitAll())
+        .csrf(csrf -> csrf.disable())
+        .formLogin(form -> form
+          .loginPage("/login")
+          .loginProcessingUrl("/login")
+          .usernameParameter("username")
+          .passwordParameter("password")
+          .defaultSuccessUrl("/"));
 
+      
       return http.build();
   }
 

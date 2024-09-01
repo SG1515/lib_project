@@ -8,11 +8,11 @@ public class UserController{
 
   @GetMapping("/signup")
   public String signup() {
-    return "/user/signup";
+    return "user/signup";
   }
 
   @GetMapping("/login")
   public String login() {
-    return "/user/login";
+    return "user/login";
   }
 }

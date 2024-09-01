@@ -58,10 +58,10 @@
   <body>
     <div class="location">
       <div class="login-box">
-        <form method="post" action="/signup" id="login-form">
+        <form method="post" action="/login" id="login-form">
           <h2>로그인</h2>
-          <input type="text" name="userName" placeholder="Email" />
-          <input type="password" name="userPassword" placeholder="Password" />
+          <input type="text" name="username" placeholder="username" />
+          <input type="password" name="password" placeholder="password" />
           <label for="remember-check">
             <input type="checkbox" id="remember-check" />아이디 저장하기
           </label>
