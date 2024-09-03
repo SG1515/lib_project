@@ -28,7 +28,7 @@
     <style>
       @font-face {
         font-family: "TMON";
-        src: url("./SB_M.ttf");
+        src: url("https://cdn.jsdelivr.net/gh/websfont/tmon/tmon.eot");
       }
 
       .nav {
@@ -62,6 +62,7 @@
         height: 45px;
       }
       .logo {
+
         display: flex;
       }
 
@@ -71,11 +72,11 @@
       }
 
       .logo .logo-title {
-        font-family: "TMON";
+        font-family: "Tmon몬소리 Black";
         font-weight: bold;
         font-size: 24px;
         margin-left: 10px;
-        margin-top: 10px;
+        margin-top: 15px;
       }
 
       .login-signup {
@@ -233,6 +234,7 @@
         font-weight: bold;
         text-decoration: none;
       }
+
     </style>
 
     <link

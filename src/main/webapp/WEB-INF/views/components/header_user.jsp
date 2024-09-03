@@ -72,11 +72,11 @@
         }
 
         .logo .logo-title {
-            font-family: "TMON";
+            font-family: "Tmon몬소리 Black";
             font-weight: bold;
             font-size: 24px;
             margin-left: 10px;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .login-signup {
