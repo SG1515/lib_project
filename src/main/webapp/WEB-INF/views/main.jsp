@@ -46,7 +46,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
       }
 
       body {
-        background: #eee;
+        background: #ffffff;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         font-size: 14px;
         color: #000;
@@ -284,7 +284,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
     <div class="container">
       <div class="containerBanner">
         <div class="row carousel">
-          <div class="swiper mySwiper">
+          <div class="swiper mySwiperMain">
             <div class="swiper-wrapper">
               <div class="swiper-slide">
                 <img
@@ -320,12 +320,17 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                 <input
                   type="text"
                   class="form-control"
+                  id="searchInput"
                   placeholder="검색어를 입력하세요"
                 />
               </div>
             </div>
             <div class="col-2">
-              <button class="btn btn-outline-secondary" type="button">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="searchButton"
+              >
                 <i class="bi bi-search"></i>
               </button>
             </div>
@@ -343,7 +348,11 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                     <p class="carouselBoxWord">단행본</p>
                   </div>
                   <div class="d-flex align-items-end">
-                    <a href="/book/1" class="details carouselBoxWord">더보기</a>
+                    <a
+                      href="/search?keyword=&page=1&type=최신순"
+                      class="details carouselBoxWord"
+                      >더보기</a
+                    >
                   </div>
                 </div>
               </div>
@@ -388,7 +397,11 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                     <p class="carouselBoxWord">단행본</p>
                   </div>
                   <div class="d-flex align-items-end">
-                    <a href="/book/1" class="details carouselBoxWord">더보기</a>
+                    <a
+                      href="/search?keyword=&page=1&type=인기순"
+                      class="details carouselBoxWord"
+                      >더보기</a
+                    >
                   </div>
                 </div>
               </div>
@@ -396,8 +409,8 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                 <div class="swiper mySwiper">
                   <div class="swiper-wrapper book-swiper">
                     <c:forEach
-                            items="${topTenBooks.bookPopularTopTenDtos}"
-                            var="book"
+                      items="${topTenBooks.bookPopularTopTenDtos}"
+                      var="book"
                     >
                       <div class="swiper-slide">
                         <div class="slide-image">
@@ -548,8 +561,47 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
           },
         },
       });
+
+      var swiper = new Swiper(".mySwiperMain", {
+        spaceBetween: 30,
+        centeredSlides: true,
+        autoplay: {
+          delay: 5000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+        on: {
+          autoplayTimeLeft(s, time, progress) {
+            progressCircle.style.setProperty("--progress", 1 - progress);
+            progressContent.textContent = `${Math.ceil(time / 1000)}s`;
+          },
+        },
+      });
+
+      document
+        .getElementById("searchButton")
+        .addEventListener("click", function () {
+          let inputKeyword = document.getElementById("searchInput").value; // 입력 필드로부터 검색어를 가져옴
+          let currentUrl = new URL(window.location.href); // 현재 페이지의 URL을 가져옴
+          currentUrl.pathname += "search";
+          let searchParams = currentUrl.searchParams; // URL의 검색 파라미터 객체를 가져옴
+
+          // 검색 파라미터에 keyword 값을 추가하거나 변경
+          searchParams.set("keyword", inputKeyword);
+          searchParams.set("page", 1); // 검색어를 변경하면 페이지를 1로 초기화
+          searchParams.set("type", "인기순");
+
+          // 변경된 URL로 페이지를 이동
+          window.location.href = currentUrl.toString();
+        });
     </script>
   </body>
   <jsp:include page="/WEB-INF/views/components/footer.jsp" />
-
 </html>
