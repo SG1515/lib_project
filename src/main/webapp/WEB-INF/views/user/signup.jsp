@@ -82,13 +82,16 @@
       }
 
       .signup-box .form-check-label {
+        margin-top: 300px;
         font-size: 14px;
       }
+
+
     </style>
   </head>
   <body>
-    <div class="signup-container">
-      <div class="signup-box">
+    <div class="signup-container mt-5">
+      <div class="signup-box mt-5">
         <h2>회원가입</h2>
         <form method="post" action="/signup" id="signup-form">
           <div class="mb-3">
