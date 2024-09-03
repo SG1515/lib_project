@@ -115,6 +115,7 @@
               type="checkbox"
               class="form-check-input"
               id="remember-check"
+              name="remember-me"
             />
             아이디 저장하기
           </div>
@@ -131,44 +132,60 @@
   </body>
   <script>
     document.addEventListener("DOMContentLoaded", function () {
-      document
-        .getElementById("login-form")
-        .addEventListener("submit", function (event) {
-          event.preventDefault();
+      const loginForm = document.getElementById("login-form");
+      const rememberCheck = document.getElementById("remember-check");
+      const userIdField = loginForm.querySelector('input[name="id"]');
 
-          // 서버로 폼 데이터를 전송합니다.
-          const form = event.target;
-          const formData = new FormData(form);
+      // 페이지 로드 시 저장된 아이디가 있으면 입력 필드에 채우기
+      const savedUserId = localStorage.getItem("savedUserId");
+      if (savedUserId) {
+        userIdField.value = savedUserId;
+        rememberCheck.checked = true; // 저장된 아이디가 있다면 체크박스도 체크 상태로 설정
+      }
 
-          fetch(form.action, {
-            method: "POST",
-            body: formData,
-          })
-            .then((response) => {
-              if (response.ok) {
-                return response.text();
-              } else {
-                throw new Error("로그인 실패");
-              }
-            })
-            .then((data) => {
-              Swal.fire({
-                icon: "success",
-                title: "로그인 완료",
-                text: "홈페이지로 이동합니다.",
-              }).then(() => {
-                // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
-                window.location.href = "/";
-              });
-            })
-            .catch((error) => {
-              Swal.fire({
-                icon: "error",
-                title: "비밀번호나 아이디가 틀립니다.",
-                text: error.message,
-              });
-            });
-        });
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const formData = new FormData(loginForm);
+
+        // remember-me 체크박스가 체크되어 있으면 아이디를 저장합니다.
+        if (rememberCheck.checked) {
+          localStorage.setItem("savedUserId", formData.get("id"));
+        } else {
+          localStorage.removeItem("savedUserId");
+        }
+
+        // 서버로 폼 데이터를 전송합니다.
+        fetch(loginForm.action, {
+          method: "POST",
+          body: formData,
+        })
+                .then((response) => {
+                  if (response.ok) {
+                    return response.text();
+                  } else {
+                    throw new Error("로그인 실패");
+                  }
+                })
+                .then((data) => {
+                  Swal.fire({
+                    icon: "success",
+                    title: "로그인 완료",
+                    text: "홈페이지로 이동합니다.",
+                  }).then(() => {
+                    // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
+                    window.location.href = "/";
+                  });
+                })
+                .catch((error) => {
+                  Swal.fire({
+                    icon: "error",
+                    title: "비밀번호나 아이디가 틀립니다.",
+                    text: error.message,
+                  });
+                });
+      });
     });
   </script>
+
 </html>

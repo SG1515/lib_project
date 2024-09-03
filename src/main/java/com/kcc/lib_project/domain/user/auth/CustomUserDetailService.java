@@ -21,6 +21,10 @@ public class CustomUserDetailService implements UserDetailsService {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
+  public CustomUserDetailService(UserMapper userMapper) {
+    this.userMapper = userMapper;
+  }
+
   @Override
   public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
     UserDto user = userMapper.getUserById(id);

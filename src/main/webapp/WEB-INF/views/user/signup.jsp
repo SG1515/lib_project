@@ -155,14 +155,7 @@
             />
           </div>
           <div class="form-check mb-3">
-            <input
-              type="checkbox"
-              class="form-check-input"
-              id="remember-check"
-            />
-            <label class="form-check-label" for="remember-check"
-              >아이디 저장하기</label
-            >
+
           </div>
           <input
             type="hidden"

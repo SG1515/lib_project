@@ -1,5 +1,6 @@
 package com.kcc.lib_project.global.config;
 
+import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,7 +28,7 @@ public class SecurityConfig {
   }
 
   @Bean
-  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+  public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomUserDetailService customUserDetailService) throws Exception {
     http
         .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests.anyRequest().permitAll())
         .csrf(csrf -> csrf.disable());
@@ -50,6 +51,13 @@ public class SecurityConfig {
             .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/"))
             // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
             .deleteCookies("remember-me"));
+
+    http.rememberMe(remember -> remember
+            .userDetailsService(customUserDetailService)
+            .key("uniqueAndSecret")
+            .tokenValiditySeconds(60000)
+            );
+
 
     return http.build();
   }
