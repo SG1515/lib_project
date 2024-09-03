@@ -1,4 +1,15 @@
+<%@ page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
+
+<%
+
+  String sessionId = (String) session.getAttribute("id");
+  System.out.println("Session ID: " + sessionId);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -254,7 +265,13 @@
               </div>
             </div>
             <div class="login-signup">
-              <a href="/login">로그인</a>
+              <sec:authorize access="isAnonymous()">
+                <a href="/login">관리자 로그인</a>
+              </sec:authorize>
+
+              <sec:authorize access="isAuthenticated()">
+                <a href="/logout">로그아웃</a>
+              </sec:authorize>
             </div>
           </div>
 

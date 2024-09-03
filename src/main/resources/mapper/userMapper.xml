@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kcc.lib_project.domain.user.mapper.UserMapper">
+
+  <insert id="saveUser" parameterType="com.kcc.lib_project.domain.user.dto.SignupDto">
+    INSERT INTO users 
+    (user_id, id, password, name, email, created_at, birth, address, phone, role, address_checked)
+    VALUES (users_seq.NEXTVAL, #{id}, #{password}, #{name}, #{email}, #{created_at}, #{birth}, #{address}, #{phone}, #{role}, #{address_checked})
+  </insert>
+
+  <select id="getUserDetails" parameterType="com.kcc.lib_project.domain.user.dto.UserDto"  >
+    select id, password
+    from users 
+  </select>
+
+<select id="getUserById" parameterType="java.lang.String" resultType="com.kcc.lib_project.domain.user.dto.UserDto">
+    select id, password
+    from users
+    where id = #{id} 
+  </select>
+</mapper>
