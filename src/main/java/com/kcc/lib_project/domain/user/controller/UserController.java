@@ -47,10 +47,10 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public String postMethodName(@RequestParam String id, @RequestParam String password, Model model,
+  public String loginPost(@RequestParam String id, @RequestParam String password, Model model,
       HttpServletRequest request, RedirectAttributes ra) {
     UserDetails userDetails = customUserDetailService.loadUserByUsername(id);
-
+    System.out.println("prev login ");
     if (!customUserDetailService.validatePassword(password, userDetails.getPassword())) {
       model.addAttribute("error", "Invalid username or password");
       return "user/login";
