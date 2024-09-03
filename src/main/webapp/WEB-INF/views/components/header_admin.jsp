@@ -113,7 +113,7 @@
         display: block;
         width: 100%;
         font-weight: bold;
-        color: #543333;
+        color: #000;
         margin-top: 5px;
         font-size: 1.1rem;
         text-decoration: none;
@@ -129,7 +129,7 @@
       .nav-menu-all > li > a:after {
         content: "";
         position: absolute;
-        border-bottom: 3px solid #000;
+        border-bottom: 2px solid #000;
         width: 0;
         left: 50%;
         top: 25px; /*밑줄 위치 */
