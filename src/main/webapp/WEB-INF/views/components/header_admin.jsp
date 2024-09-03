@@ -266,7 +266,7 @@
             </div>
             <div class="login-signup">
               <sec:authorize access="isAnonymous()">
-                <a href="/login">관리자 로그인</a>
+                <a href="/admin/login">관리자 로그인</a>
               </sec:authorize>
 
               <sec:authorize access="isAuthenticated()">
@@ -340,6 +340,5 @@
         </div>
       </div>
     </div>
-    <div class="contents">111</div>
   </body>
 </html>
