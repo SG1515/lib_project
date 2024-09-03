@@ -1,5 +1,7 @@
 package com.kcc.lib_project.domain.user.controller;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +19,7 @@ import com.kcc.lib_project.domain.user.vo.UserVo;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class UserController {
@@ -44,13 +47,18 @@ public class UserController {
   }
 
   @PostMapping("/login")
-  public String postMethodName(@RequestParam String id, @RequestParam String password, Model model) {
+  public String postMethodName(@RequestParam String id, @RequestParam String password, Model model,
+      HttpServletRequest request, RedirectAttributes ra) {
     UserDetails userDetails = customUserDetailService.loadUserByUsername(id);
 
     if (!customUserDetailService.validatePassword(password, userDetails.getPassword())) {
       model.addAttribute("error", "Invalid username or password");
-      return "/login";
+      return "user/login";
     }
+    HttpSession session = request.getSession();
+    session.setAttribute("id", id);
+    ra.addFlashAttribute("result", "login success");
+    System.out.println("Session ID after setting: " + session.getId()); // 로그로 확인
 
     return "redirect:/";
   }

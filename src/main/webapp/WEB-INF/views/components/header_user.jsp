@@ -1,328 +1,345 @@
+<%@ page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+    String sessionId = (String) session.getAttribute("id");
+    System.out.println("Session ID: " + sessionId);
+
+%>
+
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <link rel="icon" href="../../../resources/assets/favicon.ico" />
-    <link rel="apple-touch-icon" href="../../../resources/assets/favicon.ico" />
-    <meta charset="UTF-8" />
+<head>
+    <link rel="icon" href="../../../resources/assets/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../../../resources/assets/favicon.ico"/>
+    <meta charset="UTF-8"/>
     <meta
-      name="viewport"
-      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+            name="viewport"
+            content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
     />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge"/>
     <title>KCC정보통신 도서관</title>
 
-    <link href="../style.css" rel="stylesheet" type="text/css" />
+    <link href="../style.css" rel="stylesheet" type="text/css"/>
     <style>
-      @font-face {
-        font-family: "TMON";
-        src: url("./SB_M.ttf");
-      }
+        @font-face {
+            font-family: "TMON";
+            src: url("./SB_M.ttf");
+        }
 
-      .nav {
-        width: 100%;
-        height: 181px;
-      }
+        .nav {
+            width: 100%;
+            height: 181px;
+        }
 
-      .logo-title a {
-        text-decoration: none;
-        text-decoration-line: none;
-        color: #0a4494;
-      }
+        .logo-title a {
+            text-decoration: none;
+            text-decoration-line: none;
+            color: #0a4494;
+        }
 
-      .nav-inner {
-        margin-left: 225px;
-        margin-right: 225px;
-        padding-top: 20px;
-        padding-bottom: 20px;
-      }
+        .nav-inner {
+            margin-left: 225px;
+            margin-right: 225px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
 
-      .nav-title {
-        width: 1220px;
-        height: 60px;
-        display: flex;
-        justify-content: space-between;
-      }
+        .nav-title {
+            width: 1220px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
 
-      .nav-menu {
-        margin-top: 35px;
-        width: 1240px;
-        height: 45px;
-      }
-      .logo {
-        display: flex;
-      }
+        .nav-menu {
+            margin-top: 35px;
+            width: 1240px;
+            height: 45px;
+        }
 
-      .logo .logo-image {
-        width: 60px;
-        height: 55px;
-      }
+        .logo {
+            display: flex;
+        }
 
-      .logo .logo-title {
-        font-family: "TMON";
-        font-weight: bold;
-        font-size: 24px;
-        margin-left: 10px;
-        margin-top: 10px;
-      }
+        .logo .logo-image {
+            width: 60px;
+            height: 55px;
+        }
 
-      .login-signup {
-        margin-top: 18px;
-      }
-      .login-signup a {
-        color: #959795;
-        text-decoration: none;
-        transition: color 0.3s ease; /* 색깔 변화를 부드럽게 하기 위한 트랜지션 */
-        font-size: 0.8rem;
-      }
+        .logo .logo-title {
+            font-family: "TMON";
+            font-weight: bold;
+            font-size: 24px;
+            margin-left: 10px;
+            margin-top: 10px;
+        }
 
-      .login-signup a:hover {
-        color: #000;
-        text-decoration: underline;
-      }
+        .login-signup {
+            margin-top: 18px;
+        }
 
-      .nav-menu {
-        display: flex;
-        flex-wrap: wrap;
-        flex-direction: row;
-        justify-content: space-between;
-      }
+        .login-signup a {
+            color: #959795;
+            text-decoration: none;
+            transition: color 0.3s ease; /* 색깔 변화를 부드럽게 하기 위한 트랜지션 */
+            font-size: 0.8rem;
+        }
 
-      .nav-menu-all {
-        margin-left: 150px;
-        display: flex;
-        justify-content: center;
-      }
+        .login-signup a:hover {
+            color: #000;
+            text-decoration: underline;
+        }
 
-      .nav-menu-all > li {
-        margin-left: 100px;
-      }
-      .nav-menu-all > li > a {
-        display: block;
-        width: 100%;
-        font-weight: bold;
-        color: #543333;
-        margin-top: 5px;
-        font-size: 1.1rem;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        position: relative;
-        text-align: center;
-      }
+        .nav-menu {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: space-between;
+        }
 
-      .nav-menu-all > li > a:hover {
-        color: #000;
-      }
+        .nav-menu-all {
+            margin-left: 150px;
+            display: flex;
+            justify-content: center;
+        }
 
-      .nav-menu-all > li > a:after {
-        content: "";
-        position: absolute;
-        border-bottom: 3px solid #000;
-        width: 0;
-        left: 50%;
-        top: 25px; /*밑줄 위치 */
-        transition: all 0.3s;
-      }
+        .nav-menu-all > li {
+            margin-left: 100px;
+        }
 
-      .nav-menu-all > li > a:hover:after {
-        color: #000;
-        width: 100%;
-        left: 0;
-      }
+        .nav-menu-all > li > a {
+            display: block;
+            width: 100%;
+            font-weight: bold;
+            color: #543333;
+            margin-top: 5px;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+            text-align: center;
+        }
 
-      .nav-menu-all li {
-        list-style-type: none;
-      }
+        .nav-menu-all > li > a:hover {
+            color: #000;
+        }
 
-      .nav-menu-button img {
-        width: 40px;
-        height: 40px;
-      }
+        .nav-menu-all > li > a:after {
+            content: "";
+            position: absolute;
+            border-bottom: 3px solid #000;
+            width: 0;
+            left: 50%;
+            top: 25px; /*밑줄 위치 */
+            transition: all 0.3s;
+        }
 
-      /* .search ul {
-        display: none;
-      }
+        .nav-menu-all > li > a:hover:after {
+            color: #000;
+            width: 100%;
+            left: 0;
+        }
 
-      .search:hover ul {
-        display: block;
-      } */
+        .nav-menu-all li {
+            list-style-type: none;
+        }
 
-      .search > ul {
-        list-style-type: none;
-        padding-left: 0;
-      }
+        .nav-menu-button img {
+            width: 40px;
+            height: 40px;
+        }
 
-      .search > ul > li {
-        list-style-type: none;
-        margin-left: 0;
-      }
+        /* .search ul {
+          display: none;
+        }
 
-      .search-back {
-        width: 100%;
-      }
+        .search:hover ul {
+          display: block;
+        } */
 
-      .search-back ul li {
-        margin-top: 5px;
-        margin-bottom: 5px;
-        font-size: 0.8rem;
-        list-style-type: none;
-      }
+        .search > ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
 
-      .search-back ul li:hover {
-        color: #4bb8b3;
-      }
+        .search > ul > li {
+            list-style-type: none;
+            margin-left: 0;
+        }
 
-      .search-back ul li a:hover {
-        color: #4bb8b3;
-      }
+        .search-back {
+            width: 100%;
+        }
 
-      /*상단바 고정*/
-      .top-bar {
-        position: fixed;
-        top: 0;
-        left: 0;
-        right: 0;
-        background-color: white;
-        z-index: 1000;
-      }
+        .search-back ul li {
+            margin-top: 5px;
+            margin-bottom: 5px;
+            font-size: 0.8rem;
+            list-style-type: none;
+        }
 
-      /* 컨텐츠 나중에 지울 것임*/
-      .contents {
-        margin-top: 180px;
-        background-color: gray;
-        height: 2000px;
-      }
+        .search-back ul li:hover {
+            color: #4bb8b3;
+        }
 
-      .search-back ul {
-        background-color: white;
-        list-style-type: none;
-        width: 100%;
-        margin-bottom: 10px;
-        padding-left: 0;
-      }
+        .search-back ul li a:hover {
+            color: #4bb8b3;
+        }
 
-      .search-back {
-        display: none;
-      }
+        /*상단바 고정*/
+        .top-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            z-index: 1000;
+        }
 
-      .nav-menu-all > li:hover .search-back {
-        display: block;
-      }
+        /* 컨텐츠 나중에 지울 것임*/
+        .contents {
+            margin-top: 180px;
+            background-color: gray;
+            height: 2000px;
+        }
 
-      .search-back > ul > li {
-        margin-top: 10px;
-        margin-bottom: 10px;
-        margin-left: 10px;
-        margin-right: 10px;
-      }
+        .search-back ul {
+            background-color: white;
+            list-style-type: none;
+            width: 100%;
+            margin-bottom: 10px;
+            padding-left: 0;
+        }
 
-      .search-back > ul > li > a {
-        color: #000;
-        font-weight: bold;
-        text-decoration: none;
-      }
+        .search-back {
+            display: none;
+        }
+
+        .nav-menu-all > li:hover .search-back {
+            display: block;
+        }
+
+        .search-back > ul > li {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .search-back > ul > li > a {
+            color: #000;
+            font-weight: bold;
+            text-decoration: none;
+        }
     </style>
 
     <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
-      crossorigin="anonymous"
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+            crossorigin="anonymous"
     />
     <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-      crossorigin="anonymous"
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"
     ></script>
-  </head>
-  <body>
-    <div class="top-bar">
-      <div class="nav">
+</head>
+<body>
+<div class="top-bar">
+    <div class="nav">
         <div class="nav-inner">
-          <div class="nav-title">
-            <div class="logo">
-              <div class="logo-image">
-                <a href="/">
-                  <img
-                    src="../../../resources/assets/kcc_library_logo.png"
-                    style="width: 60px"
-                  />
-                </a>
-              </div>
-              <div class="logo-title">
-                <a href="/">KCC정보통신 작은도서관</a>
-              </div>
-            </div>
-            <div class="login-signup">
-              <a href="/signup">회원가입</a>
-              <a href="/login">로그인</a>
-            </div>
-          </div>
+            <div class="nav-title">
+                <div class="logo">
+                    <div class="logo-image">
+                        <a href="/">
+                            <img
+                                    src="../../../resources/assets/kcc_library_logo.png"
+                                    style="width: 60px"
+                            />
+                        </a>
+                    </div>
+                    <div class="logo-title">
+                        <a href="/">KCC정보통신 작은도서관</a>
+                    </div>
+                </div>
+                <div class="login-signup">
+                    <c:if test="${sessionScope.id == null}">
+                        <a href="/signup">회원가입</a>
+                        <a href="/login">로그인</a>
+                    </c:if>
+                    <c:if test="${sessionScope.id != null}">ㄴ
+                        <a href="/logout">로그아웃</a>
+                    </c:if>
 
-          <div class="nav-menu">
-            <ul class="nav-menu-all">
-              <li>
-                <a class="search" href=""
-                  >자료 찾기
-                  <div class="search-back">
-                    <ul>
-                      <li><a href="/search">도서 조회</a></li>
-                      <li><a href="#">신규 도서</a></li>
-                      <li><a href="#">인기 도서</a></li>
-                    </ul>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href=""
-                  >참여마당
-                  <div class="search-back">
-                    <ul>
-                      <li><a href="#">공지사항</a></li>
-                      <li><a href="#">행사일정</a></li>
-                      <li><a href="/books/wishbook">희망도서 신청</a></li>
-                    </ul>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href=""
-                  >도서관소개
-                  <div class="search-back">
-                    <ul>
-                      <li><a href="#">인사말</a></li>
-                      <li><a href="#">휴관일</a></li>
-                    </ul>
-                  </div>
-                </a>
-              </li>
-              <li>
-                <a href=""
-                  >My Library
-                  <div class="search-back">
-                    <ul>
-                      <li><a href="/books/rental">대여한 책 조회</a></li>
-                      <li><a href="/books/bookcheck">반납 이력 조회</a></li>
-                      <li><a href="/books/overdue">연체 이력 조회</a></li>
-                      <li><a href="/books/failure">분실 파손 조회</a></li>
-                      <li><a href="/userInfo">마이페이지</a></li>
-                    </ul>
-                  </div>
-                </a>
-              </li>
-            </ul>
-            <div class="nav-menu-button">
-              <a href="">
-                <img
-                  class="button-m"
-                  src="../../../resources/assets/menu-button.JPG"
-                  alt=""
-                />
-              </a>
+                </div>
             </div>
-          </div>
+
+            <div class="nav-menu">
+                <ul class="nav-menu-all">
+                    <li>
+                        <a class="search" href=""
+                        >자료 찾기
+                            <div class="search-back">
+                                <ul>
+                                    <li><a href="/search">도서 조회</a></li>
+                                    <li><a href="#">신규 도서</a></li>
+                                    <li><a href="#">인기 도서</a></li>
+                                </ul>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                        >참여마당
+                            <div class="search-back">
+                                <ul>
+                                    <li><a href="#">공지사항</a></li>
+                                    <li><a href="#">행사일정</a></li>
+                                    <li><a href="/books/wishbook">희망도서 신청</a></li>
+                                </ul>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                        >도서관소개
+                            <div class="search-back">
+                                <ul>
+                                    <li><a href="#">인사말</a></li>
+                                    <li><a href="#">휴관일</a></li>
+                                </ul>
+                            </div>
+                        </a>
+                    </li>
+                    <li>
+                        <a href=""
+                        >My Library
+                            <div class="search-back">
+                                <ul>
+                                    <li><a href="/books/rental">대여한 책 조회</a></li>
+                                    <li><a href="/books/bookcheck">반납 이력 조회</a></li>
+                                    <li><a href="/books/overdue">연체 이력 조회</a></li>
+                                    <li><a href="/books/failure">분실 파손 조회</a></li>
+                                    <li><a href="/userInfo">마이페이지</a></li>
+                                </ul>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+                <div class="nav-menu-button">
+                    <a href="">
+                        <img
+                                class="button-m"
+                                src="../../../resources/assets/menu-button.JPG"
+                                alt=""
+                        />
+                    </a>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </body>
+</div>
+</body>
 </html>

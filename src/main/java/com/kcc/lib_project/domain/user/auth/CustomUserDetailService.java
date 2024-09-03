@@ -29,8 +29,8 @@ public class CustomUserDetailService implements UserDetailsService {
       throw new UsernameNotFoundException("User not found with id: " + id);
     }
 
-    System.out.println("아이디 : " + user.getId());
-    System.out.println("비밀번호 : " + user.getPassword());
+//    System.out.println("아이디 : " + user.getId());
+//    System.out.println("비밀번호 : " + user.getPassword());
 
     // 비밀번호 검증
     // if (!validatePassword(rawPassword, user.getPassword())) {

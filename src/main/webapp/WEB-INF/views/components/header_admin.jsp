@@ -1,4 +1,12 @@
+<%@ page import="java.util.Enumeration" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%
+
+  String sessionId = (String) session.getAttribute("id");
+  System.out.println("Session ID: " + sessionId);
+
+%>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -254,7 +262,12 @@
               </div>
             </div>
             <div class="login-signup">
-              <a href="/login">로그인</a>
+              <c:if test="${sessionScope.id==null}">
+                <a href="/login">관리자 로그인</a>
+              </c:if>
+              <c:if test="${sessionScope.id!=null}">
+                <a href="/logout">로그아웃</a>
+              </c:if>
             </div>
           </div>
 
