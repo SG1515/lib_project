@@ -39,5 +39,10 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
         return ownBookMapper.count(type, keyword, page, limit);
     }
 
+    @Override
+    public int tryReserveBook(String callNumber, Long version) {
+        return ownBookMapper.tryReserveBook(callNumber, version);
+    }
+
 
 }

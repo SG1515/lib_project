@@ -10,6 +10,8 @@
         <result property="receiptAt" column="receipt_at"/>
         <result property="status" column="status"/>
         <result property="isbn" column="isbn"/>
+        <result property="isReserved" column="is_reserved"/>
+        <result property="version" column="version"/>
         <collection property="bookVo" resultMap="BookMap"/>
     </resultMap>
 
@@ -33,7 +35,7 @@
 
     <select id="selectOwnBookDetailByCallNumber" parameterType="String" resultMap="ownBookMap">
         <![CDATA[
-        SELECT o.call_number,o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
+        SELECT o.call_number,o.receipt_at, o.status, o.is_reserved, o.version, b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
         FROM own_book o
                  LEFT JOIN book b ON o.isbn = b.isbn
         WHERE o.call_number = #{callNumber}
@@ -122,6 +124,12 @@
         ) sub
         ]]>
     </select>
+
+    <update id="tryReserveBook">
+        UPDATE own_book
+        SET is_reserved = 1, version = version + 1
+        WHERE call_number = #{callNumber} AND version = #{version}
+    </update>
 
 </mapper>
 

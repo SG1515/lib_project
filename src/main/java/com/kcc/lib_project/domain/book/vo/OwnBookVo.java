@@ -15,17 +15,23 @@ public class OwnBookVo {
     private LocalDate receiptAt;
     private String status;
     private Long isbn;
+    private Boolean isReserved;
+    private Long version;
 
     private BookVo bookVo;
 
     @Builder
-    public OwnBookVo(BookVo bookVo, String callNumber, Long isbn, LocalDate receiptAt, String status) {
+    public OwnBookVo(BookVo bookVo, String callNumber, Long isbn, Boolean isReserved, LocalDate receiptAt, String status, Long version) {
         this.bookVo = bookVo;
         this.callNumber = callNumber;
         this.isbn = isbn;
+        this.isReserved = isReserved;
         this.receiptAt = receiptAt;
         this.status = status;
+        this.version = version;
     }
+
+
 
     public static OwnBookVo from(BookVo bookVo) {
 
@@ -36,6 +42,8 @@ public class OwnBookVo {
                 .isbn(bookVo.getIsbn())
                 .receiptAt(LocalDate.now())
                 .status(Status.AVAILABLE.toString())
+                .isReserved(false)
+                .version(1L)
                 .build();
     }
 }
