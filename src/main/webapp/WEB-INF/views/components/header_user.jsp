@@ -1,6 +1,10 @@
+
 <%@ page import="java.util.Enumeration" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 <%
     String sessionId = (String) session.getAttribute("id");
     System.out.println("Session ID: " + sessionId);
@@ -265,13 +269,14 @@
                     </div>
                 </div>
                 <div class="login-signup">
-                    <c:if test="${sessionScope.id == null}">
+                    <sec:authorize access="isAnonymous()">
                         <a href="/signup">회원가입</a>
                         <a href="/login">로그인</a>
-                    </c:if>
-                    <c:if test="${sessionScope.id != null}">ㄴ
+                    </sec:authorize>
+
+                    <sec:authorize access="isAuthenticated()">
                         <a href="/logout">로그아웃</a>
-                    </c:if>
+                    </sec:authorize>
 
                 </div>
             </div>
