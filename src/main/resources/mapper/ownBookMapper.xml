@@ -27,7 +27,8 @@
     </resultMap>
 
     <insert id="createOwnBook" parameterType="OwnBookVo">
-        INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES (#{callNumber}, #{receiptAt}, #{status}, #{isbn})
+        INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES (#{callNumber}, #{receiptAt}, #{status},
+        #{isbn})
     </insert>
 
     <select id="selectOwnBookDetailByCallNumber" parameterType="String" resultMap="ownBookMap">
@@ -62,6 +63,63 @@
                           order by cnt desc
                       )
         WHERE ROWNUM <= 10
+        ]]>
+    </select>
+
+    <select id="selectOwnBooksByPageAndTypeAndKeyword" parameterType="map" resultMap="ownBookMap">
+        <![CDATA[
+        SELECT * FROM (
+            SELECT sub.*, ROWNUM rnum FROM (
+                SELECT o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+                       b.publication_year, b.page_size, b.category_number, b.image_url,count(l.call_number) AS cnt, DBMS_LOB.SUBSTR(b.contents, 1500, 1) AS contents,
+                     DBMS_LOB.SUBSTR(b.book_index, 1500, 1) AS book_index
+                FROM own_book o
+                    LEFT JOIN book b ON o.isbn = b.isbn
+                    LEFT JOIN loan l ON o.call_number = l.call_number
+                WHERE 1=1
+                    ]]>
+        <if test='!keyword.equals("")'>
+            AND b.title LIKE '%'||#{keyword}||'%'
+        </if>
+        GROUP BY o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+        b.publication_year, b.page_size, b.category_number, b.image_url, DBMS_LOB.SUBSTR(b.contents, 1500, 1),
+        DBMS_LOB.SUBSTR(b.book_index, 1500, 1)
+        <choose>
+            <when test='type == "최신순"'>
+                ORDER BY b.publication_year DESC
+            </when>
+            <when test='type == "인기순"'>
+                ORDER BY cnt DESC
+            </when>
+            <otherwise>
+                ORDER BY b.title
+            </otherwise>
+        </choose>
+        ) sub
+        <![CDATA[
+            WHERE ROWNUM <= #{limit} + #{offset}
+        ) WHERE rnum > #{offset}
+        ]]>
+    </select>
+
+    <select id="count" parameterType="map" resultType="Long">
+        <![CDATA[
+        SELECT count(*) FROM (
+            SELECT o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+                   b.publication_year, b.page_size, b.category_number, b.image_url,count(l.call_number) AS cnt, DBMS_LOB.SUBSTR(b.contents, 1000, 1) AS contents,
+                     DBMS_LOB.SUBSTR(b.book_index, 1000, 1) AS bookIndex
+            FROM own_book o
+                LEFT JOIN book b ON o.isbn = b.isbn
+                LEFT JOIN loan l ON o.call_number = l.call_number
+            WHERE 1=1
+                ]]>
+        <if test='!keyword.equals("")'>
+            AND b.title LIKE '%'||#{keyword}||'%'
+        </if>
+        <![CDATA[
+        GROUP BY o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+                 b.publication_year, b.page_size, b.category_number, b.image_url, DBMS_LOB.SUBSTR(b.contents, 1000, 1), DBMS_LOB.SUBSTR(b.book_index, 1000, 1)
+        ) sub
         ]]>
     </select>
 

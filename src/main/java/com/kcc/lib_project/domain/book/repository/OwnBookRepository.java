@@ -10,4 +10,6 @@ public interface OwnBookRepository {
     Optional<OwnBookVo> selectOwnBookDetailByCallNumber(String callNumber);
     List<OwnBookVo> selectRecentlyTopTenOwnBooks();
     List<OwnBookVo> selectPopularTopTenOwnBooks();
+    List<OwnBookVo> selectOwnBooksByPageAndTypeAndKeyword(String type, String keyword, int page, int limit, long offset);
+    Long count(String type, String keyword, int page, int limit);
 }

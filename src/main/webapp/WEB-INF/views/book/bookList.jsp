@@ -1,4 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %> <%@taglib
+prefix="c" uri="http://java.sun.com/jsp/jstl/core"%> <%@ taglib prefix="fn"
+uri="http://java.sun.com/jsp/jstl/functions"%>
 <jsp:include page="/WEB-INF/views/components/header_user.jsp" />
 <!DOCTYPE html>
 <html lang="en">
@@ -46,7 +48,7 @@
       }
 
       body {
-        background: #eee;
+        background: #ffffff;
         font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
         font-size: 14px;
         color: #000;
@@ -136,6 +138,11 @@
         height: 100%; /* 컨테이너 높이에 맞춤 */
         object-fit: cover; /* 이미지 비율을 유지하면서 컨테이너를 완전히 채움 */
       }
+
+      .bookRow {
+        border-bottom: 1px solid #e5e5e5;
+        padding-bottom: 10px;
+      }
     </style>
     <title>Document</title>
   </head>
@@ -161,11 +168,16 @@
               <input
                 type="text"
                 class="form-control"
+                id="searchInput"
                 placeholder="검색어를 입력하세요"
               />
             </div>
             <div class="col-2">
-              <button class="btn btn-outline-secondary" type="button">
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                id="searchButton"
+              >
                 <i class="bi bi-search"></i>
               </button>
             </div>
@@ -177,6 +189,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault1"
+                value="인기순"
               />
               <label class="form-check-label" for="flexRadioDefault1">
                 인기순
@@ -188,7 +201,7 @@
                 type="radio"
                 name="flexRadioDefault"
                 id="flexRadioDefault2"
-                checked
+                value="최신순"
               />
               <label class="form-check-label" for="flexRadioDefault2">
                 최신순
@@ -196,192 +209,112 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-10 announceTitle">
+            <div class="col-12 announceTitle">
               <p class="boxTitle">
-                총 검색결과 (<span class="totalSearchCnt">200</span>)
+                총 검색결과 (<span class="totalSearchCnt"
+                  >${bookPageDto.totalCount}</span
+                >)
               </p>
             </div>
           </div>
           <div class="bookList">
             <div class="row">
               <div class="col-12">
-                <div class="row">
-                  <div class="col-1">1</div>
-                  <div class="col-4 bookCover">
-                    <img
-                      src="https://image.aladin.co.kr/product/1354/64/cover/8958781432_1.jpg"
-                      alt="강산"
-                      onerror="this.src='/common/image/noimage.png'"
-                    />
-                  </div>
-                  <div class="col-6 ms-5">
-                    <div class="row">
-                      <div class="col-12 bookTitleArea">
-                        <a href="/search/1">[레이크펜레디움 작은도서관] 강산</a>
-                      </div>
-                      <div class="col-12">재미난책보</div>
-                      <div class="col-12">어린이아현</div>
-                      <div class="col-12">2020/12/12</div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                          data-title="초록"
-                        >
-                          초록
-                        </button>
-                      </div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          data-title="목차"
-                        >
-                          목차
-                        </button>
+                <c:forEach
+                  items="${bookPageDto.bookSimpleDtoList}"
+                  var="book"
+                  varStatus="status"
+                >
+                  <div class="row bookRow">
+                    <div class="col-1">${status.index + 1}</div>
+                    <div class="col-4 bookCover">
+                      <img
+                        src="${book.imageUrl}"
+                        alt="${book.title}"
+                        onerror="this.src='/common/image/noimage.png'"
+                      />
+                    </div>
+                    <div class="col-6 ms-5">
+                      <div class="row">
+                        <div class="col-12 bookTitleArea">
+                          <a href="/search/${book.callNumber}">${book.title}</a>
+                        </div>
+                        <div class="col-12">${book.author}</div>
+                        <div class="col-12">${book.publisher}</div>
+                        <div class="col-12">${book.publicationYear}</div>
+                        <div class="col-2 summaryButtonArea">
+                          <button
+                            class="btn btn-outline-secondary btn-sm"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#summaryModal"
+                            data-title="${book.title}"
+                            data-content="${book.contents}"
+                          >
+                            초록
+                          </button>
+                        </div>
+                        <div class="col-2 summaryButtonArea">
+                          <button
+                            class="btn btn-outline-secondary btn-sm"
+                            type="button"
+                            data-toggle="modal"
+                            data-target="#summaryModal"
+                            data-title="${book.title}"
+                            data-content="${book.bookIndex}"
+                          >
+                            목차
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="col-1">1</div>
-                  <div class="col-4 bookCover">
-                    <img
-                      src="https://image.aladin.co.kr/product/1581/37/cover/896142744x_1.jpg"
-                      alt="강산"
-                      onerror="this.src='/common/image/noimage.png'"
-                    />
-                  </div>
-                  <div class="col-6 ms-5">
-                    <div class="row">
-                      <div class="col-12 bookTitleArea">
-                        <a href="">[레이크펜레디움 작은도서관] 강산</a>
-                      </div>
-                      <div class="col-12">재미난책보</div>
-                      <div class="col-12">어린이아현</div>
-                      <div class="col-12">2020/12/12</div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          초록
-                        </button>
-                      </div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                        >
-                          목차
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-1">1</div>
-                  <div class="col-4 bookCover">
-                    <img
-                      src="https://image.aladin.co.kr/product/1354/64/cover/8958781432_1.jpg"
-                      alt="강산"
-                      onerror="this.src='/common/image/noimage.png'"
-                    />
-                  </div>
-                  <div class="col-6 ms-5">
-                    <div class="row">
-                      <div class="col-12 bookTitleArea">
-                        <a href="search/1">[레이크펜레디움 작은도서관] 강산</a>
-                      </div>
-                      <div class="col-12">재미난책보</div>
-                      <div class="col-12">어린이아현</div>
-                      <div class="col-12">2020/12/12</div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          초록
-                        </button>
-                      </div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                        >
-                          목차
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-1">1</div>
-                  <div class="col-4 bookCover">
-                    <img
-                      src="https://image.aladin.co.kr/product/1354/64/cover/8958781432_1.jpg"
-                      alt="강산"
-                      onerror="this.src='/common/image/noimage.png'"
-                    />
-                  </div>
-                  <div class="col-6 ms-5">
-                    <div class="row">
-                      <div class="col-12 bookTitleArea">
-                        <a href="">[레이크펜레디움 작은도서관] 강산</a>
-                      </div>
-                      <div class="col-12">재미난책보</div>
-                      <div class="col-12">어린이아현</div>
-                      <div class="col-12">2020/12/12</div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                          data-dismiss="modal"
-                        >
-                          초록
-                        </button>
-                      </div>
-                      <div class="col-2 summaryButtonArea">
-                        <button
-                          class="btn btn-outline-secondary btn-sm"
-                          type="button"
-                        >
-                          목차
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                </c:forEach>
               </div>
             </div>
           </div>
           <div class="row page">
             <nav aria-label="Page navigation example">
               <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
+                <li
+                  class="page-item ${bookPageDto.currentPage == 1 ? 'disabled' : ''}"
+                >
                   <a
                     class="page-link"
-                    href="#"
-                    tabindex="-1"
-                    aria-disabled="true"
+                    href="?page=${(bookPageDto.currentPage - 1)}"
                     >Previous</a
                   >
                 </li>
-                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item"><a class="page-link" href="#">4</a></li>
-                <li class="page-item"><a class="page-link" href="#">5</a></li>
-                <li class="page-item"><a class="page-link" href="#">6</a></li>
-                <li class="page-item"><a class="page-link" href="#">7</a></li>
-                <li class="page-item"><a class="page-link" href="#">8</a></li>
-                <li class="page-item"><a class="page-link" href="#">9</a></li>
-                <li class="page-item"><a class="page-link" href="#">10</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
+
+                <c:forEach
+                  var="pageNum"
+                  begin="${bookPageDto.startPage}"
+                  end="${bookPageDto.endPage}"
+                >
+                  <li
+                    class="page-item ${pageNum == bookPageDto.currentPage ? 'active' : ''}"
+                  >
+                    <c:url var="pageUrl" value="">
+                      <c:param name="page" value="${pageNum}" />
+                      <c:param name="type" value="${param.type}" />
+                      <c:param name="limit" value="${param.limit}" />
+                      <c:param
+                        name="keyword"
+                        value="${fn:escapeXml(param.keyword)}"
+                      />
+                    </c:url>
+                    <a class="page-link" href="${pageUrl}">${pageNum}</a>
+                  </li>
+                </c:forEach>
+
+                <li
+                  class="page-item ${bookPageDto.currentPage == bookPageDto.realEndPage ? 'disabled' : ''}"
+                >
+                  <a
+                    class="page-link"
+                    href="?page=${(bookPageDto.currentPage + 1)}"
+                    >Next</a
+                  >
                 </li>
               </ul>
             </nav>
@@ -396,7 +329,7 @@
       aria-labelledby="summaryModalLabel"
       aria-hidden="true"
     >
-      <div class="modal-dialog modal-lg">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="summaryModalLabel">초록</h5>
@@ -418,14 +351,57 @@
       $(document).ready(function () {
         $(".summaryButtonArea button").click(function () {
           var title = $(this).data("title"); // 버튼에서 data-title 값을 가져옴
-          $("#summaryModalLabel").text(title); // 모달의 제목을 업데이트
-          $("#summaryModal").modal("show"); // 모달 표시
-        });
+          var content = $(this).data("content"); // 버튼에서 data-content 값을 가져옴
 
+          console.log(content);
+
+          // 모달의 제목과 내용을 업데이트
+          $("#summaryModalLabel").text(title);
+          $("#summaryModal .modal-body").text(content);
+
+          // 모달 표시
+          $("#summaryModal").modal("show");
+        });
         $('.btn-secondary[data-dismiss="modal"]').on("click", function () {
           $("#summaryModal").modal("hide"); // 모달 숨기기
         });
+
+        document
+          .getElementById("searchButton")
+          .addEventListener("click", function () {
+            let inputKeyword = document.getElementById("searchInput").value; // 입력 필드로부터 검색어를 가져옴
+            let currentUrl = new URL(window.location.href); // 현재 페이지의 URL을 가져옴
+            let searchParams = currentUrl.searchParams; // URL의 검색 파라미터 객체를 가져옴
+
+            // 검색 파라미터에 keyword 값을 추가하거나 변경
+            searchParams.set("keyword", inputKeyword);
+            searchParams.set("page", 1); // 검색어를 변경하면 페이지를 1로 초기화
+            searchParams.set(
+              "type",
+              document.querySelector('input[name="flexRadioDefault"]:checked')
+                .value
+            );
+
+            // 변경된 URL로 페이지를 이동
+            window.location.href = currentUrl.toString();
+          });
+
+        var urlParams = new URLSearchParams(window.location.search);
+        var type = urlParams.get("type"); // 'type' 쿼리 파라미터 값 가져오기
+
+        // 모든 라디오 버튼의 체크를 초기화합니다.
+        $('input[name="flexRadioDefault"]').prop("checked", false);
+
+        // 해당하는 라디오 버튼을 선택합니다.
+        if (type) {
+          $('input[name="flexRadioDefault"][value="' + type + '"]').prop(
+            "checked",
+            true
+          );
+        }
       });
     </script>
+
   </body>
+
 </html>
