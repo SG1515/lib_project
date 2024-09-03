@@ -550,4 +550,6 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
       });
     </script>
   </body>
+  <jsp:include page="/WEB-INF/views/components/footer.jsp" />
+
 </html>
