@@ -266,7 +266,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
                   <td width="120" style="color: blue">
                     ${bookDetailDto.status}
-                    <c:if test="${bookDetailDto.status == '대출가능'}">
+                    <c:if test="${bookDetailDto.status == '대출중' && !bookDetailDto.isReserved}">
                       <!-- 예약하기 버튼 추가 -->
                       <button
                         class="btn btn-primary"

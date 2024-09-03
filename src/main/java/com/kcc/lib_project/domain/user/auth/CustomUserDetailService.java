@@ -27,7 +27,7 @@ public class CustomUserDetailService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-    UserDto user = userMapper.getUserById(id);
+    UserDto user = userMapper.getUserById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
     if (user == null) {
       throw new UsernameNotFoundException("User not found with id: " + id);
