@@ -10,7 +10,6 @@
         values(#{isbn}, #{title}, #{author}, #{publisher}, #{publicationYear, jdbcType=DATE, typeHandler=org.apache.ibatis.type.LocalDateTypeHandler}
               , #{pageSize}, #{categoryNumber}, #{contents}, #{bookIndex}, #{imageUrl})
     </insert>
-
 </mapper>
 
 

@@ -1,10 +1,7 @@
 package com.kcc.lib_project.domain.book.vo;
 
 import com.kcc.lib_project.global.util.CallNumberGenerator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -14,20 +11,31 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class OwnBookVo {
 
-    String callNumber;
-    LocalDate receiptAt;
-    String status;
-    Long isbn;
+    private String callNumber;
+    private LocalDate receiptAt;
+    private String status;
+    private Long isbn;
+
+    private BookVo bookVo;
+
+    @Builder
+    public OwnBookVo(BookVo bookVo, String callNumber, Long isbn, LocalDate receiptAt, String status) {
+        this.bookVo = bookVo;
+        this.callNumber = callNumber;
+        this.isbn = isbn;
+        this.receiptAt = receiptAt;
+        this.status = status;
+    }
 
     public static OwnBookVo from(BookVo bookVo) {
 
         String callNumber = CallNumberGenerator.generateCallNumber();
 
-        return new OwnBookVo(
-                callNumber,
-                LocalDate.now(),
-                Status.AVAILABLE.toString(),
-                bookVo.getIsbn()
-        );
+        return OwnBookVo.builder()
+                .callNumber(callNumber)
+                .isbn(bookVo.getIsbn())
+                .receiptAt(LocalDate.now())
+                .status(Status.AVAILABLE.toString())
+                .build();
     }
 }

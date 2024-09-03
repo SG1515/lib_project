@@ -5,9 +5,65 @@
 
 <mapper namespace="com.kcc.lib_project.domain.book.mapper.OwnBookMapper">
 
+    <resultMap id="ownBookMap" type="OwnBookVo">
+        <result property="callNumber" column="call_number"/>
+        <result property="receiptAt" column="receipt_at"/>
+        <result property="status" column="status"/>
+        <result property="isbn" column="isbn"/>
+        <collection property="bookVo" resultMap="BookMap"/>
+    </resultMap>
+
+    <resultMap id="BookMap" type="BookVo">
+        <result property="isbn" column="isbn"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="publisher" column="publisher"/>
+        <result property="publicationYear" column="publication_year"/>
+        <result property="pageSize" column="page_size"/>
+        <result property="categoryNumber" column="category_number"/>
+        <result property="contents" column="contents"/>
+        <result property="bookIndex" column="book_index"/>
+        <result property="imageUrl" column="image_url"/>
+    </resultMap>
+
     <insert id="createOwnBook" parameterType="OwnBookVo">
         INSERT INTO own_book (call_number, receipt_at, status, isbn) VALUES (#{callNumber}, #{receiptAt}, #{status}, #{isbn})
     </insert>
+
+    <select id="selectOwnBookDetailByCallNumber" parameterType="String" resultMap="ownBookMap">
+        <![CDATA[
+        SELECT o.call_number,o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
+        FROM own_book o
+                 LEFT JOIN book b ON o.isbn = b.isbn
+        WHERE o.call_number = #{callNumber}
+        ]]>
+    </select>
+
+    <select id="selectRecentlyTopTenOwnBooks" resultMap="ownBookMap">
+        <![CDATA[
+        SELECT * FROM (
+                          SELECT o.call_number, b.title, b.image_url
+                          FROM own_book o
+                                   LEFT JOIN book b ON o.isbn = b.isbn
+                          order by b.publication_year desc
+                      )
+        WHERE ROWNUM <= 10
+        ]]>
+    </select>
+
+    <select id="selectPopularTopTenOwnBooks" resultMap="ownBookMap">
+        <![CDATA[
+        SELECT * FROM (
+                          SELECT o.call_number, b.title, b.image_url, count(l.call_number) AS cnt
+                          FROM loan l
+                                   LEFT JOIN own_book o ON l.call_number = o.call_number
+                                   LEFT JOIN book b ON o.isbn = b.isbn
+                          group by o.call_number, b.title, b.image_url
+                          order by cnt desc
+                      )
+        WHERE ROWNUM <= 10
+        ]]>
+    </select>
 
 </mapper>
 

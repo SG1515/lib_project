@@ -1,12 +1,18 @@
 package com.kcc.lib_project.test_controller;
 
+import com.kcc.lib_project.domain.book.dto.BookTopTenDto;
+import com.kcc.lib_project.domain.book.service.OwnBookService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @Controller
+@RequiredArgsConstructor
 public class TestController {
+
+	private final OwnBookService ownBookService;
 
 	@GetMapping("/admin")
 	public String testView_admin() {
@@ -14,8 +20,10 @@ public class TestController {
 	}
 
 	@GetMapping("/")
-	public String getMethodName() {
+	public String getMethodName(Model model) {
+		BookTopTenDto topTenBooks = ownBookService.getTopTenOwnBooks();
+		model.addAttribute("topTenBooks", topTenBooks);
 		return "main";
 	}
-	
+
 }

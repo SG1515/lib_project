@@ -12,9 +12,9 @@ public class CallNumberGenerator {
             char letter1 = (char) ('A' + random.nextInt(26));
             char letter2 = (char) ('A' + random.nextInt(26));
             char letter3 = (char) ('A' + random.nextInt(26));
-            int numbers = random.nextInt(100000);  // 0에서 99999 사이의 숫자
+            int numbers = random.nextInt(1000000);
 
-            callNumber = String.format("%c%c%c %05d", letter1, letter2, letter3, numbers);
+            callNumber = String.format("%c%c%c%05d", letter1, letter2, letter3, numbers);
 
         return callNumber;
     }

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kcc.lib_project.domain.loan.mapper.LoanMapper">
+
+    <select id="selectLoanByCallNumber" parameterType="String" resultType="LoanVo">
+        <![CDATA[
+        SELECT call_number AS callNumber, started_at AS startedAt, ended_at AS endedAt, is_returned AS isReturned, extention_count AS extentionCount, user_id AS userId, call_number AS callNumber
+        FROM loan
+        WHERE is_returned = 0 and call_number = #{callNumber}
+        ]]>
+    </select>
+
+</mapper>
+
+
+
+
