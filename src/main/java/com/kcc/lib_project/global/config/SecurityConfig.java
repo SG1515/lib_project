@@ -37,8 +37,15 @@ public class SecurityConfig {
             .loginPage("/login")
             .loginProcessingUrl("/login")
             .usernameParameter("id")
-            .passwordParameter("password")
-            .defaultSuccessUrl("/", true));
+            .passwordParameter("password"));
+   http
+            .formLogin(form -> form
+          .loginPage("/admin/login")  // 관리자 로그인 페이지
+          .loginProcessingUrl("/admin/login")  // 관리자 로그인 요청 처리 URL
+          .usernameParameter("id")
+          .passwordParameter("password")
+          .defaultSuccessUrl("/admin/adminMain", true)  // 관리자 로그인 성공 시 이동할 URL
+          .permitAll());
     http
         .logout(logout -> logout
             .logoutUrl("/logout")

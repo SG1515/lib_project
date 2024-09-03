@@ -174,7 +174,7 @@
                         text: "홈페이지로 이동합니다.",
                     }).then(() => {
                         // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
-                        window.location.href = "/";
+                        window.location.href = "/admin/";
                     });
                 })
                 .catch((error) => {

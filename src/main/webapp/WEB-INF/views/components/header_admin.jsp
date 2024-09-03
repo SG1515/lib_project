@@ -270,7 +270,7 @@
               </sec:authorize>
 
               <sec:authorize access="isAuthenticated()">
-                <a href="/logout">로그아웃</a>
+                <a href="/admin/logout">로그아웃</a>
               </sec:authorize>
             </div>
           </div>
