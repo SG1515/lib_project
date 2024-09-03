@@ -1,6 +1,9 @@
 package com.kcc.lib_project.domain.user.auth;
 
 import com.kcc.lib_project.domain.user.dto.UserDto;
+import com.kcc.lib_project.domain.user.vo.UserRole;
+import jakarta.validation.Valid;
+import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -14,7 +17,18 @@ public class UserDetail implements UserDetails {
 
   public UserDetail(UserDto userDto) {
     this.userDto = userDto;
+    //생성될 때 admin이면 Role을 설정해주기.
+    if(userDto.getId().equals("admin")){
+      userDto.setRole(UserRole.ROLE_ADMIN.getRole());
+    }
+    System.out.println(userDto.getRole());
   }
+
+  // 추가된 getRole() 메서드
+  public String getRole() {
+    return userDto.getRole();
+  }
+
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -52,4 +66,5 @@ public class UserDetail implements UserDetails {
   public boolean isEnabled() {
     return true;
   }
+
 }

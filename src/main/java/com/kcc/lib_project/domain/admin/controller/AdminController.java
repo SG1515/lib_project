@@ -2,6 +2,7 @@ package com.kcc.lib_project.domain.admin.controller;
 
 
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
+import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -38,11 +39,21 @@ public class AdminController {
     public String loginPost(@RequestParam String id, @RequestParam String password, Model model,
                             HttpServletRequest request, RedirectAttributes ra) {
         UserDetails userDetails = customUserDetailService.loadUserByUsername(id);
+        String loginRole = ((UserDetail) userDetails).getRole();
 
+        //로그인 유저의 admin여부 검사로직
+        if(!loginRole.equals("admin")) {
+            model.addAttribute("error", "admin page only login admin");
+            return "admin/login";
+        }
+
+        //패스워드 검사로직
         if (!customUserDetailService.validatePassword(password, userDetails.getPassword())) {
             model.addAttribute("error", "Invalid username or password");
-            return "user/login";
+            return "admin/login";
         }
+
+
 
         HttpSession session = request.getSession();
         session.setAttribute("id", id);
