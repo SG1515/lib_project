@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import jakarta.servlet.http.HttpSession;
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
@@ -36,6 +38,18 @@ public class SecurityConfig {
             .usernameParameter("id")
             .passwordParameter("password")
             .defaultSuccessUrl("/", true));
+    http
+        .logout(logout -> logout
+            .logoutUrl("/logout")
+            .logoutSuccessUrl("/")
+            .addLogoutHandler((request, response, authentication) -> {
+              HttpSession session = request.getSession();
+              session.invalidate();
+            })
+            // 로그아웃 성공 핸들러 추가 (리다이렉션 처리)
+            .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/login"))
+            // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
+            .deleteCookies("remember-me"));
 
     return http.build();
   }

@@ -55,4 +55,10 @@ public class UserController {
     return "redirect:/";
   }
 
+  @PostMapping("/logout")
+  public String logout() {
+
+    return "redirect:/";
+  }
+
 }
