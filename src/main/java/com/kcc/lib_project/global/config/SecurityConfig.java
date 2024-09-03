@@ -47,7 +47,7 @@ public class SecurityConfig {
               session.invalidate();
             })
             // 로그아웃 성공 핸들러 추가 (리다이렉션 처리)
-            .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/login"))
+            .logoutSuccessHandler((request, response, authentication) -> response.sendRedirect("/"))
             // 로그아웃 시 쿠키 삭제 설정 (예: "remember-me" 쿠키 삭제)
             .deleteCookies("remember-me"));
 
