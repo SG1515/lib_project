@@ -323,10 +323,10 @@
                         >My Library
                             <div class="search-back">
                                 <ul>
-                                    <li><a href="/books/rental">대여한 책 조회</a></li>
-                                    <li><a href="/books/bookcheck">반납 이력 조회</a></li>
-                                    <li><a href="/books/overdue">연체 이력 조회</a></li>
-                                    <li><a href="/books/failure">분실 파손 조회</a></li>
+                                    <li><a href="/user/books/rental">대여한 책 조회</a></li>
+                                    <li><a href="/user/books/bookcheck">반납 이력 조회</a></li>
+                                    <li><a href="/user/books/overdue">연체 이력 조회</a></li>
+                                    <li><a href="/user/books/failure">분실 파손 조회</a></li>
                                     <li><a href="/user/profile">마이페이지</a></li>
                                 </ul>
                             </div>

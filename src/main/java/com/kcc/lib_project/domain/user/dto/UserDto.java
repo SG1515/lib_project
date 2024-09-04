@@ -18,7 +18,10 @@ public class UserDto {
   private String password;
   private String role = UserRole.ROLE_USER.getRole();
   private String name;
+  @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+          + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
   private String email;
+//  @Pattern(regexp = "^(19[5-9]\\d|20[0-2]\\d)-(0[1-9]|1[0-2])-(0[1-9]|[12]\\d|3[01])$\n")
   private String birth;
   @Pattern(regexp = "(([가-힣]|\\\\d)+(시 ))+(([가-힣]|\\\\d)+(구))")
   private String address;
