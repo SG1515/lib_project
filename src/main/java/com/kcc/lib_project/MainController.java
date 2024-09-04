@@ -25,6 +25,7 @@ public class MainController {
 	public String getMethodName(Model model) {
 		BookTopTenDto topTenBooks = ownBookService.getTopTenOwnBooks();
 		model.addAttribute("topTenBooks", topTenBooks);
+
 		return "main";
 	}
 

@@ -29,8 +29,8 @@ public class CustomUserDetailService implements UserDetailsService {
   public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
     UserDto user = userMapper.getUserById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
+    //null처리로 alert활성화
     if (user == null) {
-
       return null;
     }
 
