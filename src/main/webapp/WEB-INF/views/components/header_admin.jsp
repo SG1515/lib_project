@@ -1,6 +1,7 @@
 <%@ page import="java.util.Enumeration" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
@@ -27,7 +28,7 @@
     <style>
       @font-face {
         font-family: "TMON";
-        src: url("./SB_M.ttf");
+        src: url("https://cdn.jsdelivr.net/gh/websfont/tmon/tmon.eot");
       }
 
       .nav {
@@ -61,6 +62,7 @@
         height: 45px;
       }
       .logo {
+
         display: flex;
       }
 
@@ -70,11 +72,11 @@
       }
 
       .logo .logo-title {
-        font-family: "TMON";
+        font-family: "Tmon몬소리 Black";
         font-weight: bold;
         font-size: 24px;
         margin-left: 10px;
-        margin-top: 10px;
+        margin-top: 15px;
       }
 
       .login-signup {
@@ -112,7 +114,7 @@
         display: block;
         width: 100%;
         font-weight: bold;
-        color: #543333;
+        color: #000;
         margin-top: 5px;
         font-size: 1.1rem;
         text-decoration: none;
@@ -128,7 +130,7 @@
       .nav-menu-all > li > a:after {
         content: "";
         position: absolute;
-        border-bottom: 3px solid #000;
+        border-bottom: 2px solid #000;
         width: 0;
         left: 50%;
         top: 25px; /*밑줄 위치 */
@@ -232,6 +234,7 @@
         font-weight: bold;
         text-decoration: none;
       }
+
     </style>
 
     <link

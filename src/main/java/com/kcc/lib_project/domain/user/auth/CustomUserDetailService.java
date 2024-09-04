@@ -30,16 +30,13 @@ public class CustomUserDetailService implements UserDetailsService {
     UserDto user = userMapper.getUserById(id).orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
 
     if (user == null) {
-      throw new UsernameNotFoundException("User not found with id: " + id);
+      return null;
     }
 
-//    System.out.println("아이디 : " + user.getId());
-//    System.out.println("비밀번호 : " + user.getPassword());
+    System.out.println("아이디 : " + user.getId());
+    System.out.println("비밀번호 : " + user.getPassword());
 
-    // 비밀번호 검증
-    // if (!validatePassword(rawPassword, user.getPassword())) {
-    // throw new BadCredentialsException("Invalid password");
-    // }
+
 
     return new UserDetail(user);
   }
