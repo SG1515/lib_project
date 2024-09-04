@@ -41,7 +41,7 @@ public class ReserveService {
     private void updateVersionAndLockCheck(String callNumber, OwnBookVo ownBookVo) {
         int affectedRows = ownBookRepository.tryReserveBook(callNumber, ownBookVo.getVersion());
         if (affectedRows == 0) {
-            throw new BadRequestException("이미 예약된 도서입니다.");
+            throw new BadRequestException("이미 예약 시도 중인 사람이 있습니다.");
         }
     }
 
@@ -52,6 +52,10 @@ public class ReserveService {
         if (ownBookVo.getIsReserved()) {
             throw new BadRequestException("이미 예약된 도서입니다.");
         }
+    }
+
+    public int isReserved(String callNumber) {
+        return reserveRepository.isReserved(callNumber);
     }
 
 
