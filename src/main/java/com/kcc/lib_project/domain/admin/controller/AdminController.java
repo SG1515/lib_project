@@ -140,4 +140,13 @@ public class AdminController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/admin/books/loan")
+    public String checkOutBook(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        String id = userDetails.getUsername();
+
+
+
+        return "admin/loan";
+    }
 }
