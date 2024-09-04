@@ -1,12 +1,8 @@
 package com.kcc.lib_project.domain.user.dto;
 
 import com.kcc.lib_project.domain.user.vo.UserRole;
-import com.kcc.lib_project.domain.user.vo.UserVo;
 import jakarta.validation.constraints.Pattern;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
 
@@ -15,6 +11,7 @@ import org.apache.ibatis.javassist.tools.framedump;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class SignupDto {
     private String id;
     private String password;

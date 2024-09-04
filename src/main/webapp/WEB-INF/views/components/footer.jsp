@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -68,7 +70,9 @@
                         <li><a href="#">휴관일</a></li>
                         <li><a href="#" class="font-weight-bold text-danger">개인정보처리방침</a></li>
                         <li><a href="#">이메일주소 무단수집거부</a></li>
-                        <li><a href="/admin/login" class="font-weight-bold">관리자 로그인</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li><a href="/admin/main" class="font-weight-bold" style="color: darkred; font-weight: bold">관리자 페이지로 이동</a>  </li>
+                        </sec:authorize>
                     </ul>
                 </div>
 

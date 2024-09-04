@@ -18,4 +18,6 @@ public interface UserMapper {
   Optional<UserDto> getUserById(String id);
 
   Optional<UserVo> getUserVoById(String id);
+
+  void updateUser(UserDto userDto);
 }

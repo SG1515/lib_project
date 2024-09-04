@@ -91,7 +91,7 @@
 <div class="login-container">
     <div class="login-box">
         <h2>관리자 로그인</h2>
-        <form method="post" action="/login" id="login-form">
+        <form method="post" action="/admin/login" id="login-form">
             <div class="mb-3">
                 <input
                         type="text"
@@ -174,7 +174,7 @@
                         text: "홈페이지로 이동합니다.",
                     }).then(() => {
                         // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
-                        window.location.href = "/admin/";
+                        window.location.href = "/admin/main";
                     });
                 })
                 .catch((error) => {
