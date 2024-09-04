@@ -20,7 +20,7 @@
             justify-content: center;
             align-items: center;
             width: 40rem;
-            height: 42rem;
+            height: 45rem;
             margin: 200px auto;
             padding: 2rem;
             border: 1px solid #ccc;
@@ -116,12 +116,22 @@
         label {
             font-weight: bold;
         }
+
+        .checkPassowrd{
+            margin-left: 200px;
+        }
+
+        .user-info h3 {
+            margin-bottom: 1rem;
+            color: #333;
+            font-weight: 800;
+        }
     </style>
 </head>
 <body>
 <div class="user-info">
     <div class="user-info-inner">
-        <h3 class="mt-3">회원 정보</h3>
+        <h3 class="mt-3 ">회원 정보</h3>
         <div class="icon-size"><img src="../../../resources/assets/icon.png" alt="Icon"></div>
         <p>${username}</p>
         <form action="/user/profile/update" method="post">
@@ -138,6 +148,10 @@
                     <input type="password" id="confirmPassword" name="confirmPassword" placeholder="비밀번호를 다시 입력해주세요." required />
                     <button type="button" class="toggle-password" onclick="togglePassword('confirmPassword')">&#128065;</button>
                 </div>
+            </div>
+            <div>
+                <div id="message" class="message checkPassowrd"></div>
+                <button type="button" class="btn btn-secondary" onclick="checkPasswords()">비밀번호 확인</button>
             </div>
             <div>
                 <label for="name">이름:</label>
@@ -159,7 +173,7 @@
                 <label for="phone">전화번호:</label>
                 <input type="text" id="phone" name="phone" value="${phone}">
             </div>
-            <button type="submit">수정</button>
+            <button type="submit" id="submitBtn" class="btn btn-secondary btn-disabled" disabled>수정</button>
         </form>
         <p>${message}</p>
     </div>
@@ -170,6 +184,25 @@
         const field = document.getElementById(fieldId);
         const type = field.getAttribute('type') === 'password' ? 'text' : 'password';
         field.setAttribute('type', type);
+    }
+
+    function checkPasswords() {
+        const password = document.getElementById('newPassword').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+        const message = document.getElementById('message');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if (password === confirmPassword) {
+            message.textContent = '비밀번호가 일치합니다.';
+            message.style.color = 'green';
+            submitBtn.classList.remove('btn-disabled');
+            submitBtn.disabled = false;
+        } else {
+            message.textContent = '비밀번호가 일치하지 않습니다.';
+            message.style.color = 'red';
+            submitBtn.classList.add('btn-disabled');
+            submitBtn.disabled = true;
+        }
     }
 </script>
 </body>

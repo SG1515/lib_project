@@ -60,6 +60,7 @@ public class UserController {
     return "user/login";
   }
 
+  //login은 past요청이 필요없음.
 //  @PostMapping("/login")
 //  public String loginPost(@RequestParam String id, @RequestParam String password, Model model,
 //      HttpServletRequest request, RedirectAttributes ra) {

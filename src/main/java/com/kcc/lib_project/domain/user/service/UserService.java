@@ -56,21 +56,7 @@ public class UserService {
     //비밀번호 해싱
     updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
 
-    //아이디 중복 체크
-    List<UserDto> users = userMapper.getUserDetails();
-    boolean checkUser = false;
-    for(UserDto allUser : users){
-      if(allUser.getId().equals(updateUser.getId()) ){
-        checkUser = true;
-      }
-    }
 
-    if(!checkUser){
-      System.out.println(updateUser.toString());
-      userMapper.updateUser(updateUser);
-    } else {
-      throw new UserAlreadyExistsException("id가 중복됩니다.");
-    }
   }
   
 }
