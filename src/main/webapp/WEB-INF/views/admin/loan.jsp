@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<jsp:include page="/WEB-INF/views/components/header_user.jsp" />
+<jsp:include page="/WEB-INF/views/components/header_admin.jsp" />
 
 <!DOCTYPE html>
 <html lang="en">
@@ -161,7 +161,7 @@
                     },
                     success: function(response) {
                         // 대여 신청이 성공하면 페이지 리다이렉트
-                        window.location.href = '/rentSuccess';
+                        window.location.href = '/admin/';
                     },
                     error: function() {
                         alert('대여 신청에 실패했습니다.');

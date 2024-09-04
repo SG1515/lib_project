@@ -263,7 +263,7 @@
                 </a>
               </div>
               <div class="logo-title">
-                <a href="/">KCC정보통신 작은도서관 관리자페이지</a>
+                <a href="/admin/main">KCC정보통신 작은도서관 관리자페이지</a>
               </div>
             </div>
             <div class="login-signup">
