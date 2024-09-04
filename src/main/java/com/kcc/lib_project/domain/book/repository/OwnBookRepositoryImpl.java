@@ -16,7 +16,6 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
 
     @Override
     public Optional<OwnBookVo> selectOwnBookDetailByCallNumber(String callNumber) {
-
         return ownBookMapper.selectOwnBookDetailByCallNumber(callNumber);
     }
 
@@ -28,6 +27,21 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
     @Override
     public List<OwnBookVo> selectPopularTopTenOwnBooks() {
         return ownBookMapper.selectPopularTopTenOwnBooks();
+    }
+
+    @Override
+    public List<OwnBookVo> selectOwnBooksByPageAndTypeAndKeyword(String type, String keyword, int page, int limit, long offset) {
+        return ownBookMapper.selectOwnBooksByPageAndTypeAndKeyword(type, keyword, page, limit, offset);
+    }
+
+    @Override
+    public Long count(String type, String keyword, int page, int limit) {
+        return ownBookMapper.count(type, keyword, page, limit);
+    }
+
+    @Override
+    public int tryReserveBook(String callNumber, Long version) {
+        return ownBookMapper.tryReserveBook(callNumber, version);
     }
 
 

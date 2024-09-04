@@ -16,30 +16,30 @@ import jakarta.validation.constraints.Pattern;
 @AllArgsConstructor
 public class UserVo {
   
-  private int user_id;
+  private Long userId;
   private String id;
   private String password;
   private String name;
   private String email;
-  private LocalDate created_at;
+  private LocalDate createdAt;
   private String birth;
   private String address;
   private int phone;
   private String role;
-  private int address_checked;
+  private int addressChecked;
 
   @Builder
-  public UserVo (String id, String password, String name, String email, LocalDate created_at, String birth, String address, int phone, String role, int address_checked){
-    this.id = id;
-    this.password = password;
-    this.name = name;
-    this.email = email;
-    this.created_at = created_at;
-    this.birth = birth;
+  public UserVo(String address, int addressChecked, String birth, LocalDate createdAt, String email, String id, String name, String password, int phone, String role, Long userId) {
     this.address = address;
+    this.addressChecked = addressChecked;
+    this.birth = birth;
+    this.createdAt = createdAt;
+    this.email = email;
+    this.id = id;
+    this.name = name;
+    this.password = password;
     this.phone = phone;
     this.role = role;
-    this.address_checked = address_checked;
-  } 
-
+    this.userId = userId;
+  }
 }

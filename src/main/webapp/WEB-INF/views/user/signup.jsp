@@ -211,4 +211,6 @@
       });
     </script>
   </body>
+  <jsp:include page="/WEB-INF/views/components/footer.jsp" />
+
 </html>

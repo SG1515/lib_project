@@ -21,4 +21,10 @@
     from users
     where id = #{id} 
   </select>
+
+    <select id="getUserVoById" parameterType="java.lang.String" resultType="com.kcc.lib_project.domain.user.vo.UserVo">
+        select user_id as userId, id, name, email, created_at as createdAt, birth, address, phone, role, address_checked as addressChecked
+        from users
+        where id = #{id}
+    </select>
 </mapper>

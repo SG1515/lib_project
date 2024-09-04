@@ -1,8 +1,6 @@
 package com.kcc.lib_project.domain.book.service;
 
-import com.kcc.lib_project.domain.book.dto.BookCarouselDto;
-import com.kcc.lib_project.domain.book.dto.BookDetailDto;
-import com.kcc.lib_project.domain.book.dto.BookTopTenDto;
+import com.kcc.lib_project.domain.book.dto.*;
 import com.kcc.lib_project.domain.book.repository.OwnBookRepository;
 import com.kcc.lib_project.domain.book.vo.OwnBookVo;
 import com.kcc.lib_project.domain.book.vo.Status;
@@ -10,6 +8,7 @@ import com.kcc.lib_project.domain.loan.repository.LoanRepository;
 import com.kcc.lib_project.domain.loan.vo.LoanVo;
 import com.kcc.lib_project.global.exception.type.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,6 +17,7 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
+@Slf4j
 public class OwnBookService {
 
     private final OwnBookRepository ownBookRepository;
@@ -45,5 +45,36 @@ public class OwnBookService {
 
 
         return new BookTopTenDto(recentlyTopTenDto, populationTopTenDto);
+    }
+
+    public BookPageDto searchOwnBooksByPageAndType(String type, String keyword, int page, int limit) {
+
+        log.info("type: {}", type);
+        log.info("keyword: {}", keyword);
+        log.info("page: {}", page);
+        log.info("limit: {}", limit);
+
+
+        long offset = (long) (page - 1) * limit;
+        if (keyword == null) {
+            keyword = "";
+        }
+
+        List<OwnBookVo> ownBookVos = ownBookRepository.selectOwnBooksByPageAndTypeAndKeyword(type, keyword, page, limit ,offset);
+
+        List<BookSimpleDto> bookSimpleDtos = ownBookVos.stream().map(o -> BookSimpleDto.from(o)).toList();
+
+
+        Long totalCount = ownBookRepository.count(type, keyword, page, limit);
+        int realEndPage = (int) Math.ceil((double) totalCount / limit);
+        int startPage = Math.max((((page - 1) / 10) * 10 + 1), 1);
+        int endPage = Math.min(startPage + 10 - 1, realEndPage);
+
+        log.info("totalCount: {}", totalCount);
+        log.info("realEndPage: {}", realEndPage);
+        log.info("startPage: {}", startPage);
+        bookSimpleDtos.forEach(b -> log.info(b.getBookIndex()));
+
+        return new BookPageDto(page, startPage, endPage, totalCount, realEndPage, bookSimpleDtos);
     }
 }

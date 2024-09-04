@@ -266,6 +266,17 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
                   <td width="120" style="color: blue">
                     ${bookDetailDto.status}
+                    <c:if test="${bookDetailDto.status == '대출중' && !bookDetailDto.isReserved}">
+                      <!-- 예약하기 버튼 추가 -->
+                      <button
+                        class="btn btn-primary"
+                        type="button"
+                        onclick="reserveBook('${bookDetailDto.callNumber}');"
+                        style="width: 60px; font-size: 16px; margin-left: 15px"
+                      >
+                        예약
+                      </button>
+                    </c:if>
                   </td>
 
                   <td width="120" class="hidden-xs">
@@ -302,6 +313,21 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         </div>
       </div>
     </div>
-    <script type="text/javascript"></script>
+    <script type="text/javascript">
+      function reserveBook(callNumber) {
+        $.ajax({
+          url: "/books/reserve", // 예약 처리를 위한 서버 URL
+          type: "POST",
+          contentType: "application/json",
+          data: JSON.stringify({ callNumber: callNumber }),
+          success: function (response) {
+            alert("예약이 완료되었습니다."); // 성공 시 메시지
+          },
+          error: function () {
+            alert("예약에 실패했습니다."); // 실패 시 메시지
+          },
+        });
+      }
+    </script>
   </body>
 </html>

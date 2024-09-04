@@ -26,15 +26,18 @@ public class BookDetailDto {
     private String contents;
     private String bookIndex;
     private String loanEndedAt;
+    private Boolean isReserved;
+    private Long version;
 
     @Builder
-    public BookDetailDto(String author, String bookIndex, String callNumber, String contents, String imageUrl, String isbn, String loanEndedAt, Integer pageSize, String publicationYear, String publisher, String receiptAt, String status, String title) {
+    public BookDetailDto(String author, String bookIndex, String callNumber, String contents, String imageUrl, String isbn, Boolean isReserved, String loanEndedAt, Integer pageSize, String publicationYear, String publisher, String receiptAt, String status, String title, Long version) {
         this.author = author;
         this.bookIndex = bookIndex;
         this.callNumber = callNumber;
         this.contents = contents;
         this.imageUrl = imageUrl;
         this.isbn = isbn;
+        this.isReserved = isReserved;
         this.loanEndedAt = loanEndedAt;
         this.pageSize = pageSize;
         this.publicationYear = publicationYear;
@@ -42,11 +45,8 @@ public class BookDetailDto {
         this.receiptAt = receiptAt;
         this.status = status;
         this.title = title;
+        this.version = version;
     }
-
-
-
-
 
     public static BookDetailDto from(OwnBookVo ownBookVo) {
         BookVo bookVo = ownBookVo.getBookVo();
@@ -63,6 +63,8 @@ public class BookDetailDto {
                 .contents(bookVo.getContents())
                 .bookIndex(bookVo.getBookIndex())
                 .receiptAt(ownBookVo.getReceiptAt().toString())
+                .isReserved(ownBookVo.getIsReserved())
+                .version(ownBookVo.getVersion())
                 .build();
     }
 
@@ -82,6 +84,8 @@ public class BookDetailDto {
                 .bookIndex(bookVo.getBookIndex())
                 .receiptAt(ownBookVo.getReceiptAt().toString())
                 .loanEndedAt(endedAt.toString())
+                .isReserved(ownBookVo.getIsReserved())
+                .version(ownBookVo.getVersion())
                 .build();
     }
 }
