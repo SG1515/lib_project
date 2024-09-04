@@ -56,7 +56,7 @@ public class UserService {
     //비밀번호 해싱
     updateUser.setPassword(passwordEncoder.encode(updateUser.getPassword()));
 
-
+    userMapper.updateUser(updateUser);
   }
   
 }

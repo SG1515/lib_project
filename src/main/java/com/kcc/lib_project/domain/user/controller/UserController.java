@@ -108,7 +108,7 @@ public class UserController {
     } else {
       throw new UsernameNotFoundException("Username not found");
     }
-    System.out.println("email은  : " + email );
+//    System.out.println("email은  : " + email );
 
     model.addAttribute("username", username);
     model.addAttribute("password", password);
@@ -122,11 +122,15 @@ public class UserController {
   }
 
   @PostMapping("/user/profile/update")
-  public String updateUserInfo(@ModelAttribute @Valid UserDto userDto) {
+  public String updateUserInfo(@ModelAttribute @Valid UserDto userDto, @AuthenticationPrincipal UserDetails userDetails) {
 
+    String username = userDetails.getUsername();
+    userDto.setId(username);
     System.out.println(userDto.toString());
+
     userService.updateUser(userDto);
-    return "user/profile";
+
+    return "redirect:/";
   }
 
 }
