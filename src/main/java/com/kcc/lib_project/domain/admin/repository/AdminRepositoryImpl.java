@@ -16,6 +16,7 @@ public class AdminRepositoryImpl implements AdminRepository {
 
     @Override
     public Optional<UserDto> getUserById(String id) {
-        return Optional.empty();
+        Optional<UserDto> user = adminMapper.getUserById(id);
+        return user;
     }
 }

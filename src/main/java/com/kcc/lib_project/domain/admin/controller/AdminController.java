@@ -156,6 +156,7 @@ public class AdminController {
         Map<String, Object> responseUser = new HashMap<>();
         UserDto user = adminService.getUser(id);
 
+
         if(user != null){
             responseUser.put("name", user.getName());
             responseUser.put("email", user.getEmail());
