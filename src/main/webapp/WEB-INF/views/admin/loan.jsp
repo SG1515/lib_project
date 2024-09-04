@@ -106,13 +106,14 @@
                 $.ajax({
                     url: '/getMemberInfo',  // 서버의 회원 정보 조회 엔드포인트
                     type: 'GET',
-                    data: { memberId: memberId },
-                    success: function(response) {
+                    data: { id: memberId },  // id
+                    success: function(responseUser) {
+                        console.log(responseUser)
                         // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
                         $('#memberInfo').html(
-                            '<p><strong>이름:</strong> ' + response.name + '</p>' +
-                            '<p><strong>주소:</strong> ' + response.address + '</p>' +
-                            '<p><strong>이메일:</strong> ' + response.email + '</p>'
+                            '<p><strong>이름:</strong> ' + responseUser.name + '</p>' +  // name
+                            '<p><strong>주소:</strong> ' + responseUser.address + '</p>' +  // address
+                            '<p><strong>이메일:</strong> ' + responseUser.email + '</p>'  // email
                         );
                     },
                     error: function() {
@@ -125,18 +126,18 @@
         });
 
         $('#bookSearchBtn').click(function() {
-            var bookId = $('#bookId').val();
-            if (bookId) {
+            var callNumber = $('#bookId').val();  // 도서의 청구기호
+            if (callNumber) {
                 $.ajax({
                     url: '/getBookInfo',  // 서버의 도서 정보 조회 엔드포인트
                     type: 'GET',
-                    data: { bookId: bookId },
+                    data: { callNumber: callNumber },  // 수정된 필드명: call_number
                     success: function(response) {
                         // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
                         $('#bookInfo').html(
-                            '<p><strong>이름:</strong> ' + response.title + '</p>' +
-                            '<p><strong>출판사:</strong> ' + response.publisher + '</p>' +
-                            '<p><strong>출판년도:</strong> ' + response.year + '</p>'
+                            '<p><strong>제목:</strong> ' + response.title + '</p>' +  // title
+                            '<p><strong>출판사:</strong> ' + response.publisher + '</p>' +  // publisher
+                            '<p><strong>출판년도:</strong> ' + response.publication_year + '</p>'  // publication_year
                         );
                     },
                     error: function() {
@@ -150,18 +151,18 @@
 
         $('#rentRequestBtn').click(function() {
             var memberId = $('#memberId').val();
-            var bookId = $('#bookId').val();
-            if (memberId && bookId) {
+            var callNumber = $('#bookId').val();
+            if (memberId && callNumber) {
                 $.ajax({
                     url: '/rentBook',  // 서버의 대여 신청 처리 엔드포인트
                     type: 'POST',
                     data: {
-                        memberId: memberId,
-                        bookId: bookId
+                        id: memberId,
+                        callNumber: callNumber
                     },
                     success: function(response) {
                         // 대여 신청이 성공하면 페이지 리다이렉트
-                        window.location.href = '/admin/';
+                        window.location.href = '/admin/main';
                     },
                     error: function() {
                         alert('대여 신청에 실패했습니다.');
@@ -172,6 +173,7 @@
             }
         });
     });
+
 </script>
 
 </body>

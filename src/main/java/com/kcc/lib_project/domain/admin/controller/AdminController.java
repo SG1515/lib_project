@@ -1,6 +1,7 @@
 package com.kcc.lib_project.domain.admin.controller;
 
 
+import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
@@ -22,13 +23,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -36,8 +36,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserRepositoryImpl userRepositoryImpl;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/admin/main")
     public String adminMain(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -142,11 +146,27 @@ public class AdminController {
     }
 
     @GetMapping("/admin/books/loan")
-    public String checkOutBook(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        String id = userDetails.getUsername();
-
-
-
+    public String loanBook() {
         return "admin/loan";
+    }
+
+    @GetMapping("/getMemberInfo")
+    @ResponseBody
+    public Map<String, Object> getUserInfo(@RequestParam("id") String id){
+        Map<String, Object> responseUser = new HashMap<>();
+        UserDto user = adminService.getUser(id);
+
+        if(user != null){
+            responseUser.put("name", user.getName());
+            responseUser.put("email", user.getEmail());
+            responseUser.put("address", user.getAddress());
+        } else {
+            System.out.println("User not found for id: " + id);
+            responseUser.put("error", "User not found");
+        }
+
+        System.out.println("유저의 이름은 :" + responseUser.get("name"));
+
+        return responseUser;
     }
 }
