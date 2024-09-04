@@ -16,12 +16,12 @@ public class UserDetail implements UserDetails {
   private UserDto userDto;
 
   public UserDetail(UserDto userDto) {
-    this.userDto = userDto;
     //생성될 때 admin이면 Role을 설정해주기.
     if(userDto.getId().equals("admin")){
       userDto.setRole(UserRole.ROLE_ADMIN.getRole());
     }
     System.out.println(userDto.getRole());
+    this.userDto = userDto;
   }
 
   // 추가된 getRole() 메서드

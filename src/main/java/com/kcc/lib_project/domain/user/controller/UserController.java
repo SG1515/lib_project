@@ -49,23 +49,23 @@ public class UserController {
     return "user/login";
   }
 
-  @PostMapping("/login")
-  public String loginPost(@RequestParam String id, @RequestParam String password, Model model,
-      HttpServletRequest request, RedirectAttributes ra) {
-    UserDetails userDetails = customUserDetailService.loadUserByUsername(id);
-
-    if (!customUserDetailService.validatePassword(password, userDetails.getPassword())) {
-      model.addAttribute("error", "Invalid username or password");
-      return "user/login";
-    }
-
-    HttpSession session = request.getSession();
-    session.setAttribute("id", id);
-    ra.addFlashAttribute("result", "login success");
-    System.out.println("Session ID after setting: " + session.getId()); // 로그로 확인
-
-    return "redirect:/";
-  }
+//  @PostMapping("/login")
+//  public String loginPost(@RequestParam String id, @RequestParam String password, Model model,
+//      HttpServletRequest request, RedirectAttributes ra) {
+//    UserDetails userDetails = customUserDetailService.loadUserByUsername(id);
+//
+//    if (!customUserDetailService.validatePassword(password, userDetails.getPassword())) {
+//      model.addAttribute("error", "Invalid username or password");
+//      return "user/login";
+//    }
+//
+//    HttpSession session = request.getSession();
+//    session.setAttribute("id", id);
+//    ra.addFlashAttribute("result", "login success");
+//    System.out.println("Session ID after setting: " + session.getId()); // 로그로 확인
+//
+//    return "redirect:/";
+//  }
 
   @PostMapping("/logout")
   public String logout(HttpServletRequest request, HttpServletResponse response) {
