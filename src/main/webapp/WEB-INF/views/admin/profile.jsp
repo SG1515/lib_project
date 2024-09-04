@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<jsp:include page="/WEB-INF/views/components/header_user.jsp" />
+<jsp:include page="/WEB-INF/views/components/header_admin.jsp" />
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KCC정보통신 도서관 | 사용자 정보</title>
+    <title>KCC정보통신 도서관 | 관리자 정보</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -131,7 +131,7 @@
 <body>
 <div class="user-info">
     <div class="user-info-inner">
-        <h3 class="mt-3 ">사용자 정보</h3>
+        <h3 class="mt-3 ">관리자 정보</h3>
         <div class="icon-size"><img src="../../../resources/assets/icon.png" alt="Icon"></div>
         <p>${username}</p>
         <form action="/admin/profile/update" method="post">

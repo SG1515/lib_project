@@ -323,7 +323,7 @@
                       <li><a href="/admin/books/newbook">신규 도서 등록</a></li>
                       <li><a href="/admin/books">도서 관리</a></li>
                       <li><a href="/admin/owner">이용자 권한 승인</a></li>
-                      <li><a href="/admin/info">관리자 정보관리</a></li>
+                      <li><a href="/admin/profile">관리자 정보관리</a></li>
                     </ul>
                   </div>
                 </a>
