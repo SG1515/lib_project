@@ -327,7 +327,7 @@
                                     <li><a href="/books/bookcheck">반납 이력 조회</a></li>
                                     <li><a href="/books/overdue">연체 이력 조회</a></li>
                                     <li><a href="/books/failure">분실 파손 조회</a></li>
-                                    <li><a href="/userInfo">마이페이지</a></li>
+                                    <li><a href="/user/profile">마이페이지</a></li>
                                 </ul>
                             </div>
                         </a>

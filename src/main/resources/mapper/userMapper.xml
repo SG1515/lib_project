@@ -27,4 +27,17 @@
         from users
         where id = #{id}
     </select>
+
+    <update id="updateUser" parameterType="com.kcc.lib_project.domain.user.dto.UserDto">
+        UPDATE users
+        SET
+            id = #{id},
+            password = #{password},
+            name = #{name},
+            email = #{email},
+            birth = #{birth},
+            address = #{address},
+            phone = #{phone}
+        WHERE id = #{id}
+    </update>
 </mapper>

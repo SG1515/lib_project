@@ -4,6 +4,7 @@ import com.kcc.lib_project.domain.user.dto.UserDto;
 import com.kcc.lib_project.domain.user.vo.UserRole;
 import jakarta.validation.Valid;
 import lombok.Data;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -11,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+@Getter
 public class UserDetail implements UserDetails {
 
   private UserDto userDto;

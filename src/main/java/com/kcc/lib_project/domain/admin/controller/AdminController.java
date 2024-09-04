@@ -4,10 +4,13 @@ package com.kcc.lib_project.domain.admin.controller;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
+import com.kcc.lib_project.domain.user.repository.UserRepositoryImpl;
 import com.kcc.lib_project.domain.user.service.UserService;
+import com.kcc.lib_project.domain.user.vo.UserVo;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -15,22 +18,26 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
+import java.util.Optional;
 
 @Controller
 public class AdminController {
 
-
     @Autowired
-    private CustomUserDetailService customUserDetailService;
+    private UserService userService;
+    @Autowired
+    private UserRepositoryImpl userRepositoryImpl;
 
     @GetMapping("/admin/main")
     public String adminMain(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -84,6 +91,53 @@ public class AdminController {
     public String logout(   HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:admin/adminMain";
+        return "redirect:/";
+    }
+
+    @GetMapping("/admin/profile")
+    public String adminInfo(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+        String username = userDetails.getUsername();
+        String password = userDetails.getPassword();
+
+        Optional<UserVo> userDetail = userRepositoryImpl.getUserVoById(username);
+        UserVo userVo = userDetail.get();
+        String email = "";
+        String birth = "";
+        String name ="";
+        String address = "";
+        int phone =0;
+
+        if (userDetail.isPresent()) {
+            email = userVo.getEmail();
+            birth = userVo.getBirth();
+            name = userVo.getName();
+            address = userVo.getAddress();
+            phone = userVo.getPhone();
+        } else {
+            throw new UsernameNotFoundException("Username not found");
+        }
+//    System.out.println("email은  : " + email );
+
+        model.addAttribute("username", username);
+        model.addAttribute("password", password);
+        model.addAttribute("email", email);
+        model.addAttribute("birth", birth);
+        model.addAttribute("name", name);
+        model.addAttribute("address", address);
+        model.addAttribute("phone", phone);
+
+        return "admin/profile";
+    }
+
+    @PostMapping("/admin/profile/update")
+    public String updateAdminInfo(@ModelAttribute @Valid UserDto userDto, @AuthenticationPrincipal UserDetails userDetails) {
+
+        String username = userDetails.getUsername();
+        userDto.setId(username);
+        System.out.println(userDto.toString());
+
+        userService.updateUser(userDto);
+
+        return "redirect:/";
     }
 }
