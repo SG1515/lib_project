@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KCC정보통신 도서관 | 사용자 정보</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -134,7 +136,7 @@
         <h3 class="mt-3 ">사용자 정보</h3>
         <div class="icon-size"><img src="../../../resources/assets/icon.png" alt="Icon"></div>
         <p>${username}</p>
-        <form action="/admin/profile/update" method="post">
+        <form action="/user/profile/update" method="post" id="modify-user">
             <div>
                 <label for="newPassword">비밀번호:</label>
                 <div class="password-container">
@@ -204,6 +206,50 @@
             submitBtn.disabled = true;
         }
     }
+
+
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document
+            .getElementById("modify-user")
+            .addEventListener("submit", function (event) {
+
+                // 서버로 폼 데이터를 전송합니다.
+                const form = event.target;
+                const formData = new FormData(form);
+
+                fetch(form.action, {
+                    method: "POST",
+                    body: formData,
+                })
+                    .then((response) => {
+                        if (response.ok) {
+                            return response.text(); // 응답 텍스트를 받아옵니다.
+                        } else {
+                            throw new Error("이메일, 생년월일, 주소의 형식이 맞지 않습니다.");
+                        }
+                    })
+                    .then((data) => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "회원정보 수정완료",
+                            text: "회원정보 수정이 정상적으로 완료되었습니다.",
+                        }).then(() => {
+                            // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
+                            window.location.href = "/";
+                        });
+                    })
+                    .catch((error) => {
+                        Swal.fire({
+                            icon: "error",
+                            title: "정보수정 실패",
+                            text: error.message,
+                        });
+                    });
+            });
+    });
 </script>
 </body>
 

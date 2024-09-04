@@ -35,4 +35,10 @@ public class BookController {
 
         return "book/bookDetail";
     }
+
+    @GetMapping("/user/books/bookcheck")
+    public String checkOutBook() {
+        return "book/checkOutBook";
+    }
+
 }
