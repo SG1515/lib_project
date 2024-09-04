@@ -5,6 +5,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -72,6 +73,21 @@ public class UserController {
     SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
     logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
     return "redirect:/";
+  }
+
+  @GetMapping("/user/profile")
+  public String userInfo(Model model, @AuthenticationPrincipal UserDetails userDetails) {
+    String username = userDetails.getUsername();
+    String password = userDetails.getPassword();
+
+    model.addAttribute("username", username);
+    model.addAttribute("password", password);
+    return "user/profile";
+  }
+
+  @PostMapping("/user/profile/update")
+  public String updateUserInfo(){
+    return "user/profile";
   }
 
 }

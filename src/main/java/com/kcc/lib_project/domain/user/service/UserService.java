@@ -23,18 +23,18 @@ public class UserService {
   @Autowired
   UserMapper userMapper;
 
-  
+  LocalDate localTime = LocalDate.now();
   private final PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserService(PasswordEncoder passwordEncoder) {
+
+  @Autowired
+  public UserService(PasswordEncoder passwordEncoder) {
         this.passwordEncoder = passwordEncoder;
     }
   
-  LocalDate localTime = LocalDate.now();
 
   @Transactional
-  public void  saveUser(SignupDto signupDto) {
+  public void saveUser(SignupDto signupDto) {
     signupDto.setPassword(passwordEncoder.encode(signupDto.getPassword()));
     signupDto.setCreated_at(localTime);
 
@@ -53,6 +53,11 @@ public class UserService {
     } else {
       throw new UserAlreadyExistsException("id가 중복됩니다.");
     }
+  }
+
+  @Transactional
+  public void modifyUser(UserDto userDto) {
+
 
   }
   
