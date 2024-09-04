@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -42,8 +43,9 @@ public class SecurityConfig {
                       .successHandler((request, response, authentication) -> {
                           // 로그인 성공 후 리디렉션 처리
                           String redirectUrl = "/";
-                          if (authentication.getAuthorities().stream()
-                                  .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"))) {
+                          System.out.println("Authorities: " + authentication.getAuthorities());
+
+                          if (authentication.getAuthorities().contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
                               redirectUrl = "/admin/main";  // ROLE_ADMIN일 경우 관리자 페이지로 리디렉션
                           }
                           response.sendRedirect(redirectUrl);

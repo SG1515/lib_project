@@ -1,6 +1,5 @@
 <%@ page import="java.util.Enumeration" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -264,7 +263,7 @@
                 </a>
               </div>
               <div class="logo-title">
-                <a href="/">KCC정보통신 작은도서관</a>
+                <a href="/">KCC정보통신 작은도서관 관리자페이지</a>
               </div>
             </div>
             <div class="login-signup">
@@ -273,7 +272,7 @@
               </sec:authorize>
 
               <sec:authorize access="isAuthenticated()">
-                <a href="/admin/logout">로그아웃</a>
+                <a href="/logout">로그아웃</a>
               </sec:authorize>
             </div>
           </div>

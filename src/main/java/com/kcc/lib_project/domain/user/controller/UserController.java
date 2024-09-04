@@ -40,10 +40,9 @@ public class UserController {
   @Autowired
   private CustomUserDetailService customUserDetailService;
 
+
   @Autowired
-  private UserRepositoryImpl userRepository;
-    @Autowired
-    private UserRepositoryImpl userRepositoryImpl;
+  private UserRepositoryImpl userRepositoryImpl;
 
   @GetMapping("/signup")
   public String signupForm() {

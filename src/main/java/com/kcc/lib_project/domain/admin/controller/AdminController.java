@@ -84,6 +84,6 @@ public class AdminController {
     public String logout(   HttpServletRequest request, HttpServletResponse response) {
         SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
         logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
-        return "redirect:admin/adminMain";
+        return "redirect:/";
     }
 }
