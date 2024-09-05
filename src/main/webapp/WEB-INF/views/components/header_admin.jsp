@@ -319,11 +319,11 @@
                   >도서관 관리
                   <div class="search-back">
                     <ul>
-                      <li><a href="/admin/failure">분실 / 파손</a></li>
+                      <li><a href="/admin/failure">분실/파손</a></li>
                       <li><a href="/admin/books/newbook">신규 도서 등록</a></li>
                       <li><a href="/admin/books">도서 관리</a></li>
                       <li><a href="/admin/owner">이용자 권한 승인</a></li>
-                      <li><a href="/admin/books/loan">도서 대여 신청</a></li>
+                      <li><a href="/admin/books/loan">대여/반납 관리</a></li>
                       <li><a href="/admin/profile">관리자 정보관리</a></li>
                     </ul>
                   </div>
