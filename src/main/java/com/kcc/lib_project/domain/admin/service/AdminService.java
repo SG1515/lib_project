@@ -1,5 +1,6 @@
 package com.kcc.lib_project.domain.admin.service;
 
+import com.kcc.lib_project.domain.admin.dto.LoanDto;
 import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.repository.AdminRepository;
 import com.kcc.lib_project.domain.user.dto.UserDto;
@@ -38,5 +39,15 @@ public class AdminService {
         } else {
             throw new BookNotFoundException("Book with ID " + callNumber + "not found");
         }
+    }
+
+    public Boolean rentBook(LoanDto loanDto) {
+        Boolean success = adminRepository.saveBookRent(loanDto);
+        if(success) {
+            return true;
+        } else {
+            return false;
+        }
+
     }
 }

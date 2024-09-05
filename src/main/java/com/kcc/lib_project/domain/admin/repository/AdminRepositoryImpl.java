@@ -1,6 +1,7 @@
 package com.kcc.lib_project.domain.admin.repository;
 
 
+import com.kcc.lib_project.domain.admin.dto.LoanDto;
 import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.mapper.AdminMapper;
 import com.kcc.lib_project.domain.user.dto.UserDto;
@@ -26,5 +27,16 @@ public class AdminRepositoryImpl implements AdminRepository {
         Optional<OwnBookDto> bookInfo = adminMapper.getBookInfoByCallNumber(callNumber);
 
         return bookInfo;
+    }
+
+    @Override
+    public Boolean saveBookRent(LoanDto loanDto) {
+        int save = adminMapper.saveBookRent(loanDto);
+
+        if (save == 1) {
+            return true;
+        } else  {
+            return false;
+        }
     }
 }

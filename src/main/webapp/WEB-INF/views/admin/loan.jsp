@@ -110,7 +110,7 @@
                     success: function(responseUser) {
                         // responseUser.name이 undefined이면 에러 메시지 출력
                         if (responseUser.name === undefined || responseUser.name === null) {
-                            $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
+                            $('#memberInfo').html('<p class="text-danger">일치하는 회원정보가 없습니다.</p>');
                         } else {
                             // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
                             $('#memberInfo').html(
@@ -121,7 +121,7 @@
                         }
                     },
                     error: function() {
-                        $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
+                        $('#memberInfo').html('<p class="text-danger">일치하는 회원정보가 없습니다.</p>');
                     }
                 });
             } else {
@@ -138,7 +138,7 @@
                     data: { callNumber: callNumber },  // 수정된 필드명: call_number
                     success: function(response) {
                         if(response.title === null || response.title === undefined) {
-                            $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
+                            $('#bookInfo').html('<p class="text-danger">해당 도서가 없거나 도서가 이미 대여중이거나 예약중입니다.</p>');
                         } else {
                             $('#bookInfo').html(
                                 '<p><strong>제목:</strong> ' + response.title + '</p>' +  // title
@@ -148,7 +148,7 @@
                         }
                     },
                     error: function() {
-                        $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
+                        $('#bookInfo').html('<p class="text-danger">해당 도서가 없거나 도서가 이미 대여중이거나 예약중입니다.</p>');
                     }
                 });
             } else {

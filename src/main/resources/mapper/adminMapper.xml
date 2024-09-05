@@ -25,4 +25,10 @@
         where call_number = #{callNumber}
     </select>
 
+    <insert id="saveBookRent" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number)
+        VALUES (loan_seq.nextval, #{startedAt}, #{endedAt}, #{isReturned}, #{extentionCount}, #{userId}, #{callNumber})
+    </insert>
+
+
 </mapper>

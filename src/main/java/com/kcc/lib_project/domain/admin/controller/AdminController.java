@@ -1,6 +1,7 @@
 package com.kcc.lib_project.domain.admin.controller;
 
 
+import com.kcc.lib_project.domain.admin.dto.LoanDto;
 import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
@@ -30,6 +31,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -189,4 +191,39 @@ public class AdminController {
 
         return responseBook;
     }
+
+    @PostMapping("/rentBook")
+    @ResponseBody
+    public Map<String, Object> rentBook(@RequestParam("id") String id, @RequestParam("callNumber") String callNumber){
+        Map<String, Object> response = new HashMap<>();
+        LocalDate now = LocalDate.now();
+        LocalDate afterSevenDays = now.plusDays(7);  // 7일 추가
+        UserVo user = userRepositoryImpl.getUserVoById(id).get();
+
+        LoanDto loanDto = LoanDto.builder()
+                .userId(user.getUserId())
+                .callNumber(callNumber)
+                .startedAt(now)
+                .endedAt(afterSevenDays)
+                .isReturned(0)
+                .extentionCount(0)
+                .build();
+
+
+        
+        Boolean success = adminService.rentBook(loanDto);
+
+        if (success) {
+            response.put("message", "대여 신청이 완료되었습니다.");
+            response.put("redirectUrl", "/admin/main"); // 리다이렉트할 URL
+        } else {
+            response.put("error", "대여 신청에 실패했습니다.");
+        }
+
+
+        return response;
+    }
+
+
+
 }
