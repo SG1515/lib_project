@@ -44,5 +44,4 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
         return ownBookMapper.tryReserveBook(callNumber, version);
     }
 
-
 }

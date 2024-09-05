@@ -1,6 +1,7 @@
 package com.kcc.lib_project.domain.book.dto;
 
 import com.kcc.lib_project.domain.book.vo.OwnBookVo;
+import com.kcc.lib_project.domain.reserve.vo.ReserveVo;
 import lombok.Builder;
 import lombok.Data;
 
@@ -40,4 +41,5 @@ public class BookSimpleDto {
                 .bookIndex(ownBookVo.getBookVo().getBookIndex())
                 .build();
     }
+
 }

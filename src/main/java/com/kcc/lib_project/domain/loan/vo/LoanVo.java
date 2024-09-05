@@ -1,5 +1,7 @@
 package com.kcc.lib_project.domain.loan.vo;
 
+import com.kcc.lib_project.domain.book.vo.OwnBookVo;
+import com.kcc.lib_project.domain.user.vo.UserVo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,4 +22,7 @@ public class LoanVo {
     private Integer extentionCount;
     private Long userId;
     private Long callNumber;
+
+    private OwnBookVo ownBookVo;
+    private UserVo userVo;
 }

@@ -281,7 +281,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 >
                   <a
                     class="page-link"
-                    href="?page=${(bookPageDto.currentPage - 1)}"
+                    href="?page=${(bookPageDto.currentPage - 1)}&type=${param.type}&limit=${param.limit}&keyword=${param.keyword}"
                     >Previous</a
                   >
                 </li>
@@ -312,7 +312,7 @@ uri="http://java.sun.com/jsp/jstl/functions"%>
                 >
                   <a
                     class="page-link"
-                    href="?page=${(bookPageDto.currentPage + 1)}"
+                    href="?page=${(bookPageDto.currentPage + 1)}&type=${param.type}&limit=${param.limit}&keyword=${param.keyword}"
                     >Next</a
                   >
                 </li>

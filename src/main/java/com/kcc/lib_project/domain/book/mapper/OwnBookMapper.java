@@ -17,4 +17,5 @@ public interface OwnBookMapper {
     List<OwnBookVo> selectOwnBooksByPageAndTypeAndKeyword(@Param("type") String type, @Param("keyword") String keyword, @Param("page") int page, @Param("limit") int limit, @Param("offset") long offset);
     Long count(@Param("type") String type, @Param("keyword") String keyword, @Param("page") int page, @Param("limit") int limit);
     int tryReserveBook(String callNumber, Long version);
+
 }

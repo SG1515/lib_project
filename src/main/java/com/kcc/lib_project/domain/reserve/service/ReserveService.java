@@ -2,6 +2,8 @@ package com.kcc.lib_project.domain.reserve.service;
 
 import com.kcc.lib_project.domain.book.repository.OwnBookRepository;
 import com.kcc.lib_project.domain.book.vo.OwnBookVo;
+import com.kcc.lib_project.domain.reserve.dto.ReserveInfoDto;
+import com.kcc.lib_project.domain.reserve.dto.ReservePageDto;
 import com.kcc.lib_project.domain.reserve.dto.ReserveSaveDto;
 import com.kcc.lib_project.domain.reserve.repository.ReserveRepository;
 import com.kcc.lib_project.domain.reserve.vo.ReserveVo;
@@ -13,6 +15,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +60,28 @@ public class ReserveService {
 
     public int isReserved(String callNumber) {
         return reserveRepository.isReserved(callNumber);
+    }
+
+    public ReservePageDto getReserveHistory(String reserveKeyword, String reserveType, int reservePage, int reserveLimit, String username) {
+        UserVo userVo = userRepository.getUserVoById(username).orElseThrow(() -> new NotFoundException("사용자 정보가 없습니다."));
+
+        long reserveOffset = (long) (reservePage - 1) * reserveLimit;
+        int reserveTotalCount = reserveRepository.countByPageAndTypeAndKeyword(reserveType, reserveKeyword, userVo.getUserId());
+        int reserveRealEndPage = (int) Math.ceil((double) reserveTotalCount / reserveLimit);
+        int reserveStartPage = Math.max((((reservePage - 1) / 5) * 5 + 1), 1);
+        int endPage = Math.min(reserveStartPage + 5 - 1, reserveRealEndPage);
+
+        List<ReserveVo> reserveVos = reserveRepository.selectReserveByPageAndTypeAndKeyword(reserveType, reserveKeyword, reservePage, reserveLimit, reserveOffset, userVo.getUserId());
+        List<ReserveInfoDto> reserveInfoDtos = reserveVos.stream().map(r -> ReserveInfoDto.from(r)).toList();
+
+        return ReservePageDto.builder()
+                .reserveInfoDtos(reserveInfoDtos)
+                .reserveStartPage(reserveStartPage)
+                .reserveEndPage(endPage)
+                .reserveRealEndPage(reserveRealEndPage)
+                .reserveTotalCount(reserveTotalCount)
+                .build();
+
     }
 
 

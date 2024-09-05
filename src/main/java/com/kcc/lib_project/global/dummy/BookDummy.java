@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Transactional(noRollbackFor = Exception.class)
 @Slf4j
 public class BookDummy {
 
@@ -45,7 +45,7 @@ public class BookDummy {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        for (int page = 20; page < 29; page++) {
+        for (int page = 400; page < 430; page++) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://www.nl.go.kr/seoji/SearchApi.do")
                     .queryParam("cert_key", secretKey)
                     .queryParam("result_style", "json")
@@ -68,9 +68,16 @@ public class BookDummy {
                     .map(BookVo::from).toList();
 
             for (BookVo bookVo : bookVos) {
-                bookMapper.createBook(bookVo);
+                try {
+                    bookMapper.createBook(bookVo);
+                } catch (Exception e) {
+                    continue;
+                }
 
-                if (bookVo.getBookIndex() != null && bookVo.getCategoryNumber() != "0" && bookVo.getImageUrl() != null && bookVo.getPageSize() != 0) {
+                if ((bookVo.getBookIndex() != null && !bookVo.getBookIndex().isBlank()) &&
+                        (bookVo.getImageUrl() != null && !bookVo.getImageUrl().isBlank()) &&
+                        bookVo.getPageSize() != 0 &&
+                        (bookVo.getImageUrl() != null && !bookVo.getContents().isBlank())) {
                     OwnBookVo ownBookVo = OwnBookVo.from(bookVo);
                     ownBookMapper.createOwnBook(ownBookVo);
                 }

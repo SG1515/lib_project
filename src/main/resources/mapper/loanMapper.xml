@@ -5,12 +5,122 @@
 
 <mapper namespace="com.kcc.lib_project.domain.loan.mapper.LoanMapper">
 
-    <select id="selectLoanByCallNumber" parameterType="String" resultType="LoanVo">
+    <resultMap id="LoanMap" type="LoanVo">
+        <result property="loanId" column="loan_id"/>
+        <result property="startedAt" column="started_at"/>
+        <result property="endedAt" column="ended_at"/>
+        <result property="isReturned" column="is_returned"/>
+        <result property="extentionCount" column="extention_count"/>
+        <collection property="ownBookVo" resultMap="OwnBookMap"/>
+        <collection property="userVo" resultMap="UserMap"/>
+    </resultMap>
+
+    <resultMap id="OwnBookMap" type="OwnBookVo">
+        <result property="callNumber" column="ownbook_call_number"/>
+        <result property="receiptAt" column="receipt_at"/>
+        <result property="status" column="ownbook_status"/>
+        <result property="isbn" column="ownbook_isbn"/>
+        <result property="isReserved" column="is_reserved"/>
+        <result property="version" column="version"/>
+        <collection property="bookVo" resultMap="BookMap"/>
+    </resultMap>
+
+    <resultMap id="BookMap" type="BookVo">
+        <result property="isbn" column="isbn"/>
+        <result property="title" column="title"/>
+        <result property="author" column="author"/>
+        <result property="publisher" column="publisher"/>
+        <result property="publicationYear" column="publication_year"/>
+        <result property="pageSize" column="page_size"/>
+        <result property="categoryNumber" column="category_number"/>
+        <result property="contents" column="contents"/>
+        <result property="bookIndex" column="book_index"/>
+        <result property="imageUrl" column="image_url"/>
+    </resultMap>
+
+    <resultMap id="UserMap" type="UserVo">
+        <result property="userId" column="user_id"/>
+        <result property="id" column="id"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="email" column="email"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="birth" column="birth"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="role" column="role"/>
+        <result property="addressChecked" column="address_checked"/>
+    </resultMap>
+
+    <select id="selectLoanByCallNumber" parameterType="String" resultMap="LoanMap">
         <![CDATA[
-        SELECT call_number AS callNumber, started_at AS startedAt, ended_at AS endedAt, is_returned AS isReturned, extention_count AS extentionCount, user_id AS userId, call_number AS callNumber
+        SELECT call_number , started_at, ended_at, is_returned, extention_count, user_id, call_number
         FROM loan
         WHERE is_returned = 0 and call_number = #{callNumber}
         ]]>
+    </select>
+
+    <select id="selectLoanByPageAndTypeAndKeyword" parameterType="map" resultMap="LoanMap">
+        <![CDATA[
+        SELECT * FROM (
+            SELECT sub.*, ROWNUM rnum FROM (
+                SELECT l.loan_id, l.started_at, l.ended_at, l.is_returned, l.extention_count, l.user_id, l.call_number,
+                    o.call_number AS ownbook_call_number, o.receipt_at, o.status AS ownbook_status, o.isbn AS ownbook_isbn, o.is_reserved, o.version,
+                    b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
+
+                FROM loan l
+                    LEFT JOIN own_book o ON l.call_number = o.call_number
+                    LEFT JOIN users u ON l.user_id = u.user_id
+                    LEFT JOIN book b ON o.isbn = b.isbn
+                WHERE 1=1
+                  AND u.user_id = #{userId}
+                    ]]>
+        <choose>
+            <when test="type == 'title'">
+                <![CDATA[ AND b.title LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="type == 'author'">
+                <![CDATA[ AND b.author LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="type == 'callNumber'">
+                <![CDATA[ AND o.call_number LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+        </choose>
+        ORDER BY l.started_at DESC
+
+        ) sub
+        <![CDATA[
+            WHERE ROWNUM <= #{limit} + #{offset}
+        ) WHERE rnum > #{offset}
+        ]]>
+    </select>
+
+    <select id="countByPageAndTypeAndKeyword" parameterType="map" resultType="int">
+        <![CDATA[
+        SELECT COUNT(*) FROM (
+            SELECT l.loan_id, l.started_at, l.ended_at, l.is_returned, l.extention_count, l.user_id, l.call_number,
+                o.call_number AS ownbook_call_number, o.receipt_at, o.status AS ownbook_status, o.isbn AS ownbook_isbn, o.is_reserved, o.version,
+                b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
+
+            FROM loan l
+                LEFT JOIN own_book o ON l.call_number = o.call_number
+                LEFT JOIN users u ON l.user_id = u.user_id
+                LEFT JOIN book b ON o.isbn = b.isbn
+            WHERE 1=1
+              AND u.user_id = #{userId}
+                ]]>
+        <choose>
+            <when test="type == 'title'">
+                <![CDATA[ AND b.title LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="type == 'author'">
+                <![CDATA[ AND b.author LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="type == 'callNumber'">
+                <![CDATA[ AND b.call_number LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+        </choose>
+        ) sub
     </select>
 
 </mapper>
