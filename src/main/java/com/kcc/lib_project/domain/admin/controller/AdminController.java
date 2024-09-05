@@ -1,17 +1,22 @@
 package com.kcc.lib_project.domain.admin.controller;
 
 
+import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
+import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
 import com.kcc.lib_project.domain.user.repository.UserRepositoryImpl;
 import com.kcc.lib_project.domain.user.service.UserService;
 import com.kcc.lib_project.domain.user.vo.UserVo;
+import com.kcc.lib_project.global.exception.type.BookNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,13 +27,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -36,8 +40,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserRepositoryImpl userRepositoryImpl;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/admin/main")
     public String adminMain(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -139,5 +147,46 @@ public class AdminController {
         userService.updateUser(userDto);
 
         return "redirect:/";
+    }
+
+    @GetMapping("/admin/books/loan")
+    public String loanBook() {
+        return "admin/loan";
+    }
+
+    @GetMapping("/getMemberInfo")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestParam("id") String id) {
+        Map<String, Object> responseUser = new HashMap<>();
+        UserDto user = adminService.getUser(id);
+
+        if (user != null) {
+            responseUser.put("name", user.getName());
+            responseUser.put("email", user.getEmail());
+            responseUser.put("address", user.getAddress());
+            return ResponseEntity.ok(responseUser);
+        } else {
+            responseUser.put("error", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseUser);
+        }
+    }
+
+    @GetMapping("/getBookInfo")
+    @ResponseBody
+    public Map<String, Object> getBookInfo(@RequestParam("callNumber") String callNumber) throws BookNotFoundException {
+        Map<String, Object> responseBook = new HashMap<>();
+        OwnBookDto bookInfo = adminService.getOwnBook(callNumber);
+
+        // 예약 중인 상태가 1이므로 0이 true | 자료상태 AVAILABLE이 사용가능
+        if(!bookInfo.getIsReserved() && bookInfo.getStatus().equals("AVAILABLE")){
+            responseBook.put("status", true);
+            responseBook.put("title", bookInfo.getTitle());
+            responseBook.put("publisher", bookInfo.getPublisher());
+            responseBook.put("publicationYear", bookInfo.getPublicationYear());
+        } else {
+            responseBook.put("status", false);
+        }
+
+        return responseBook;
     }
 }
