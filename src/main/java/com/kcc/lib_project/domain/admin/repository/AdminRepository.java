@@ -12,4 +12,5 @@ public interface AdminRepository {
     Optional<UserDto> getUserById(String id);
     Optional<OwnBookDto> getOwnBookById(String callNumber);
     Boolean saveBookRent(LoanDto loanDto);
+    void changeStatus(String callNumber);
 }

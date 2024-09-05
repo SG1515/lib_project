@@ -50,4 +50,8 @@ public class AdminService {
         }
 
     }
+
+    public void changeStatus(String callNumber){
+        adminRepository.changeStatus(callNumber);
+    }
 }

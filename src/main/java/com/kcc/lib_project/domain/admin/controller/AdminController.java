@@ -210,9 +210,11 @@ public class AdminController {
                 .build();
 
 
-        
+        //대여 insert
         Boolean success = adminService.rentBook(loanDto);
 
+        //소유도서 status update
+        adminService.changeStatus(callNumber);
         if (success) {
             response.put("message", "대여 신청이 완료되었습니다.");
             response.put("redirectUrl", "/admin/main"); // 리다이렉트할 URL

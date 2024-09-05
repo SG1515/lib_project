@@ -30,5 +30,11 @@
         VALUES (loan_seq.nextval, #{startedAt}, #{endedAt}, #{isReturned}, #{extentionCount}, #{userId}, #{callNumber})
     </insert>
 
+    <update id="changeStatus" parameterType="java.lang.String" >
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'UNAVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
 
 </mapper>

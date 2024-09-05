@@ -39,4 +39,9 @@ public class AdminRepositoryImpl implements AdminRepository {
             return false;
         }
     }
+
+    @Override
+    public void changeStatus(String callNumber) {
+        adminMapper.changeStatus(callNumber);
+    }
 }
