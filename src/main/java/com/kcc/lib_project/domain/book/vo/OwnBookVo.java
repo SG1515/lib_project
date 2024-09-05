@@ -1,5 +1,6 @@
 package com.kcc.lib_project.domain.book.vo;
 
+import com.kcc.lib_project.domain.book.dto.BookCreateDto;
 import com.kcc.lib_project.global.util.CallNumberGenerator;
 import lombok.*;
 
@@ -44,6 +45,15 @@ public class OwnBookVo {
                 .status(Status.AVAILABLE.toString())
                 .isReserved(false)
                 .version(1L)
+                .build();
+    }
+
+    public static OwnBookVo from(BookCreateDto bookCreateDto) {
+        return OwnBookVo.builder()
+                .callNumber(bookCreateDto.getCallNumber())
+                .isbn(bookCreateDto.getIsbn())
+                .receiptAt(LocalDate.now())
+                .status(Status.AVAILABLE.toString())
                 .build();
     }
 }

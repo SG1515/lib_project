@@ -10,6 +10,44 @@
         values(#{isbn}, #{title}, #{author}, #{publisher}, #{publicationYear, jdbcType=DATE, typeHandler=org.apache.ibatis.type.LocalDateTypeHandler}
               , #{pageSize}, #{categoryNumber}, #{contents}, #{bookIndex}, #{imageUrl})
     </insert>
+
+    <!-- isbn으로 도서 권수 세는 쿼리 -->
+    <select id="selectIsbn" parameterType="Long" resultType="Long">
+            select count(*) from book where isbn = #{isbn}
+    </select>
+
+    <!-- 도서 정보 업데이트 -->
+    <update id="updateBook" parameterType="BookVo">
+        UPDATE book
+        SET
+            title = #{title},
+            author = #{author},
+            publisher = #{publisher},
+            publication_year = #{publicationYear, jdbcType=DATE, typeHandler=org.apache.ibatis.type.LocalDateTypeHandler},
+            contents = #{contents},
+            book_index = #{bookIndex},
+            image_url = #{imageUrl}
+        WHERE isbn = (
+            SELECT b.isbn
+            FROM book b
+                     JOIN own_book o ON b.isbn = o.isbn
+            WHERE o.call_number = #{callNumber}
+        )
+    </update>
+
+    <!-- 도서 삭제 -->
+    <delete id="deleteBookByCallNumber" parameterType="String">
+        DELETE FROM book
+        WHERE isbn = (
+            SELECT b.isbn
+            FROM book b
+                     JOIN own_book o ON b.isbn = o.isbn
+            WHERE o.call_number = #{callNumber}
+        )
+    </delete>
+
+
+
 </mapper>
 
 

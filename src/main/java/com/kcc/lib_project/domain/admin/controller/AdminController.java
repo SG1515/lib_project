@@ -4,6 +4,11 @@ package com.kcc.lib_project.domain.admin.controller;
 import com.kcc.lib_project.domain.admin.dto.LoanDto;
 import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.service.AdminService;
+import com.kcc.lib_project.domain.book.dto.BookCreateDto;
+import com.kcc.lib_project.domain.book.dto.BookDetailDto;
+import com.kcc.lib_project.domain.book.dto.BookPageDto;
+import com.kcc.lib_project.domain.book.service.OwnBookService;
+import com.kcc.lib_project.domain.book.vo.BookVo;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
@@ -15,6 +20,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,12 +39,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
 @Controller
+@Slf4j
 public class AdminController {
+    @Autowired
+    private OwnBookService ownBookService;
 
     @Autowired
     private UserService userService;
@@ -48,6 +58,83 @@ public class AdminController {
 
     @Autowired
     private AdminService adminService;
+
+    @GetMapping("/admin/books/newbook")
+    public String showNewBookForm() {
+        return "registerPage";
+    }
+
+    @PostMapping("/admin/books/newbook")
+    public String registerBook(@ModelAttribute BookCreateDto bookCreateDto) {
+        ownBookService.registerBook(bookCreateDto);
+        return "redirect:/admin/books/newbook";
+    }
+
+    @GetMapping("/admin/books")
+    public String adminBookList(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int limit,
+            Model model
+    ) {
+        BookPageDto bookPageDto = ownBookService.searchOwnBooksByPageAndCategory(category, keyword, page, limit);
+        model.addAttribute("bookPageDto", bookPageDto);
+        log.info(bookPageDto.toString());
+
+        return "selectBook";
+    }
+
+    @PostMapping("/updateBook")
+    public ResponseEntity<String> updateBook(@RequestBody BookCreateDto bookCreateDto) {
+        try {
+            // 도서 정보를 수정하는 서비스 호출
+            ownBookService.updateBook(bookCreateDto);
+            return ResponseEntity.ok("수정 성공");
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("수정 실패");
+        }
+    }
+
+    @PostMapping("/deleteBook")
+    @ResponseBody
+    public String deleteBook(@RequestBody Map<String, String> requestBody) {
+        String callNumber = requestBody.get("callNumber");
+        log.info("실행됨: " + callNumber);
+
+        int isSuccess = ownBookService.deleteBookByCallNumber(callNumber);
+        if (isSuccess == 1) {
+            return "삭제 성공";
+        } else {
+            return "삭제 실패";
+        }
+    }
+
+
+
+
+    // 도서 삭제 요청을 처리하는 AJAX 메서드
+//    @PostMapping("/admin/books/delete")
+//    @ResponseBody
+//    public String deleteBook(@RequestParam("callNumber") String callNumber) {
+//        try {
+//            ownBookService.deleteBook(callNumber);
+//            return "도서 정보가 성공적으로 삭제되었습니다.";
+//        } catch (Exception e) {
+//            log.error("도서 삭제 중 오류 발생", e);
+//            return "도서 삭제 중 오류 발생: " + e.getMessage();
+//        }
+//    }
+
+
+
+
+    // 이용자 권한 승인
+    @GetMapping("/admin/owner")
+    public String showNewBook3() {
+        return "selectUser";
+    }
 
     @GetMapping("/admin/main")
     public String adminMain(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -251,7 +338,7 @@ public class AdminController {
         } else {
             response.put("error", "반납 신청에 실패했습니다.");
         }
-        
+
 
         return response;
     }

@@ -45,7 +45,7 @@ public class BookDummy {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        for (int page = 20; page < 29; page++) {
+        for (int page = 305; page < 310 ; page++) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://www.nl.go.kr/seoji/SearchApi.do")
                     .queryParam("cert_key", secretKey)
                     .queryParam("result_style", "json")
@@ -70,7 +70,10 @@ public class BookDummy {
             for (BookVo bookVo : bookVos) {
                 bookMapper.createBook(bookVo);
 
-                if (bookVo.getBookIndex() != null && bookVo.getCategoryNumber() != "0" && bookVo.getImageUrl() != null && bookVo.getPageSize() != 0) {
+                if ((bookVo.getBookIndex() != null && !bookVo.getBookIndex().isBlank()) &&
+                        (bookVo.getImageUrl() != null && !bookVo.getImageUrl().isBlank()) &&
+                        bookVo.getPageSize() != 0 &&
+                        (bookVo.getImageUrl() != null && !bookVo.getContents().isBlank())) {
                     OwnBookVo ownBookVo = OwnBookVo.from(bookVo);
                     ownBookMapper.createOwnBook(ownBookVo);
                 }

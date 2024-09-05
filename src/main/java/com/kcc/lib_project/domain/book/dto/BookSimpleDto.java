@@ -29,15 +29,21 @@ public class BookSimpleDto {
     }
 
     public static BookSimpleDto from(OwnBookVo ownBookVo) {
+        // publicationYear가 null일 경우 "Unknown" 또는 빈 문자열을 설정
+        String publicationYear = (ownBookVo.getBookVo().getPublicationYear() != null)
+                ? ownBookVo.getBookVo().getPublicationYear().toString()
+                : "Unknown";
+
         return BookSimpleDto.builder()
                 .callNumber(ownBookVo.getCallNumber())
                 .imageUrl(ownBookVo.getBookVo().getImageUrl())
                 .title(ownBookVo.getBookVo().getTitle())
                 .author(ownBookVo.getBookVo().getAuthor())
                 .publisher(ownBookVo.getBookVo().getPublisher())
-                .publicationYear(ownBookVo.getBookVo().getPublicationYear().toString())
+                .publicationYear(publicationYear)
                 .contents(ownBookVo.getBookVo().getContents())
                 .bookIndex(ownBookVo.getBookVo().getBookIndex())
                 .build();
     }
+
 }
