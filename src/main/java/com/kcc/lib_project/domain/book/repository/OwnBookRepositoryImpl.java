@@ -20,6 +20,7 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
     }
 
     @Override
+
     public List<OwnBookVo> selectRecentlyTopTenOwnBooks() {
         return ownBookMapper.selectRecentlyTopTenOwnBooks();
     }
@@ -44,5 +45,19 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
         return ownBookMapper.tryReserveBook(callNumber, version);
     }
 
+    @Override
+    public int createOwnBook(OwnBookVo ownBookVo) {
+        return ownBookMapper.createOwnBook(ownBookVo);
+    }
+
+    @Override
+    public List<OwnBookVo> adminSelectBooksByPageAndKeyword(String category, String keyword, int page, int limit, long offset) {
+        return ownBookMapper.adminSelectBooksByPageAndKeyword(category, keyword, page, limit, offset);
+    }
+
+    @Override
+    public int deleteBookByCallNumber(String callNumber) {
+        return ownBookMapper.deleteBookByCallNumber(callNumber);
+    }
 
 }
