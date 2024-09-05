@@ -13,6 +13,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -152,22 +154,18 @@ public class AdminController {
 
     @GetMapping("/getMemberInfo")
     @ResponseBody
-    public Map<String, Object> getUserInfo(@RequestParam("id") String id){
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestParam("id") String id) {
         Map<String, Object> responseUser = new HashMap<>();
         UserDto user = adminService.getUser(id);
 
-
-        if(user != null){
+        if (user != null) {
             responseUser.put("name", user.getName());
             responseUser.put("email", user.getEmail());
             responseUser.put("address", user.getAddress());
+            return ResponseEntity.ok(responseUser);
         } else {
-            System.out.println("User not found for id: " + id);
             responseUser.put("error", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseUser);
         }
-
-        System.out.println("유저의 이름은 :" + responseUser.get("name"));
-
-        return responseUser;
     }
 }

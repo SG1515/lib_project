@@ -108,13 +108,17 @@
                     type: 'GET',
                     data: { id: memberId },  // id
                     success: function(responseUser) {
-                        console.log(responseUser)
-                        // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
-                        $('#memberInfo').html(
-                            '<p><strong>이름:</strong> ' + responseUser.name + '</p>' +  // name
-                            '<p><strong>주소:</strong> ' + responseUser.address + '</p>' +  // address
-                            '<p><strong>이메일:</strong> ' + responseUser.email + '</p>'  // email
-                        );
+                        // responseUser.name이 undefined이면 에러 메시지 출력
+                        if (responseUser.name === undefined || responseUser.name === null) {
+                            $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
+                        } else {
+                            // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
+                            $('#memberInfo').html(
+                                '<p><strong>이름:</strong> ' + responseUser.name + '</p>' +  // name
+                                '<p><strong>주소:</strong> ' + responseUser.address + '</p>' +  // address
+                                '<p><strong>이메일:</strong> ' + responseUser.email + '</p>'  // email
+                            );
+                        }
                     },
                     error: function() {
                         $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
