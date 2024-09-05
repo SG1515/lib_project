@@ -11,4 +11,18 @@
         where id = #{id}
     </select>
 
+    <select id="getBookInfoByCallNumber" parameterType="java.lang.String" resultType="com.kcc.lib_project.domain.admin.dto.OwnBookDto">
+        select
+            o.call_number as callNumber,
+            b.title,
+            b.publisher,
+            b.publication_year as publicationYear,
+            o.status,
+            o.is_reserved as isReserved
+        from own_book o
+        inner join book b
+        using (isbn)
+        where call_number = #{callNumber}
+    </select>
+
 </mapper>

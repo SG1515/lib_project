@@ -1,6 +1,7 @@
 package com.kcc.lib_project.domain.admin.controller;
 
 
+import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
@@ -8,6 +9,7 @@ import com.kcc.lib_project.domain.user.dto.UserDto;
 import com.kcc.lib_project.domain.user.repository.UserRepositoryImpl;
 import com.kcc.lib_project.domain.user.service.UserService;
 import com.kcc.lib_project.domain.user.vo.UserVo;
+import com.kcc.lib_project.global.exception.type.BookNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -167,5 +169,24 @@ public class AdminController {
             responseUser.put("error", "User not found");
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseUser);
         }
+    }
+
+    @GetMapping("/getBookInfo")
+    @ResponseBody
+    public Map<String, Object> getBookInfo(@RequestParam("callNumber") String callNumber) throws BookNotFoundException {
+        Map<String, Object> responseBook = new HashMap<>();
+        OwnBookDto bookInfo = adminService.getOwnBook(callNumber);
+
+        // 예약 중인 상태가 1이므로 0이 true | 자료상태 AVAILABLE이 사용가능
+        if(!bookInfo.getIsReserved() && bookInfo.getStatus().equals("AVAILABLE")){
+            responseBook.put("status", true);
+            responseBook.put("title", bookInfo.getTitle());
+            responseBook.put("publisher", bookInfo.getPublisher());
+            responseBook.put("publicationYear", bookInfo.getPublicationYear());
+        } else {
+            responseBook.put("status", false);
+        }
+
+        return responseBook;
     }
 }

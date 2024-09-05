@@ -1,5 +1,6 @@
 package com.kcc.lib_project.domain.admin.mapper;
 
+import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.user.dto.UserDto;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,4 +10,5 @@ import java.util.Optional;
 public interface AdminMapper  {
 
     public Optional<UserDto> getUserById(String id);
+    public Optional<OwnBookDto> getBookInfoByCallNumber(String callNumber);
 }

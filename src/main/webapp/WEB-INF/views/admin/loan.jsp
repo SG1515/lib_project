@@ -137,15 +137,18 @@
                     type: 'GET',
                     data: { callNumber: callNumber },  // 수정된 필드명: call_number
                     success: function(response) {
-                        // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
-                        $('#bookInfo').html(
-                            '<p><strong>제목:</strong> ' + response.title + '</p>' +  // title
-                            '<p><strong>출판사:</strong> ' + response.publisher + '</p>' +  // publisher
-                            '<p><strong>출판년도:</strong> ' + response.publication_year + '</p>'  // publication_year
-                        );
+                        if(response.title === null || response.title === undefined) {
+                            $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
+                        } else {
+                            $('#bookInfo').html(
+                                '<p><strong>제목:</strong> ' + response.title + '</p>' +  // title
+                                '<p><strong>출판사:</strong> ' + response.publisher + '</p>' +  // publisher
+                                '<p><strong>출판년도:</strong> ' + response.publicationYear + '</p>'  // publication_year
+                            );
+                        }
                     },
                     error: function() {
-                        $('#bookInfo').html('<p class="text-danger">도서 정보를 불러오는데 실패했습니다.</p>');
+                        $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
                     }
                 });
             } else {

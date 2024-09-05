@@ -1,10 +1,11 @@
 package com.kcc.lib_project.domain.admin.service;
 
+import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.repository.AdminRepository;
 import com.kcc.lib_project.domain.user.dto.UserDto;
+import com.kcc.lib_project.global.exception.type.BookNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,13 +20,23 @@ public class AdminService {
 
     private final AdminRepository adminRepository;
 
-    public UserDto getUser(String id) {
+    public UserDto getUser(String id) throws UsernameNotFoundException {
         Optional<UserDto> user = adminRepository.getUserById(id);
 
         if(user.isPresent()) {
             return user.get();
         } else {
             throw new UsernameNotFoundException("User with ID" + id + "not found");
+        }
+    }
+
+    public OwnBookDto getOwnBook(String callNumber) throws BookNotFoundException {
+        Optional<OwnBookDto> bookInfo = adminRepository.getOwnBookById(callNumber);
+
+        if(bookInfo.isPresent()) {
+            return bookInfo.get();
+        } else {
+            throw new BookNotFoundException("Book with ID " + callNumber + "not found");
         }
     }
 }
