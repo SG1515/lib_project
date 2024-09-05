@@ -44,4 +44,14 @@ public class AdminRepositoryImpl implements AdminRepository {
     public void changeStatus(String callNumber) {
         adminMapper.changeStatus(callNumber);
     }
+
+    @Override
+    public void returnBook(LoanDto loanDto) {
+        adminMapper.returnBook(loanDto);
+    }
+
+    @Override
+    public void returnBookChangeStatus(String callNumber) {
+        adminMapper.returnBookChangeStatus(callNumber);
+    }
 }

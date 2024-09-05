@@ -54,4 +54,10 @@ public class AdminService {
     public void changeStatus(String callNumber){
         adminRepository.changeStatus(callNumber);
     }
+
+    public boolean returnBook(LoanDto loanDto) {
+        adminRepository.returnBookChangeStatus(loanDto.getCallNumber());
+        adminRepository.returnBook(loanDto);
+        return true;
+    }
 }

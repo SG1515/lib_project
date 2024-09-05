@@ -189,6 +189,10 @@ public class AdminController {
             responseBook.put("status", false);
         }
 
+        if(bookInfo.getStatus().equals("UNAVAILABLE")){
+            responseBook.put("return", true);
+        }
+
         return responseBook;
     }
 
@@ -222,6 +226,32 @@ public class AdminController {
             response.put("error", "대여 신청에 실패했습니다.");
         }
 
+
+        return response;
+    }
+
+
+    @PostMapping("/returnBook")
+    @ResponseBody
+    public Map<String, Object> returnBook(@RequestParam("callNumber") String callNumber){
+        Map<String, Object> response = new HashMap<>();
+        LocalDate now = LocalDate.now();
+
+
+        LoanDto loanDto = LoanDto.builder()
+                .callNumber(callNumber)
+                .endedAt(now)
+                .isReturned(0)
+                .build();
+
+        boolean success = adminService.returnBook(loanDto);
+
+        if (success) {
+            response.put("message", "반납 신청이 완료되었습니다.");
+        } else {
+            response.put("error", "반납 신청에 실패했습니다.");
+        }
+        
 
         return response;
     }

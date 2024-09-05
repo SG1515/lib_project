@@ -37,4 +37,27 @@
         WHERE CALL_NUMBER = #{callNumber}
     </update>
 
+    <update id="returnBook" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        UPDATE loan
+        SET is_returned = #{isReturned},
+            ended_at = #{endedAt}
+        WHERE loan_id = (
+            SELECT loan_id
+            FROM (
+                     SELECT loan_id
+                     FROM loan
+                     WHERE call_number = #{callNumber}
+                     ORDER BY ended_at DESC
+                 )
+            WHERE ROWNUM = 1
+        )
+    </update>
+
+    <update id="returnBookChangeStatus" parameterType="java.lang.String">
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'AVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
+
 </mapper>

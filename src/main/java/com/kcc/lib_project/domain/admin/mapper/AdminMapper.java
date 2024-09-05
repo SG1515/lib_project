@@ -14,5 +14,6 @@ public interface AdminMapper  {
     public Optional<OwnBookDto> getBookInfoByCallNumber(String callNumber);
     int saveBookRent(LoanDto loanDto);
     void changeStatus(String callNumber);
-
+    void returnBook(LoanDto loanDto);
+    void returnBookChangeStatus(String callNumber);
 }

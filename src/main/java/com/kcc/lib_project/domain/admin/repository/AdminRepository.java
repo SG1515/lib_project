@@ -13,4 +13,7 @@ public interface AdminRepository {
     Optional<OwnBookDto> getOwnBookById(String callNumber);
     Boolean saveBookRent(LoanDto loanDto);
     void changeStatus(String callNumber);
+    void returnBook(LoanDto loanDto);
+
+    void returnBookChangeStatus(String callNumber);
 }
