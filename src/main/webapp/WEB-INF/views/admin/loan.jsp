@@ -169,6 +169,7 @@
                     },
                     success: function(response) {
                         // 대여 신청이 성공하면 페이지 리다이렉트
+                        alert('대여 신청이 완료되었습니다.')
                         window.location.href = '/admin/main';
                     },
                     error: function() {
