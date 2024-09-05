@@ -33,6 +33,7 @@
         #{isbn})
     </insert>
 
+    <!-- 상세보기 -->
     <select id="selectOwnBookDetailByCallNumber" parameterType="String" resultMap="ownBookMap">
         <![CDATA[
         SELECT o.call_number,o.receipt_at, o.status, o.is_reserved, o.version, b.isbn, b.title, b.author, b.publisher, b.publication_year, b.page_size, b.category_number, b.contents, b.book_index, b.image_url
@@ -104,6 +105,47 @@
         ]]>
     </select>
 
+    <!-- 관리자 도서 전체 조회-->
+    <select id="adminSelectBooksByPageAndKeyword" parameterType="map" resultMap="ownBookMap">
+        <![CDATA[
+    SELECT * FROM (
+        SELECT sub.*, ROWNUM AS rnum FROM (
+            SELECT o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+                   b.publication_year, b.page_size, b.category_number, b.image_url,
+                   count(l.call_number) AS cnt,
+                   DBMS_LOB.SUBSTR(b.contents, 1500, 1) AS contents,
+                   DBMS_LOB.SUBSTR(b.book_index, 1500, 1) AS book_index
+            FROM own_book o
+            LEFT JOIN book b ON o.isbn = b.isbn
+            LEFT JOIN loan l ON o.call_number = l.call_number
+            WHERE 1=1
+            ]]>
+        <choose>
+            <when test="category == 'isbn'">
+                <![CDATA[ AND b.isbn LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="category == 'title'">
+                <![CDATA[ AND b.title LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="category == 'author'">
+                <![CDATA[ AND b.author LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+            <when test="category == 'publisher'">
+                <![CDATA[ AND b.publisher LIKE '%' || #{keyword} || '%' ]]>
+            </when>
+        </choose>
+        <![CDATA[
+            GROUP BY o.call_number, o.receipt_at, o.status, b.isbn, b.title, b.author, b.publisher,
+                     b.publication_year, b.page_size, b.category_number, b.image_url,
+                     DBMS_LOB.SUBSTR(b.contents, 1500, 1), DBMS_LOB.SUBSTR(b.book_index, 1500, 1)
+            ORDER BY b.publication_year DESC
+        ) sub
+        WHERE ROWNUM <= #{limit} + #{offset}
+        )
+        WHERE rnum > #{offset}
+    ]]>
+    </select>
+
     <select id="count" parameterType="map" resultType="Long">
         <![CDATA[
         SELECT count(*) FROM (
@@ -132,6 +174,9 @@
     </update>
 
 
+    <delete id="deleteBookByCallNumber" parameterType="String">
+        DELETE FROM own_book WHERE call_number = #{callNumber}
+    </delete>
 
 </mapper>
 

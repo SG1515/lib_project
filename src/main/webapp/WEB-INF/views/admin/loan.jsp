@@ -110,7 +110,7 @@
                     success: function(responseUser) {
                         // responseUser.name이 undefined이면 에러 메시지 출력
                         if (responseUser.name === undefined || responseUser.name === null) {
-                            $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
+                            $('#memberInfo').html('<p class="text-danger">일치하는 회원정보가 없습니다.</p>');
                         } else {
                             // 서버에서 받아온 데이터를 이용해 정보를 화면에 표시
                             $('#memberInfo').html(
@@ -121,7 +121,7 @@
                         }
                     },
                     error: function() {
-                        $('#memberInfo').html('<p class="text-danger">회원 정보를 불러오는데 실패했습니다.</p>');
+                        $('#memberInfo').html('<p class="text-danger">일치하는 회원정보가 없습니다.</p>');
                     }
                 });
             } else {
@@ -138,7 +138,7 @@
                     data: { callNumber: callNumber },  // 수정된 필드명: call_number
                     success: function(response) {
                         if(response.title === null || response.title === undefined) {
-                            $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
+                            $('#bookInfo').html('<p class="text-danger">해당 도서가 없거나 도서가 이미 대여중이거나 예약중입니다.</p>');
                         } else {
                             $('#bookInfo').html(
                                 '<p><strong>제목:</strong> ' + response.title + '</p>' +  // title
@@ -146,10 +146,17 @@
                                 '<p><strong>출판년도:</strong> ' + response.publicationYear + '</p>'  // publication_year
                             );
                         }
+                        if(response.return === true) {
+                            $('#bookInfo').html(
+                                '<div class="text-danger">현재 대여 중인 도서입니다. </div>'+
+                              '<button class="btn btn-danger" id="returnButton">반납하기</button>'
+                            );
+                        }
                     },
                     error: function() {
-                        $('#bookInfo').html('<p class="text-danger">도서가 이미 대여중이거나 예약중입니다.</p>');
+                        $('#bookInfo').html('<p class="text-danger">해당 도서가 없거나 도서가 이미 대여중이거나 예약중입니다.</p>');
                     }
+
                 });
             } else {
                 alert('도서 청구기호를 입력해주세요.');
@@ -169,6 +176,7 @@
                     },
                     success: function(response) {
                         // 대여 신청이 성공하면 페이지 리다이렉트
+                        alert('대여 신청이 완료되었습니다.')
                         window.location.href = '/admin/main';
                     },
                     error: function() {
@@ -177,6 +185,33 @@
                 });
             } else {
                 alert('회원 ID와 도서 청구기호를 입력해주세요.');
+            }
+        });
+
+        $(document).on('click', '#returnButton', function() {
+            console.log("click");
+            var callNumber = $('#bookId').val();
+            if (callNumber) {
+                $.ajax({
+                    url: '/returnBook',  // 서버의 대여 신청 처리 엔드포인트
+                    type: 'POST',
+                    data: {
+                        callNumber: callNumber
+                    },
+                    success: function(response) {
+                        if(response.message === null || response.message === undefined){
+                            alert('반납 신청이 실패되었습니다.')
+                        }  else {
+                            alert('반납 신청이 완료되었습니다.')
+                        }
+
+                    },
+                    error: function() {
+                        alert('반납 신청이 실패되었습니다.');
+                    }
+                });
+            } else {
+                alert('청구기호를 입력해주세요.');
             }
         });
     });

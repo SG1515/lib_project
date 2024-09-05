@@ -25,4 +25,39 @@
         where call_number = #{callNumber}
     </select>
 
+    <insert id="saveBookRent" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number)
+        VALUES (loan_seq.nextval, #{startedAt}, #{endedAt}, #{isReturned}, #{extentionCount}, #{userId}, #{callNumber})
+    </insert>
+
+    <update id="changeStatus" parameterType="java.lang.String" >
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'UNAVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
+
+    <update id="returnBook" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        UPDATE loan
+        SET is_returned = #{isReturned},
+            ended_at = #{endedAt}
+        WHERE loan_id = (
+            SELECT loan_id
+            FROM (
+                     SELECT loan_id
+                     FROM loan
+                     WHERE call_number = #{callNumber}
+                     ORDER BY ended_at DESC
+                 )
+            WHERE ROWNUM = 1
+        )
+    </update>
+
+    <update id="returnBookChangeStatus" parameterType="java.lang.String">
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'AVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
+
 </mapper>

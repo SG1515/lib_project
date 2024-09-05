@@ -1,5 +1,7 @@
 package com.kcc.lib_project.domain.book.vo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.kcc.lib_project.domain.book.dto.BookCreateDto;
 import com.kcc.lib_project.domain.book.dto.BookDummyDto;
 import lombok.*;
 
@@ -11,12 +13,15 @@ import java.time.format.DateTimeFormatter;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Builder
 public class BookVo {
 
     private Long isbn;
     private String title;
     private String author;
     private String publisher;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+
     private LocalDate publicationYear;
     private Integer pageSize;
     private String categoryNumber;
@@ -64,4 +69,22 @@ public class BookVo {
                 bookDummyDto.imageUrl()
         );
     }
+
+    public static BookVo from(BookCreateDto bookCreateDto) {
+
+        return BookVo.builder()
+            .isbn(bookCreateDto.getIsbn())
+            .author(bookCreateDto.getAuthor())
+            .title(bookCreateDto.getTitle())
+            .publisher(bookCreateDto.getPublisher())
+            .publicationYear(bookCreateDto.getPublicationYear())
+            .pageSize(bookCreateDto.getPageSize())
+            .contents(bookCreateDto.getContents())
+            .bookIndex(bookCreateDto.getBookIndex())
+            .imageUrl(bookCreateDto.getImageUrl())
+            .categoryNumber(bookCreateDto.getCategoryNumber())
+            .build();
+        
+    }
+
 }
