@@ -27,7 +27,6 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                         .requestMatchers("/admin/**").hasRole("ADMIN") // ROLE_ADMIN 권한이 있는 사용자만 접근 가능
                         .requestMatchers("/user/**").authenticated() // 로그인한 사용자만 회원조회
-                        .requestMatchers("/user/profile").hasRole("USER")
                         .anyRequest().permitAll())  // 그 외의 모든 요청은 인증 없이 접근 가능
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form
@@ -50,13 +49,13 @@ public class SecurityConfig {
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
-                        .deleteCookies("JSESSIONID")
+                        .deleteCookies("JSESSIONID", "remember-me")
                         .invalidateHttpSession(true)
                 )
                 .rememberMe(remember -> remember
                         .userDetailsService(customUserDetailService)
                         .key("uniqueAndSecret")
-                        .tokenValiditySeconds(60000)
+                        .tokenValiditySeconds(3600)
                 );
 
         return http.build();

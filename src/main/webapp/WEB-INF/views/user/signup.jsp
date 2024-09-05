@@ -178,7 +178,6 @@
           .addEventListener("submit", function (event) {
             event.preventDefault();
 
-            // 서버로 폼 데이터를 전송합니다.
             const form = event.target;
             const formData = new FormData(form);
 
@@ -188,7 +187,7 @@
             })
               .then((response) => {
                 if (response.ok) {
-                  return response.text(); // 응답 텍스트를 받아옵니다.
+                  return response.text(); 
                 } else {
                   throw new Error("회원가입에 실패했습니다.");
                 }
@@ -199,7 +198,7 @@
                   title: "회원가입 완료",
                   text: "회원가입이 정상적으로 완료되었습니다.",
                 }).then(() => {
-                  // 알림이 닫힌 후 홈페이지로 리디렉션합니다.
+                  // 알림이 닫힌 후 홈페이지로 리디렉션
                   window.location.href = "/";
                 });
               })
