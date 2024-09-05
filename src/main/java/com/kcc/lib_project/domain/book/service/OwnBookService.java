@@ -10,8 +10,14 @@ import com.kcc.lib_project.domain.book.repository.OwnBookRepository;
 import com.kcc.lib_project.domain.book.vo.BookVo;
 import com.kcc.lib_project.domain.book.vo.OwnBookVo;
 import com.kcc.lib_project.domain.book.vo.Status;
+import com.kcc.lib_project.domain.loan.dto.LoanInfoDto;
 import com.kcc.lib_project.domain.loan.repository.LoanRepository;
 import com.kcc.lib_project.domain.loan.vo.LoanVo;
+import com.kcc.lib_project.domain.reserve.dto.ReserveInfoDto;
+import com.kcc.lib_project.domain.reserve.repository.ReserveRepository;
+import com.kcc.lib_project.domain.reserve.vo.ReserveVo;
+import com.kcc.lib_project.domain.user.repository.UserRepository;
+import com.kcc.lib_project.domain.user.vo.UserVo;
 import com.kcc.lib_project.global.exception.type.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +34,8 @@ public class OwnBookService {
 
     private final OwnBookRepository ownBookRepository;
     private final LoanRepository loanRepository;
+    private final ReserveRepository reserveRepository;
+    private final UserRepository userRepository;
     private final BookRepository bookRepository;
 
     public BookDetailDto getOwnBookDetailByCallNumber(String callNumber) {
@@ -83,6 +91,50 @@ public class OwnBookService {
         bookSimpleDtos.forEach(b -> log.info(b.getBookIndex()));
 
         return new BookPageDto(page, startPage, endPage, totalCount, realEndPage, bookSimpleDtos);
+    }
+
+    public BookLoanReservePageInfoDto getOwnBookByLoanAndReserve(String loanKeyword, String loanType, String reserveKeyword,
+                                                                 String reserveType, int loanPage, int loanLimit,
+                                                                 int reservePage, int reserveLimit, String userName) {
+
+        UserVo userVo = userRepository.getUserVoById(userName)
+                .orElseThrow(() -> new NotFoundException("사용자를 찾을 수 없습니다."));
+
+        long loanOffset = (long) (loanPage - 1) * loanLimit;
+        int loanTotalCount = loanRepository.countByPageAndTypeAndKeyword(loanType, loanKeyword, userVo.getUserId());
+        int loanRealEndPage = (int) Math.ceil((double) loanTotalCount / loanLimit);
+        int loanStartPage = Math.max((((loanPage - 1) / 5) * 5 + 1), 1);
+        int loanEndPage = Math.min(loanStartPage + 5 - 1, loanRealEndPage);
+
+        List<LoanVo> loanOwnBookVos = loanRepository.selectLoanByPageAndTypeAndKeyword(loanType, loanKeyword, loanPage, loanLimit, loanOffset, userVo.getUserId());
+        List<LoanInfoDto> loanInfoDtos = loanOwnBookVos.stream().map(l -> LoanInfoDto.from(l)).toList();
+
+        long reserveOffset = (long) (reservePage - 1) * reserveLimit;
+        int reserveTotalCount = reserveRepository.countByPageAndTypeAndKeyword(loanType, loanKeyword, userVo.getUserId());
+
+        int reserveRealEndPage = (int) Math.ceil((double) reserveTotalCount / reserveLimit);
+        int reserveStartPage = Math.max((((reservePage - 1) / 5) * 5 + 1), 1);
+        int reserveEndPage = Math.min(reserveStartPage + 5 - 1, reserveRealEndPage);
+
+        List<ReserveVo> reserveOwnBookVos = reserveRepository.selectReserveByPageAndTypeAndKeyword(reserveType, reserveKeyword, reservePage, reserveLimit, reserveOffset, userVo.getUserId());
+        List<ReserveInfoDto> reserveInfoDtos = reserveOwnBookVos.stream().map(r -> ReserveInfoDto.from(r)).toList();
+
+
+
+        return BookLoanReservePageInfoDto.builder()
+                .loanInfoDtos(loanInfoDtos)
+                .reserveInfoDtos(reserveInfoDtos)
+                .loanCurrentPage(loanPage)
+                .loanStartPage(loanStartPage)
+                .loanEndPage(loanEndPage)
+                .loanTotalCount(loanTotalCount)
+                .loanRealEndPage(loanRealEndPage)
+                .reserveCurrentPage(reservePage)
+                .reserveStartPage(reserveStartPage)
+                .reserveEndPage(reserveEndPage)
+                .reserveTotalCount(reserveTotalCount)
+                .reserveRealEndPage(reserveRealEndPage)
+                .build();
     }
 
     public void registerBook(BookCreateDto bookCreateDto) {

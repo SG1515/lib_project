@@ -19,6 +19,7 @@ public class ReserveVo {
     private String callNumber;
     private Long userId;
     private String status;
+    private LocalDate loanedAt;
 
     private OwnBookVo ownBookVo;
     private UserVo userVo;

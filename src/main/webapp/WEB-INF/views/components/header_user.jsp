@@ -288,9 +288,9 @@
                         >자료 찾기
                             <div class="search-back">
                                 <ul>
-                                    <li><a href="/search">도서 조회</a></li>
-                                    <li><a href="#">신규 도서</a></li>
-                                    <li><a href="#">인기 도서</a></li>
+                                    <li><a href="/search?type=인기순&page=1&limit=10">도서 조회</a></li>
+                                    <li><a href="/search?type=최신순&page=1&limit=10">신규 도서</a></li>
+                                    <li><a href="/search?type=인기순&page=1&limit=10">인기 도서</a></li>
                                 </ul>
                             </div>
                         </a>
@@ -323,7 +323,7 @@
                         >My Library
                             <div class="search-back">
                                 <ul>
-                                    <li><a href="/user/books/rental">대여한 책 조회</a></li>
+                                    <li><a href="/books/history/loan/reserve">대여/예약 이력 조회</a></li>
                                     <li><a href="/user/books/bookcheck">반납 이력 조회</a></li>
                                     <li><a href="/user/books/overdue">연체 이력 조회</a></li>
                                     <li><a href="/user/books/failure">분실 파손 조회</a></li>

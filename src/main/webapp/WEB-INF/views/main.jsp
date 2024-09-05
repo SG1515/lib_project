@@ -190,6 +190,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
       .subBox {
         margin: 60px 30px 0px 30px;
+        padding-bottom: 20px;
       }
 
       .announceTitle p {
@@ -277,6 +278,7 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
         margin-top: 10px; /* 제목과 상세 목록 사이의 간격 증가 */
         font-size: 14px; /* 상세 목록의 글꼴 크기 조정 */
       }
+
     </style>
     <title>Document</title>
   </head>
@@ -488,24 +490,24 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
             </div>
             <div class="col-5 announcementBox">
               <div class="announceTitle">
-                <p class="boxTitle">KCC정보통신 작은도서관</p>
+                <p class="boxTitle">KCC정보통신 작은도서관 일정</p>
               </div>
               <div class="row justify-content-between">
                 <div class="col-6 noticeGroup">
                   <div class="row">
                     <div class="col-12">
                       <div class="date">
-                        <p>2024-08-27</p>
+                        <p>2024-09-05</p>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="author">
-                        <p>관리자</p>
+                        <p>정상 운영</p>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="announceContent">
-                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                        <p>09:00 AM ~ 20:00 PM</p>
                       </div>
                     </div>
                   </div>
@@ -514,17 +516,17 @@ prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
                   <div class="row">
                     <div class="col-12">
                       <div class="date">
-                        <p>2024-08-24</p>
+                        <p>2024-09-06</p>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="author">
-                        <p>관리자</p>
+                        <p style="color: red">휴무일</p>
                       </div>
                     </div>
                     <div class="col-12">
                       <div class="announceContent">
-                        <p>숲 체험 모집을 시작합니다. 여러분 모두 모이세요~</p>
+                        <p>매주 토요일은 휴무일 입니다.</p>
                       </div>
                     </div>
                   </div>

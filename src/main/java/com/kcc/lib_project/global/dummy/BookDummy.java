@@ -20,7 +20,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
-@Transactional
+@Transactional(noRollbackFor = Exception.class)
 @Slf4j
 public class BookDummy {
 
@@ -45,7 +45,7 @@ public class BookDummy {
         HttpHeaders headers = new HttpHeaders();
         headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 
-        for (int page = 305; page < 310 ; page++) {
+        for (int page = 400; page < 430; page++) {
             UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl("https://www.nl.go.kr/seoji/SearchApi.do")
                     .queryParam("cert_key", secretKey)
                     .queryParam("result_style", "json")
@@ -68,7 +68,11 @@ public class BookDummy {
                     .map(BookVo::from).toList();
 
             for (BookVo bookVo : bookVos) {
-                bookMapper.createBook(bookVo);
+                try {
+                    bookMapper.createBook(bookVo);
+                } catch (Exception e) {
+                    continue;
+                }
 
                 if ((bookVo.getBookIndex() != null && !bookVo.getBookIndex().isBlank()) &&
                         (bookVo.getImageUrl() != null && !bookVo.getImageUrl().isBlank()) &&

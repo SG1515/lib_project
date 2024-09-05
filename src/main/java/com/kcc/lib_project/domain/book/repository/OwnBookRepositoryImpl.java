@@ -20,7 +20,6 @@ public class OwnBookRepositoryImpl implements OwnBookRepository {
     }
 
     @Override
-
     public List<OwnBookVo> selectRecentlyTopTenOwnBooks() {
         return ownBookMapper.selectRecentlyTopTenOwnBooks();
     }

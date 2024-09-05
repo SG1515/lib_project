@@ -1,10 +1,13 @@
 package com.kcc.lib_project.domain.book.controller;
 
 import com.kcc.lib_project.domain.book.dto.BookDetailDto;
+import com.kcc.lib_project.domain.book.dto.BookLoanReservePageInfoDto;
 import com.kcc.lib_project.domain.book.dto.BookPageDto;
 import com.kcc.lib_project.domain.book.service.OwnBookService;
+import com.kcc.lib_project.domain.user.auth.UserDetail;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,5 +39,21 @@ public class BookController {
         return "book/bookDetail";
     }
 
+    @GetMapping("/books/history/loan/reserve")
+    public String getLoanReserve(@RequestParam(defaultValue = "") String loanKeyword, @RequestParam(defaultValue = "title") String loanType,
+                                 @RequestParam(defaultValue = "") String reserveKeyword, @RequestParam(defaultValue = "title") String reserveType,
+                                 @RequestParam(defaultValue = "1") int loanPage, @RequestParam(defaultValue = "5") int loanLimit,
+                                 @RequestParam(defaultValue = "1") int reservePage, @RequestParam(defaultValue = "5") int reserveLimit, @AuthenticationPrincipal UserDetail userDetail, Model model) {
+        BookLoanReservePageInfoDto bookLoanReservePageInfoDto =
+                ownBookService.getOwnBookByLoanAndReserve(
+                        loanKeyword, loanType, reserveKeyword, reserveType, loanPage, loanLimit, reservePage, reserveLimit, userDetail.getUsername());
+        model.addAttribute("bookLoanReserveInfoDto", bookLoanReservePageInfoDto);
+        return "book/loanReserve";
+    }
+
+    @GetMapping("/user/books/bookcheck")
+    public String checkOutBook() {
+        return "book/checkOutBook";
+    }
 
 }

@@ -5,11 +5,8 @@ import com.kcc.lib_project.domain.admin.dto.LoanDto;
 import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
 import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.book.dto.BookCreateDto;
-import com.kcc.lib_project.domain.book.dto.BookDetailDto;
 import com.kcc.lib_project.domain.book.dto.BookPageDto;
 import com.kcc.lib_project.domain.book.service.OwnBookService;
-import com.kcc.lib_project.domain.book.vo.BookVo;
-import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
 import com.kcc.lib_project.domain.user.repository.UserRepositoryImpl;
@@ -18,15 +15,11 @@ import com.kcc.lib_project.domain.user.vo.UserVo;
 import com.kcc.lib_project.global.exception.type.BookNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -35,13 +28,10 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDate;
-import java.util.Collection;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
 @Controller
