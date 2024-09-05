@@ -1,17 +1,23 @@
 package com.kcc.lib_project.domain.admin.controller;
 
 
+import com.kcc.lib_project.domain.admin.dto.LoanDto;
+import com.kcc.lib_project.domain.admin.dto.OwnBookDto;
+import com.kcc.lib_project.domain.admin.service.AdminService;
 import com.kcc.lib_project.domain.user.auth.CustomUserDetailService;
 import com.kcc.lib_project.domain.user.auth.UserDetail;
 import com.kcc.lib_project.domain.user.dto.UserDto;
 import com.kcc.lib_project.domain.user.repository.UserRepositoryImpl;
 import com.kcc.lib_project.domain.user.service.UserService;
 import com.kcc.lib_project.domain.user.vo.UserVo;
+import com.kcc.lib_project.global.exception.type.BookNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,13 +28,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -36,8 +42,12 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+
     @Autowired
     private UserRepositoryImpl userRepositoryImpl;
+
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("/admin/main")
     public String adminMain(Model model, @AuthenticationPrincipal UserDetail userDetail) {
@@ -140,4 +150,112 @@ public class AdminController {
 
         return "redirect:/";
     }
+
+    @GetMapping("/admin/books/loan")
+    public String loanBook() {
+        return "admin/loan";
+    }
+
+    @GetMapping("/getMemberInfo")
+    @ResponseBody
+    public ResponseEntity<Map<String, Object>> getUserInfo(@RequestParam("id") String id) {
+        Map<String, Object> responseUser = new HashMap<>();
+        UserDto user = adminService.getUser(id);
+
+        if (user != null) {
+            responseUser.put("name", user.getName());
+            responseUser.put("email", user.getEmail());
+            responseUser.put("address", user.getAddress());
+            return ResponseEntity.ok(responseUser);
+        } else {
+            responseUser.put("error", "User not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(responseUser);
+        }
+    }
+
+    @GetMapping("/getBookInfo")
+    @ResponseBody
+    public Map<String, Object> getBookInfo(@RequestParam("callNumber") String callNumber) throws BookNotFoundException {
+        Map<String, Object> responseBook = new HashMap<>();
+        OwnBookDto bookInfo = adminService.getOwnBook(callNumber);
+
+        // 예약 중인 상태가 1이므로 0이 true | 자료상태 AVAILABLE이 사용가능
+        if(!bookInfo.getIsReserved() && bookInfo.getStatus().equals("AVAILABLE")){
+            responseBook.put("status", true);
+            responseBook.put("title", bookInfo.getTitle());
+            responseBook.put("publisher", bookInfo.getPublisher());
+            responseBook.put("publicationYear", bookInfo.getPublicationYear());
+        } else {
+            responseBook.put("status", false);
+        }
+
+        if(bookInfo.getStatus().equals("UNAVAILABLE")){
+            responseBook.put("return", true);
+        }
+
+        return responseBook;
+    }
+
+    @PostMapping("/rentBook")
+    @ResponseBody
+    public Map<String, Object> rentBook(@RequestParam("id") String id, @RequestParam("callNumber") String callNumber){
+        Map<String, Object> response = new HashMap<>();
+        LocalDate now = LocalDate.now();
+        LocalDate afterSevenDays = now.plusDays(7);  // 7일 추가
+        UserVo user = userRepositoryImpl.getUserVoById(id).get();
+
+        LoanDto loanDto = LoanDto.builder()
+                .userId(user.getUserId())
+                .callNumber(callNumber)
+                .startedAt(now)
+                .endedAt(afterSevenDays)
+                .isReturned(0)
+                .extentionCount(0)
+                .build();
+
+
+        //대여 insert
+        Boolean success = adminService.rentBook(loanDto);
+
+        //소유도서 status update
+        adminService.changeStatus(callNumber);
+        if (success) {
+            response.put("message", "대여 신청이 완료되었습니다.");
+            response.put("redirectUrl", "/admin/main"); // 리다이렉트할 URL
+        } else {
+            response.put("error", "대여 신청에 실패했습니다.");
+        }
+
+
+        return response;
+    }
+
+
+    @PostMapping("/returnBook")
+    @ResponseBody
+    public Map<String, Object> returnBook(@RequestParam("callNumber") String callNumber){
+        Map<String, Object> response = new HashMap<>();
+        LocalDate now = LocalDate.now();
+
+
+        LoanDto loanDto = LoanDto.builder()
+                .callNumber(callNumber)
+                .endedAt(now)
+                .isReturned(0)
+                .build();
+
+        boolean success = adminService.returnBook(loanDto);
+
+        if (success) {
+            response.put("message", "반납 신청이 완료되었습니다.");
+        } else {
+            response.put("error", "반납 신청에 실패했습니다.");
+        }
+        
+
+        return response;
+    }
+
+
+
 }

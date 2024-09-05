@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.kcc.lib_project.domain.admin.mapper.AdminMapper">
+
+    <select id="getUserById" parameterType="java.lang.String" resultType="com.kcc.lib_project.domain.user.dto.UserDto">
+        select id, address, email, name
+        from users
+        where id = #{id}
+    </select>
+
+    <select id="getBookInfoByCallNumber" parameterType="java.lang.String" resultType="com.kcc.lib_project.domain.admin.dto.OwnBookDto">
+        select
+            o.call_number as callNumber,
+            b.title,
+            b.publisher,
+            b.publication_year as publicationYear,
+            o.status,
+            o.is_reserved as isReserved
+        from own_book o
+        inner join book b
+        using (isbn)
+        where call_number = #{callNumber}
+    </select>
+
+    <insert id="saveBookRent" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        INSERT INTO loan (loan_id, started_at, ended_at, is_returned, extention_count, user_id, call_number)
+        VALUES (loan_seq.nextval, #{startedAt}, #{endedAt}, #{isReturned}, #{extentionCount}, #{userId}, #{callNumber})
+    </insert>
+
+    <update id="changeStatus" parameterType="java.lang.String" >
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'UNAVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
+
+    <update id="returnBook" parameterType="com.kcc.lib_project.domain.admin.dto.LoanDto">
+        UPDATE loan
+        SET is_returned = #{isReturned},
+            ended_at = #{endedAt}
+        WHERE loan_id = (
+            SELECT loan_id
+            FROM (
+                     SELECT loan_id
+                     FROM loan
+                     WHERE call_number = #{callNumber}
+                     ORDER BY ended_at DESC
+                 )
+            WHERE ROWNUM = 1
+        )
+    </update>
+
+    <update id="returnBookChangeStatus" parameterType="java.lang.String">
+        UPDATE OWN_BOOK
+        SET
+            STATUS = 'AVAILABLE'
+        WHERE CALL_NUMBER = #{callNumber}
+    </update>
+
+</mapper>
