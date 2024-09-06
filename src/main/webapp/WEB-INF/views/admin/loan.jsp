@@ -203,6 +203,8 @@
                             alert('반납 신청이 실패되었습니다.')
                         }  else {
                             alert('반납 신청이 완료되었습니다.')
+                            window.location.href = '/admin/books/loan';
+
                         }
 
                     },

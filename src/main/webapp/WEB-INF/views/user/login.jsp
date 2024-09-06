@@ -158,7 +158,7 @@
 
       const formData = new FormData(loginForm);
 
-      // remember-me 체크박스가 체크되어 있으면 아이디를 저장합니다.
+      // remember-me 체크박스가 체크되어 있으면 아이디를 저장
       if (rememberCheck.checked) {
         localStorage.setItem("savedUserId", formData.get("id"));
       } else {
