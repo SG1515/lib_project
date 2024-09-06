@@ -16,6 +16,8 @@ public class SignupDto {
     private String id;
     private String password;
     private String name;
+    @Pattern(regexp = "^(?=.{1,64}@)[A-Za-z0-9_-]+(\\.[A-Za-z0-9_-]+)*@"
+            + "[^-][A-Za-z0-9-]+(\\.[A-Za-z0-9-]+)*(\\.[A-Za-z]{2,})$")
     private String email;
     private LocalDate created_at;
     private String birth;
