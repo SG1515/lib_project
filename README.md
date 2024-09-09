@@ -1,4 +1,4 @@
-![image](https://github.com/user-attachments/assets/31a626ea-771e-43fd-98aa-95eccb63850d)# 도서관 관리 시스템
+# 도서관 관리 시스템
 도서관을 이용하는 사용자와 관리하는 직원을 위한 솔루션
 
 <br>
