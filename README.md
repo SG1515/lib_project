@@ -1,4 +1,5 @@
-# 도서관 관리 시스템
+![image](https://github.com/user-attachments/assets/31a626ea-771e-43fd-98aa-95eccb63850d)# 도서관 관리 시스템
+도서관을 이용하는 사용자와 관리하는 직원을 위한 솔루션
 
 <br>
 
@@ -25,3 +26,8 @@
 
 ### 기술스택
 ![image](https://github.com/user-attachments/assets/a7c79297-0606-4434-a4fd-4c0584bf3dff)
+
+<br>
+
+### git전략
+![image](https://github.com/user-attachments/assets/e6aa9714-ef99-41fb-bec3-408845f64b2f)
